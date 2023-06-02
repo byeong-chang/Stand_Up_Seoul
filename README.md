@@ -11,20 +11,20 @@ Playdata final project - 서울시 지하철 데이터를 사용하여 혼잡도
 
 ## 👍 팀원별 역할
 
+- **우상욱(팀장)** : **데이터엔지니어링** + 머신러닝, 백엔드 보조
 - **김호영** : **데이터 분석**, **머신러닝 +** 데이터엔지니어링 보조
-- **우상욱**(팀장) : **데이터엔지니어링** + 머신러닝, 백엔드 보조
 - **민병창** : **백엔드** + 데이터엔지니어링, 머신러닝 보조
 - **김민수** : **백엔드** + 데이터엔지니어링, 데이터분석 보조
 - **김경목** : **프론트엔드** + 데이터분석 보조
 
 ## 데이터 출처
 - [서울교통공사_역별 일별 시간대별 승하차인원 정보(CSV)](https://www.data.go.kr/data/15048032/fileData.do)
-- [서울시 실시간 도시데이터(주요 50 장소)(OPEN API)](https://www.notion.so/50-OPEN-API-997f2716dd95464e9fc858906f79babc)
-- [서울시 문화행사 정보(OPEN API)](https://www.notion.so/OPEN-API-aa8ad3bf8761403ba132434c5bb9589a)
-- [전국 응급실 실시간 데이터(OPEN API)](https://www.notion.so/OPEN-API-1c2766574c7e4f76ae50febd7552949d)
-- [서울시 주요 50장소 유명 맛집, 데이트 코스 크롤링](https://www.notion.so/50-e50942fedbe54c05b23ab9f278e25d9e)
-- [날씨 데이터(CSV)](https://www.notion.so/CSV-617a1637608a43c3b9d198cd880db984)
-- [[sk open api전체 지하철 혼잡도(경기권 포함)](https://www.notion.so/23548396b6d54f2b992983fb0dcc85c9)](https://www.notion.so/sk-open-api-8b39d82236014d0d84a42de970b93b48)
+- [서울시 실시간 도시데이터(주요 50 장소)(OPEN API)](https://data.seoul.go.kr/dataList/OA-21285/F/1/datasetView.do)
+- [서울시 문화행사 정보(OPEN API)](https://data.seoul.go.kr/dataList/OA-15486/S/1/datasetView.do)
+- [전국 응급실 실시간 데이터(OPEN API)](https://www.data.go.kr/data/15000563/openapi.do)
+- [서울시 주요 50장소 유명 맛집, 데이트 코스 크롤링](https://www.mangoplate.com/)
+- [날씨 데이터(CSV)](https://data.kma.go.kr/data/grnd/selectAsosRltmList.do?pgmNo=36)
+- [[sk open api전체 지하철 혼잡도(경기권 포함)](https://puzzle-skopenapi.readme.io/reference/%ED%86%B5%EA%B3%84%EC%84%B1-%ED%98%BC%EC%9E%A1%EB%8F%84)
 
 ## ⚒️ 기술스택(임시)
 
