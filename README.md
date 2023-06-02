@@ -16,7 +16,16 @@ Playdata final project - 서울시 지하철 데이터를 사용하여 혼잡도
 - **민병창** : **백엔드** + 데이터엔지니어링, 머신러닝 보조
 - **김민수** : **백엔드** + 데이터엔지니어링, 데이터분석 보조
 - **김경목** : **프론트엔드** + 데이터분석 보조
-[서울교통공사_역별 일별 시간대별 승하차인원 정보(CSV)](https://www.data.go.kr/data/15048032/fileData.do)
+
+|데이터 이름|설명|URL|
+|서울교통공사_역별 일별 시간대별 승하차인원 정보(CSV)|•  2008년부터 2022년 말까지의 데이터입니다.
+•  시간대별, 일별로 서울시 역별 승하차 인원 정보
+•  분석, 머신러닝 데이터로 쓰일 예정입니다.|(https://www.data.go.kr/data/15048032/fileData.do)|
+
+
+
+
+[]
 [서울시 실시간 도시데이터(주요 50 장소)(OPEN API)](https://www.notion.so/50-OPEN-API-997f2716dd95464e9fc858906f79babc)
 [서울시 문화행사 정보(OPEN API)](https://www.notion.so/OPEN-API-aa8ad3bf8761403ba132434c5bb9589a)
 [전국 응급실 실시간 데이터(OPEN API)](https://www.notion.so/OPEN-API-1c2766574c7e4f76ae50febd7552949d)
