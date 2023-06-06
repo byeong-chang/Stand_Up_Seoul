@@ -1,6 +1,8 @@
 import boto3
 import os
 
+filePath, fileName = os.path.split(__file__)
+
 def get_file_paths(folder_path):
     file_paths = []
     
@@ -23,7 +25,7 @@ s3 = boto3.client(
 )
 
 # 폴더 경로 설정
-folder_path = 'C:/last_project/MangoPlate/images'
+folder_path = os.path.join(filePath, 'images')
 
 # 폴더 내의 파일 경로들을 가져옴
 file_paths = get_file_paths(folder_path)
