@@ -1,4 +1,4 @@
-package com.project.backend.accounts.repository.entity;
+package com.project.backend.accounts.entity;
 
 import com.project.backend.restaurants.repository.entity.Restaurant;
 import com.sun.istack.NotNull;
@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @Data
-@ToString
 @Table(name = "restaurantReview")
 public class RestaurantReview {
 

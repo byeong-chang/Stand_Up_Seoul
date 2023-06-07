@@ -1,4 +1,4 @@
-package com.project.backend.accounts.repository.entity;
+package com.project.backend.accounts.entity;
 
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @Data
-@ToString
 @Table(name = "user")
 public class User {
 
