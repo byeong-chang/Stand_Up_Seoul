@@ -1,4 +1,5 @@
 package com.project.backend.restaurants.repository.entity;
+import com.project.backend.accounts.entity.MarketAdmin;
 import com.project.backend.places.repository.entity.Subway;
 import lombok.*;
 
@@ -50,4 +51,15 @@ public class Restaurant {
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
+
+    @ManyToOne
+    @JoinColumn(name = "market_admin_email")
+    private MarketAdmin marketAdmin;
+
+    private int likeCount = 0;
+    private int dislikeCount = 0;
+    private int clickCount = 0;
+    private int reviewCount = 0;
+    private int bookmarkCount = 0;
+    private int starRating = 0;
 }
