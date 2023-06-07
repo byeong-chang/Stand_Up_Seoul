@@ -1,4 +1,4 @@
-package com.project.backend.accounts.repository.entity;
+package com.project.backend.accounts.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -11,7 +11,6 @@ import javax.persistence.*;
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Data
-@ToString
 @Table(name = "marketAdmin")
 public class MarketAdmin {
 
