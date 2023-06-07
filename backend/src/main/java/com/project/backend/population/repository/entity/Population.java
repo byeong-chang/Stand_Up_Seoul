@@ -1,7 +1,5 @@
 package com.project.backend.population.repository.entity;
 
-
-import com.project.backend.places.repository.entity.District;
 import com.project.backend.places.repository.entity.Place;
 import lombok.*;
 
