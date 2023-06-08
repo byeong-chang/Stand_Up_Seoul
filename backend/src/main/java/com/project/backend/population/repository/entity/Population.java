@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Data
 @Table(name = "population")
 public class Population {

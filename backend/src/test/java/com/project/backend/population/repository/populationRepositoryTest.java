@@ -11,27 +11,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 public class populationRepositoryTest {
 
     CulturalEventRepository culturalEventRepository;
     PlaceCategoryRepository placeCategoryRepository;
+    PopulationRepository populationRepository;
 
     @Autowired
-    public populationRepositoryTest( CulturalEventRepository culturalEventRepository, PlaceCategoryRepository placeCategoryRepository) {
+    public populationRepositoryTest(CulturalEventRepository culturalEventRepository, PlaceCategoryRepository placeCategoryRepository, PopulationRepository populationRepository) {
         this.culturalEventRepository = culturalEventRepository;
         this.placeCategoryRepository = placeCategoryRepository;
+        this.populationRepository = populationRepository;
     }
 
-
-//    @Test
-//    void testJpa1() {
-//        List<Population> populations = this.populationRepository.findTop48OrderByIdDesc();
-//        for(Population population :populations){
-//            System.out.println(population);
-//        }
-//    }
+    @Test
+    void testJpa1() {
+        Optional<Population> population= this.populationRepository.findById(1);//findTop48OrderByIdDesc();
+        System.out.println(population.get().getPlace());
+    }
 //    @Test
 //    void testJpa2() {
 //        List<Population> populations = this.populationRepository.findAllOrderByIdDesc();

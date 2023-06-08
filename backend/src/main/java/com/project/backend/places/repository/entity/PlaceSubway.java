@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "place_subway")
 public class PlaceSubway {
 

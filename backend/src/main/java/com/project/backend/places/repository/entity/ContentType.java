@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "content_type")
 public class ContentType {
     @Id

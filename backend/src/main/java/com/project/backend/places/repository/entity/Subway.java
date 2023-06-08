@@ -8,7 +8,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "subway")
 public class Subway {
     @Id
