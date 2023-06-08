@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "place_district")
 public class PlaceDistrict {
 

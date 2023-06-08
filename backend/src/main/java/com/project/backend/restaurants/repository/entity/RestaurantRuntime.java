@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "restaurant_runtime")
 public class RestaurantRuntime {
     @Id

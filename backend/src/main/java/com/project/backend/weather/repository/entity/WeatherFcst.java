@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "weather_fcst")
 public class WeatherFcst {
     @Id

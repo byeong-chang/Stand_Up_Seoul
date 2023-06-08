@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "cultural_event")
 public class CulturalEvent {
     @Id

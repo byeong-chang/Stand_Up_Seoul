@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "restaurant_category")
 public class RestaurantCategory {
     @Id
