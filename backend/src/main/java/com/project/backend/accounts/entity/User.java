@@ -1,11 +1,7 @@
 package com.project.backend.accounts.entity;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
@@ -14,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
+@Getter
+@Setter
 @Entity
 @Builder
 @AllArgsConstructor
@@ -23,7 +21,7 @@ import java.util.Date;
 public class User {
 
     @Id
-    @Column(name = "email", length = 50)
+    @Column(name = "email", unique = true, length = 50)
     private String email;
 
     @NotNull
@@ -31,7 +29,7 @@ public class User {
     private String password;
 
     @NotNull
-    @Column(name = "nickname", length = 30)
+    @Column(name = "nickname", unique = true, length = 30)
     private String nickname;
 
     @NotNull
