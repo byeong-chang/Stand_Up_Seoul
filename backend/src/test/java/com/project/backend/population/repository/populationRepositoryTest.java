@@ -1,51 +1,56 @@
 package com.project.backend.population.repository;
 
-import com.project.backend.places.repository.CulturalEventRepository;
-import com.project.backend.places.repository.PlaceCategoryRepository;
 import com.project.backend.places.repository.entity.CulturalEvent;
-import com.project.backend.places.repository.entity.PlaceCategory;
 import com.project.backend.population.repository.entity.Population;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 
-import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
 public class populationRepositoryTest {
 
-    CulturalEventRepository culturalEventRepository;
-    PlaceCategoryRepository placeCategoryRepository;
     PopulationRepository populationRepository;
 
     @Autowired
-    public populationRepositoryTest(CulturalEventRepository culturalEventRepository, PlaceCategoryRepository placeCategoryRepository, PopulationRepository populationRepository) {
-        this.culturalEventRepository = culturalEventRepository;
-        this.placeCategoryRepository = placeCategoryRepository;
+    public populationRepositoryTest(PopulationRepository populationRepository) {
         this.populationRepository = populationRepository;
     }
 
     @Test
     void testJpa1() {
-        Optional<Population> population= this.populationRepository.findById(1);//findTop48OrderByIdDesc();
-        System.out.println(population.get().getPlace());
+        List<Population> populations= this.populationRepository.findTop48ByOrderByIdDesc();
+        List<Population> lowerCongest = new ArrayList<Population>();
+        for(Population population :populations){
+            if(population.getAreaCongest().getId()  == 1){
+                lowerCongest.add(population);
+            }
+        }
+        Collections.shuffle(lowerCongest);
+
+
+
     }
 //    @Test
 //    void testJpa2() {
-//        List<Population> populations = this.populationRepository.findAllOrderByIdDesc();
+//        List<Population> populations = this.populationRepository.findTop48ByIdOrderByDesc();
 //        for(Population population :populations){
 //            System.out.println(population);
 //        }
+//        System.out.println(populations.stream().count());
 //    }
-//    @Test
-//    void testJpa3() {
-//        List<Population> populations = this.populationRepository.findAllByIdDesc();
-//        for(Population population :populations){
-//            System.out.println(population);
-//        }
-//    }
+    @Test
+    void testJpa3() {
+        List<Population> populations = this.populationRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
+        for(Population population :populations){
+            System.out.println(population);
+        }
+    }
 //    @Test
 //    void testJpa4() {
 //        int id = 4;
@@ -60,12 +65,4 @@ public class populationRepositoryTest {
 //            System.out.println(palceCategory);
 //        }
 //    }
-
-    @Test
-    void testJpa6() {
-        List<CulturalEvent> culturalEvents = this.culturalEventRepository.findAll();
-        for(CulturalEvent culturalEvent  :culturalEvents){
-            System.out.println(culturalEvent);
-        }
-    }
 }

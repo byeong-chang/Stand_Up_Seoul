@@ -1,5 +1,6 @@
 package com.project.backend.places.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "cultural_event")
+@Getter
 public class CulturalEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +20,8 @@ public class CulturalEvent {
     @Column(name = "codename")
     private String codeName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @ManyToOne
+    @JoinColumn(name = "district_id")
     private District district;
 
     @Column(name = "title")
