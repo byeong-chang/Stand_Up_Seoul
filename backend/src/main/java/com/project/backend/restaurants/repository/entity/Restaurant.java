@@ -2,6 +2,7 @@ package com.project.backend.restaurants.repository.entity;
 import com.project.backend.accounts.entity.MarketAdmin;
 import com.project.backend.places.repository.entity.Subway;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -55,10 +56,16 @@ public class Restaurant {
     @JoinColumn(name = "market_admin_email")
     private MarketAdmin marketAdmin;
 
-    private int likeCount = 0;
-    private int dislikeCount = 0;
-    private int clickCount = 0;
-    private int reviewCount = 0;
-    private int bookmarkCount = 0;
-    private int starRating = 0;
+    @ColumnDefault("0")
+    private int likeCount;
+    @ColumnDefault("0")
+    private int dislikeCount;
+    @ColumnDefault("0")
+    private int clickCount;
+    @ColumnDefault("0")
+    private int reviewCount;
+    @ColumnDefault("0")
+    private int bookmarkCount;
+    @ColumnDefault("0")
+    private int starRating;
 }

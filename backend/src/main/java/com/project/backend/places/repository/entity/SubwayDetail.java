@@ -1,4 +1,5 @@
 package com.project.backend.places.repository.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;

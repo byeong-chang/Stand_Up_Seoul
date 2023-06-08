@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 @Table(name = "population_congest_msg")
 public class PopulationCongestMsg {
 

@@ -1,4 +1,4 @@
-package com.project.backend.test.controller;
+package com.project.backend.controller;
 
 import com.project.backend.test.entity.CrudEntity;
 import com.project.backend.test.repository.CrudEntityRepository;

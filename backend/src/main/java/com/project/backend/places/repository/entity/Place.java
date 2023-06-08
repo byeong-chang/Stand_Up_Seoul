@@ -1,5 +1,6 @@
 package com.project.backend.places.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "place")
+@Getter
 public class Place {
 
     @Id
@@ -20,7 +22,7 @@ public class Place {
     @Column(name = "area_nm",length = 30)
     private String areaName;
 
-    @ManyToOne(targetEntity = PlaceCategory.class)
+    @ManyToOne
     @JoinColumn(name="category_id")
     private PlaceCategory placeCategory;
 

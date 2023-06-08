@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "district")
+@Getter
 public class District {
 
     @Id
@@ -24,4 +25,6 @@ public class District {
     @OneToMany(mappedBy = "district")
     private List<PlaceDistrict> placeDistricts;
 
+    @OneToMany(mappedBy = "district")
+    private List<CulturalEvent> culturalEventList;
 }
