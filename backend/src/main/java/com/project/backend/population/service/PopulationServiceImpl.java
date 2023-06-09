@@ -3,10 +3,8 @@ package com.project.backend.population.service;
 import com.project.backend.controller.LiveType;
 import com.project.backend.places.dto.CulturalEventDto;
 import com.project.backend.places.dto.HotplacesDto;
-import com.project.backend.places.dto.PlaceDto;
 import com.project.backend.places.dto.SubwayDto;
 import com.project.backend.places.repository.entity.Place;
-import com.project.backend.places.repository.entity.Subway;
 import com.project.backend.places.service.*;
 import com.project.backend.population.dto.PopulationDto;
 import com.project.backend.population.repository.PopulationRepository;
@@ -25,12 +23,17 @@ public class PopulationServiceImpl implements PopulationService{
     RestaurantService restaurantService;
     CulturalEventService culturalEventService;
     HotPlacesService hotPlacesService;
+    PlaceDistrictService placeDistrictService;
+    SubwayService subwayService;
+
     @Autowired
-    public PopulationServiceImpl(PopulationRepository populationRepository, RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService) {
+    public PopulationServiceImpl(PopulationRepository populationRepository, RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService, PlaceDistrictService placeDistrictService, SubwayService subwayService) {
         this.populationRepository = populationRepository;
         this.restaurantService = restaurantService;
         this.culturalEventService = culturalEventService;
         this.hotPlacesService = hotPlacesService;
+        this.placeDistrictService = placeDistrictService;
+        this.subwayService = subwayService;
     }
 
     @Override
@@ -71,12 +74,12 @@ public class PopulationServiceImpl implements PopulationService{
             // place 테이블을 기준으로 place_district -> district -> cultural_event에 접근합니다.
             List<CulturalEventDto> currentCulturalEvent = new ArrayList<>();
             currentPlace.getPlaceDistricts().forEach(placeDistrict -> {
-                placeDistrict.getDistrict().getCulturalEventList()
+                placeDistrictService.transfer(placeDistrict).getDistrict().getCulturalEventList()
                         .forEach(culturalEvent -> currentCulturalEvent.add(culturalEventService.transfer(culturalEvent)));
             });
             //place 테이블을 기준으로 subway 테이블에 접근한다.
-            List<Subway> subwayList = new ArrayList<>();
-            currentPlace.getPlaceSubways().forEach(placeSubway -> subwayList.add(placeSubway.getSubway()));
+            List<SubwayDto> subwayList = new ArrayList<>();
+            currentPlace.getPlaceSubways().forEach(placeSubway -> subwayList.add(subwayService.transfer(placeSubway.getSubway())));
             // subway 테이블을 기준으로 subway -> hotpalces에 접근합니다.
             List<HotplacesDto> currentHotplaces= new ArrayList<>();
             subwayList.forEach(subway -> subway.getHotplacesList()
@@ -88,6 +91,7 @@ public class PopulationServiceImpl implements PopulationService{
             subwayList.forEach(subway -> {
                 subway.getRestaurantList()
                         .forEach(restaurant -> currentRestaurant.add(restaurantService.transfer(restaurant)));
+
             });
 
             //liveType에 각 데이터를 넣어줍니다.
