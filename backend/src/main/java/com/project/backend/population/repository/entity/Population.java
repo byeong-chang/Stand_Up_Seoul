@@ -1,6 +1,5 @@
 package com.project.backend.population.repository.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.backend.places.repository.entity.Place;
 import lombok.*;
 
@@ -18,7 +17,6 @@ public class Population {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "place_id")
     private Place place;

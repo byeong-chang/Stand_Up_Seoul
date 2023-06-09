@@ -1,16 +1,16 @@
 package com.project.backend.controller;
 
-import com.project.backend.places.repository.entity.CulturalEvent;
-import com.project.backend.places.repository.entity.Hotplaces;
-import com.project.backend.population.repository.entity.Population;
-import com.project.backend.restaurants.repository.entity.Restaurant;
+import com.project.backend.places.dto.CulturalEventDto;
+import com.project.backend.places.dto.HotplacesDto;
+import com.project.backend.population.dto.PopulationDto;
+import com.project.backend.restaurants.repository.dto.RestaurantDto;
 import lombok.*;
 
 import java.util.List;
 @Data
 public class LiveType {
-    Population population;
-    List<CulturalEvent> culturalEventList;
-    List<Restaurant> restaurantList;
-    List<Hotplaces> hotplacesList;
+    PopulationDto population;
+    List<CulturalEventDto> culturalEventList;
+    List<HotplacesDto> hotplacesList;
+    List<RestaurantDto> restaurantList;
 }
