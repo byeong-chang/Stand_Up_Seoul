@@ -1,9 +1,7 @@
 package com.project.backend.population.service;
 
-import com.project.backend.controller.LiveType;
-import com.project.backend.places.dto.CulturalEventDto;
-import com.project.backend.places.dto.HotplacesDto;
-import com.project.backend.places.dto.SubwayDto;
+import com.project.backend.general.returnType.LiveType;
+import com.project.backend.places.dto.*;
 import com.project.backend.places.repository.entity.Place;
 import com.project.backend.places.service.*;
 import com.project.backend.population.dto.PopulationDto;
@@ -25,27 +23,85 @@ public class PopulationServiceImpl implements PopulationService{
     HotPlacesService hotPlacesService;
     PlaceDistrictService placeDistrictService;
     SubwayService subwayService;
+    PlaceService placeService;
+
 
     @Autowired
-    public PopulationServiceImpl(PopulationRepository populationRepository, RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService, PlaceDistrictService placeDistrictService, SubwayService subwayService) {
+    public PopulationServiceImpl(PopulationRepository populationRepository, RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService, PlaceDistrictService placeDistrictService, SubwayService subwayService, PlaceService placeService) {
         this.populationRepository = populationRepository;
         this.restaurantService = restaurantService;
         this.culturalEventService = culturalEventService;
         this.hotPlacesService = hotPlacesService;
         this.placeDistrictService = placeDistrictService;
         this.subwayService = subwayService;
-    }
-
-    @Override
-    public PopulationDto transfer(Population entity) {
-        PopulationDto dto = enttiyToDto(entity);
-        return dto;
+        this.placeService = placeService;
     }
 
     @Override
     public Population getPopulation(int id) {
         Optional<Population> optionalPopulation = populationRepository.findById(id);
         return optionalPopulation.get();
+    }
+    @Override
+    public Object transfer(Object entity) {
+        PopulationDto dto = enttiyToDto((Population) entity);
+        return  dto;
+    }
+
+    public Object randomSelection(int count, List<Object> lists){
+        List<Object> objectList = new ArrayList<>();
+        List<Object> currentList= (List<Object>) lists.get(0);
+        Collections.shuffle(currentList);
+
+        try{
+            for (int i=0;i<count;i++){
+                objectList.add(currentList.get(i));
+            }
+        }catch (IndexOutOfBoundsException e){
+            return objectList;
+        }
+        return objectList;
+    }
+    public Map<Integer,LiveType> makePopulationApi(int count, List<Population> lowerCongest){
+        // count 개수만큼 population 데이터를 뽑는다.
+        Map<Integer,LiveType> liveTypeMap = new HashMap<Integer, LiveType>();
+        for(int i=0;i<count;i++){ //혼잡도 여유가 4개 없으면 에러날듯 예외처리 필요
+            //저장할 객체 liveType 입니다.
+            LiveType liveType = new LiveType();
+            // population 테이블을 기준으로 place 테이블에 접근합니다.
+            Place currentPlace = lowerCongest.get(i).getPlace();
+
+            // place 테이블을 기준으로 place_district -> district -> cultural_event에 접근합니다.
+            List<CulturalEventDto> currentCulturalEvent = new ArrayList<>();
+            currentPlace.getPlaceDistricts().forEach(placeDistrict -> {
+                ((PlaceDistrictDto) placeDistrictService.transfer(placeDistrict)).getDistrict().getCulturalEventList()
+                        .forEach(culturalEvent -> currentCulturalEvent.add((CulturalEventDto) culturalEventService.transfer(culturalEvent)));
+            });
+            //place 테이블을 기준으로 subway 테이블에 접근한다.
+            List<SubwayDto> subwayList = new ArrayList<>();
+            currentPlace.getPlaceSubways().forEach(placeSubway -> subwayList.add((SubwayDto) subwayService.transfer(placeSubway.getSubway())));
+            // subway 테이블을 기준으로 subway -> hotpalces에 접근합니다.
+            List<HotplacesDto> currentHotplaces= new ArrayList<>();
+            subwayList.forEach(subway -> subway.getHotplacesList()
+                    .forEach(hotplaces -> {
+                        currentHotplaces.add((HotplacesDto) hotPlacesService.transfer(hotplaces));
+                    }));
+            // subway 테이블을 기준으로 subway -> restaurant에 접근합니다.
+            List<RestaurantDto> currentRestaurant = new ArrayList<>();
+            subwayList.forEach(subway -> {
+                subway.getRestaurantList()
+                        .forEach(restaurant -> currentRestaurant.add((RestaurantDto) restaurantService.transfer(restaurant)));
+            });
+
+            //liveType에 각 데이터를 넣어줍니다.
+            liveType.setPopulation((PopulationDto) transfer(lowerCongest.get(i)));
+            liveType.setPlace((PlaceDto) placeService.transfer(currentPlace));
+            liveType.setCulturalEventList((List<CulturalEventDto>) randomSelection(4, Collections.singletonList(currentCulturalEvent)));
+            liveType.setHotplacesList((List<HotplacesDto>) randomSelection(4, Collections.singletonList(currentHotplaces)));
+            liveType.setRestaurantList((List<RestaurantDto>) randomSelection(4, Collections.singletonList(currentRestaurant)));
+            liveTypeMap.put(i,liveType);
+        }
+        return  liveTypeMap;
     }
 
     @Override
@@ -64,43 +120,10 @@ public class PopulationServiceImpl implements PopulationService{
         }
         // 랜덤성을 위해 섞어줍니다.
         Collections.shuffle(lowerCongest);
-        // 4개의 데이터만을 사용할 것이기 때문에 랜덤하게 섞은 혼잡도 데이터의 리스트 4개를 가져옵니다.
-        for(int i=0;i<4;i++){ //혼잡도 여유가 4개 없으면 에러날듯 예외처리 필요
-            //저장할 객체 liveType 입니다.
-            LiveType liveType = new LiveType();
-            // population 테이블을 기준으로 place 테이블에 접근합니다.
-            Place currentPlace = lowerCongest.get(i).getPlace();
-
-            // place 테이블을 기준으로 place_district -> district -> cultural_event에 접근합니다.
-            List<CulturalEventDto> currentCulturalEvent = new ArrayList<>();
-            currentPlace.getPlaceDistricts().forEach(placeDistrict -> {
-                placeDistrictService.transfer(placeDistrict).getDistrict().getCulturalEventList()
-                        .forEach(culturalEvent -> currentCulturalEvent.add(culturalEventService.transfer(culturalEvent)));
-            });
-            //place 테이블을 기준으로 subway 테이블에 접근한다.
-            List<SubwayDto> subwayList = new ArrayList<>();
-            currentPlace.getPlaceSubways().forEach(placeSubway -> subwayList.add(subwayService.transfer(placeSubway.getSubway())));
-            // subway 테이블을 기준으로 subway -> hotpalces에 접근합니다.
-            List<HotplacesDto> currentHotplaces= new ArrayList<>();
-            subwayList.forEach(subway -> subway.getHotplacesList()
-                    .forEach(hotplaces -> {
-                        currentHotplaces.add(hotPlacesService.transfer(hotplaces));
-                    }));
-            // subway 테이블을 기준으로 subway -> restaurant에 접근합니다.
-            List<RestaurantDto> currentRestaurant = new ArrayList<>();
-            subwayList.forEach(subway -> {
-                subway.getRestaurantList()
-                        .forEach(restaurant -> currentRestaurant.add(restaurantService.transfer(restaurant)));
-
-            });
-
-            //liveType에 각 데이터를 넣어줍니다.
-            liveType.setPopulation(transfer(lowerCongest.get(i)));
-            liveType.setCulturalEventList(currentCulturalEvent);
-            liveType.setHotplacesList(currentHotplaces);
-            liveType.setRestaurantList(currentRestaurant);
-            liveTypeMap.put(i,liveType);
-        }
+        //각 Place에 대한 hotplaces, restaurants ,cultural_event 데이터를 가져오는 함수 사용
+        liveTypeMap = makePopulationApi(4,lowerCongest);
         return liveTypeMap;
     }
+
+
 }

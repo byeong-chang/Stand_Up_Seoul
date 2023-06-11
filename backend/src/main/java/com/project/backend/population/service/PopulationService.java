@@ -1,13 +1,13 @@
 package com.project.backend.population.service;
 
-import com.project.backend.controller.LiveType;
+import com.project.backend.general.interfaces.Transfer;
+import com.project.backend.general.returnType.LiveType;
 import com.project.backend.population.dto.PopulationDto;
 import com.project.backend.population.repository.entity.Population;
 
 import java.util.Map;
 
-public interface PopulationService {
-    PopulationDto transfer(Population entity);
+public interface PopulationService extends Transfer {
     Population getPopulation(int id);
     Map<Integer,LiveType> getLive();
 
