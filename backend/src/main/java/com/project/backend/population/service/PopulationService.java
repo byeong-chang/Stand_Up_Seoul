@@ -14,7 +14,7 @@ public interface PopulationService extends Transfer {
     default PopulationDto enttiyToDto(Population population){
         PopulationDto dto = PopulationDto.builder()
                 .id(population.getId())
-//                .place(population.getPlace())
+                .place(population.getPlace().getAreaName())
                 .areaCongest(population.getAreaCongest())
                 .areaPopulationMin(population.getAreaPopulationMin())
                 .areaPopulationMax(population.getAreaPopulationMax())

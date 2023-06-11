@@ -9,6 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "content_type")
+@Getter
 public class ContentType {
     @Id
     private int id;

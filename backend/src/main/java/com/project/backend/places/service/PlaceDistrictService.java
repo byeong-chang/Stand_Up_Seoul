@@ -10,7 +10,7 @@ public interface PlaceDistrictService extends Transfer {
         PlaceDistrictDto dto = PlaceDistrictDto.builder()
                 .id(placeDistrict.getId())
                 .district(placeDistrict.getDistrict())
-                .place(placeDistrict.getPlace())
+                .place(placeDistrict.getPlace().getAreaName())
                 .build();
         return dto;
     }

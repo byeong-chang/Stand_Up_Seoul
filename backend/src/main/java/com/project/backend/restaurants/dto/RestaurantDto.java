@@ -1,12 +1,11 @@
-package com.project.backend.restaurants.repository.dto;
+package com.project.backend.restaurants.dto;
 
 import com.project.backend.accounts.entity.MarketAdmin;
-import com.project.backend.places.repository.entity.Subway;
-import com.project.backend.restaurants.repository.entity.RestaurantCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -19,19 +18,19 @@ public class RestaurantDto {
     private String newAddress;
     private String oldAddress;
     private String callNumber;
-    private RestaurantCategory category;
+    private String restaurantCategory;
     private String parking;
     private String holiday;
     private String website;
-//    private Subway subway;
+    private String subway;
     private String fileName;
     private LocalDateTime createdDate;
-    private MarketAdmin marketAdmin;
-    private int likeCount;
-    private int dislikeCount;
-    private int clickCount;
-    private int reviewCount;
     private int bookmarkCount;
+    private int clickCount;
+    private int dislikeCount;
+    private int likeCount;
+    private int reviewCount;
     private int starRating;
+    private MarketAdmin marketAdmin;
 
 }

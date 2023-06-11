@@ -8,6 +8,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "restaurant_category")
+@Getter
 public class RestaurantCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

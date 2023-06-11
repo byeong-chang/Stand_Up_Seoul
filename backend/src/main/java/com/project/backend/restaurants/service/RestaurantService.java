@@ -1,7 +1,7 @@
 package com.project.backend.restaurants.service;
 
 import com.project.backend.general.interfaces.Transfer;
-import com.project.backend.restaurants.repository.dto.RestaurantDto;
+import com.project.backend.restaurants.dto.RestaurantDto;
 import com.project.backend.restaurants.repository.entity.Restaurant;
 
 public interface RestaurantService extends Transfer {
@@ -13,11 +13,11 @@ public interface RestaurantService extends Transfer {
                 .newAddress(restaurant.getNewAddress())
                 .oldAddress(restaurant.getOldAddress())
                 .callNumber(restaurant.getCallNumber())
-                .category(restaurant.getCategory())
+                .restaurantCategory(restaurant.getCategory().getCategory())
                 .parking(restaurant.getParking())
                 .holiday(restaurant.getHoliday())
                 .website(restaurant.getWebsite())
-//                .subway(restaurant.getSubway())
+                .subway(restaurant.getSubway().getSubwayName())
                 .fileName(restaurant.getFileName())
                 .createdDate(restaurant.getCreatedDate())
                 .marketAdmin(restaurant.getMarketAdmin())
@@ -30,4 +30,6 @@ public interface RestaurantService extends Transfer {
                 .build();
         return dto;
     }
+
+    RestaurantDto getBoard(int restaurant_id);
 }

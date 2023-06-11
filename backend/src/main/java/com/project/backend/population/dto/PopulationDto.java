@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 public class PopulationDto {
     private int id;
-//    private Place place;
+    private String place;
     private PopulationCongestMsg areaCongest;
     private int areaPopulationMin;
     private int areaPopulationMax;
