@@ -6195,3 +6195,4 @@
 2023-06-10 17:36:23,689 - INFO - UPDATE restaurant SET star_rating = 3.617368698120117 WHERE id = 6396;
 2023-06-10 17:36:23,695 - INFO - UPDATE restaurant SET star_rating = 2.221543312072754 WHERE id = 6397;
 2023-06-10 17:36:23,727 - INFO - ############## Success To Update Restaruant Star Rating
+2023-06-10 23:59:15,018 - INFO - ############## Start To Update Review Star Rating
