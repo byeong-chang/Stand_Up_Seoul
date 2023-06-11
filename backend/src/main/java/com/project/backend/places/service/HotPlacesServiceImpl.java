@@ -16,8 +16,8 @@ public class HotPlacesServiceImpl implements HotPlacesService{
     }
 
     @Override
-    public HotplacesDto transfer(Hotplaces entity) {
-        HotplacesDto dto =enttiyToDto(entity);
+    public Object transfer(Object entity) {
+        HotplacesDto dto =enttiyToDto((Hotplaces) entity);
         return dto;
     }
 }

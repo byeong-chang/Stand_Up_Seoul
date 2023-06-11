@@ -1,10 +1,10 @@
 package com.project.backend.places.service;
 
+import com.project.backend.general.interfaces.Transfer;
 import com.project.backend.places.dto.PlaceDistrictDto;
 import com.project.backend.places.repository.entity.PlaceDistrict;
 
-public interface PlaceDistrictService {
-    PlaceDistrictDto transfer(PlaceDistrict entity);
+public interface PlaceDistrictService extends Transfer {
 
     default PlaceDistrictDto enttiyToDto(PlaceDistrict placeDistrict){
         PlaceDistrictDto dto = PlaceDistrictDto.builder()

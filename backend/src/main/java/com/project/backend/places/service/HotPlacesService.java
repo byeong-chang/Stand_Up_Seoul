@@ -1,11 +1,11 @@
 package com.project.backend.places.service;
 
+import com.project.backend.general.interfaces.Transfer;
 import com.project.backend.places.dto.HotplacesDto;
 import com.project.backend.places.repository.entity.Hotplaces;
 
-public interface HotPlacesService {
+public interface HotPlacesService extends Transfer {
 
-    HotplacesDto transfer(Hotplaces entity);
 
     default HotplacesDto enttiyToDto(Hotplaces hotplaces){
         HotplacesDto dto = HotplacesDto.builder()
