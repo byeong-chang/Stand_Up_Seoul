@@ -1,7 +1,6 @@
-package com.project.backend.accounts.entity;
+package com.project.backend.accounts.repository.entity;
 
 import com.project.backend.restaurants.repository.entity.Restaurant;
-import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 

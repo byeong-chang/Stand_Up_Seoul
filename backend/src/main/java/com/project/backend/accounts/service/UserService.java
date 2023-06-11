@@ -1,6 +1,6 @@
 package com.project.backend.accounts.service;
 
-import com.project.backend.accounts.entity.Users;
+import com.project.backend.accounts.repository.entity.Users;
 import com.project.backend.accounts.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

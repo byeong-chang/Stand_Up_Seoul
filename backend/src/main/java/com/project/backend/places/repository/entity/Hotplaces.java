@@ -48,4 +48,19 @@ public class Hotplaces {
     @Column(name = "created_date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", insertable= false)
     private LocalDateTime createdDate;
 
+    @Column(name = "book_count", columnDefinition = "INT DEFAULT 0")
+    private int bookmarkCount;
+
+    @Column(name = "click_count", columnDefinition = "INT DEFAULT 0")
+    private int clickCount;
+
+    @Column(name = "like_count", columnDefinition = "INT DEFAULT 0")
+    private int likeCount;
+
+    @Column(name = "review_count", columnDefinition = "INT DEFAULT 0")
+    private int reviewCount;
+
+    @Column(name = "star_rating", columnDefinition = "INT DEFAULT 0")
+    private double starRating;
+
 }
