@@ -1,4 +1,4 @@
-package com.project.backend.accounts.entity;
+package com.project.backend.accounts.repository.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
