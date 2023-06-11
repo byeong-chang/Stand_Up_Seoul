@@ -2,6 +2,7 @@ package com.project.backend.controller;
 
 import com.project.backend.population.repository.entity.Population;
 import com.project.backend.population.service.PopulationService;
+import com.project.backend.general.returnType.LiveType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

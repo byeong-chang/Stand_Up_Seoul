@@ -17,8 +17,8 @@ public class CulturalEventServiceImpl implements CulturalEventService{
     }
 
     @Override
-    public CulturalEventDto transfer(CulturalEvent entity) {
-        CulturalEventDto dto = enttiyToDto(entity);
+    public Object transfer(Object entity) {
+        CulturalEventDto dto = enttiyToDto((CulturalEvent)entity);
         return dto;
     }
 }

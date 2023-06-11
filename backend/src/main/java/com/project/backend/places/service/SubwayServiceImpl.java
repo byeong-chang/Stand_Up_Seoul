@@ -15,8 +15,8 @@ public class SubwayServiceImpl implements SubwayService{
     }
 
     @Override
-    public SubwayDto transfer(Subway entity) {
-        SubwayDto dto = enttiyToDto(entity);
+    public Object transfer(Object entity) {
+        SubwayDto dto = enttiyToDto((Subway) entity);
         return  dto;
     }
 }

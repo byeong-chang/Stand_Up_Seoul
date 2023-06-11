@@ -1,11 +1,10 @@
 package com.project.backend.places.service;
 
+import com.project.backend.general.interfaces.Transfer;
 import com.project.backend.places.dto.CulturalEventDto;
 import com.project.backend.places.repository.entity.CulturalEvent;
 
-public interface CulturalEventService {
-
-    CulturalEventDto transfer(CulturalEvent entity);
+public interface CulturalEventService extends Transfer {
 
     default CulturalEventDto enttiyToDto(CulturalEvent culturalEvent){
         CulturalEventDto dto = CulturalEventDto.builder()

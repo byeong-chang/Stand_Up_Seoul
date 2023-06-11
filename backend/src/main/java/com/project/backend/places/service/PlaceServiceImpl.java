@@ -16,8 +16,8 @@ public class PlaceServiceImpl implements PlaceService{
     }
 
     @Override
-    public PlaceDto transfer(Place entity) {
-        PlaceDto dto = enttiyToDto(entity);
+    public Object transfer(Object entity){
+    PlaceDto dto = enttiyToDto((Place) entity);
         return dto;
     }
 }
