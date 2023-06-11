@@ -60,8 +60,6 @@ public class Restaurant {
     @ColumnDefault("0")
     private int likeCount;
     @ColumnDefault("0")
-    private int dislikeCount;
-    @ColumnDefault("0")
     private int clickCount;
     @ColumnDefault("0")
     private int reviewCount;
