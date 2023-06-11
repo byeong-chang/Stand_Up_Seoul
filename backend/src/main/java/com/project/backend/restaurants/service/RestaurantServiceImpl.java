@@ -30,8 +30,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     public RestaurantDto getBoard(int restaurant_id){
         Optional<Restaurant> entity = restaurantRepository.findById(restaurant_id);
         RestaurantDto dto = (RestaurantDto) transfer(entity.get());
-        System.out.println( (RestaurantDto) transfer(entity.get()));
-        System.out.println(dto);
         return dto;
     }
 }

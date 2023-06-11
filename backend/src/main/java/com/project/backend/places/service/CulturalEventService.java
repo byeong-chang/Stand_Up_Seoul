@@ -26,4 +26,6 @@ public interface CulturalEventService extends Transfer {
                 .build();
         return dto;
     }
+
+    CulturalEventDto getBoard(int id);
 }
