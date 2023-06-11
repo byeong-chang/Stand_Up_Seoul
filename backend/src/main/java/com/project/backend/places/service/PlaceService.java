@@ -10,7 +10,7 @@ public interface PlaceService extends Transfer {
         PlaceDto dto = PlaceDto.builder()
                 .id(place.getId())
                 .areaName(place.getAreaName())
-                .placeCategory(place.getPlaceCategory())
+                .placeCategory(place.getPlaceCategory().getCategory())
 //                .placeDistricts(place.getPlaceDistricts())
 //                .placeSubways(place.getPlaceSubways())
                 .placeImage(place.getPlaceImage())

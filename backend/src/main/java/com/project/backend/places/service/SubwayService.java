@@ -9,8 +9,6 @@ public interface SubwayService extends Transfer{
         SubwayDto dto = SubwayDto.builder()
                 .id(subway.getId())
                 .subwayName(subway.getSubwayName())
-                .restaurantList(subway.getRestaurantList())
-                .hotplacesList(subway.getHotplacesList())
                 .build();
         return dto;
     }

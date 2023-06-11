@@ -28,3 +28,4 @@ public class District {
     @OneToMany(mappedBy = "district")
     private List<CulturalEvent> culturalEventList;
 }
+

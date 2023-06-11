@@ -10,7 +10,7 @@ public interface CulturalEventService extends Transfer {
         CulturalEventDto dto = CulturalEventDto.builder()
                 .id(culturalEvent.getId())
                 .codeName(culturalEvent.getCodeName())
-//                .district(culturalEvent.getDistrict())
+                .district(culturalEvent.getDistrict().getDistrictName())
                 .title(culturalEvent.getTitle())
                 .place(culturalEvent.getPlace())
                 .useTarget(culturalEvent.getUseTarget())

@@ -1,5 +1,6 @@
 package com.project.backend.places.dto;
 
+import com.project.backend.places.repository.entity.Subway;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SubwayDto {
+public class PlaceSubwayDto {
     private int id;
-    private String subwayName;
+    private String place;
+    private Subway subway;
 }

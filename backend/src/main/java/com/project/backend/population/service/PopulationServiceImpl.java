@@ -1,13 +1,17 @@
 package com.project.backend.population.service;
 
 import com.project.backend.general.returnType.LiveType;
-import com.project.backend.places.dto.*;
+import com.project.backend.places.dto.CulturalEventDto;
+import com.project.backend.places.dto.HotplacesDto;
+import com.project.backend.places.dto.PlaceDto;
+import com.project.backend.places.dto.PlaceSubwayDto;
 import com.project.backend.places.repository.entity.Place;
+import com.project.backend.places.repository.entity.Subway;
 import com.project.backend.places.service.*;
 import com.project.backend.population.dto.PopulationDto;
 import com.project.backend.population.repository.PopulationRepository;
 import com.project.backend.population.repository.entity.Population;
-import com.project.backend.restaurants.repository.dto.RestaurantDto;
+import com.project.backend.restaurants.dto.RestaurantDto;
 import com.project.backend.restaurants.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,10 +28,11 @@ public class PopulationServiceImpl implements PopulationService{
     PlaceDistrictService placeDistrictService;
     SubwayService subwayService;
     PlaceService placeService;
+    PlaceSubwayService placeSubwayService;
 
 
     @Autowired
-    public PopulationServiceImpl(PopulationRepository populationRepository, RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService, PlaceDistrictService placeDistrictService, SubwayService subwayService, PlaceService placeService) {
+    public PopulationServiceImpl(PopulationRepository populationRepository, RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService, PlaceDistrictService placeDistrictService, SubwayService subwayService, PlaceService placeService, PlaceSubwayService placeSubwayService) {
         this.populationRepository = populationRepository;
         this.restaurantService = restaurantService;
         this.culturalEventService = culturalEventService;
@@ -35,6 +40,7 @@ public class PopulationServiceImpl implements PopulationService{
         this.placeDistrictService = placeDistrictService;
         this.subwayService = subwayService;
         this.placeService = placeService;
+        this.placeSubwayService = placeSubwayService;
     }
 
     @Override
@@ -74,12 +80,12 @@ public class PopulationServiceImpl implements PopulationService{
             // place 테이블을 기준으로 place_district -> district -> cultural_event에 접근합니다.
             List<CulturalEventDto> currentCulturalEvent = new ArrayList<>();
             currentPlace.getPlaceDistricts().forEach(placeDistrict -> {
-                ((PlaceDistrictDto) placeDistrictService.transfer(placeDistrict)).getDistrict().getCulturalEventList()
+                (placeDistrictService.enttiyToDto(placeDistrict)).getDistrict().getCulturalEventList()
                         .forEach(culturalEvent -> currentCulturalEvent.add((CulturalEventDto) culturalEventService.transfer(culturalEvent)));
             });
             //place 테이블을 기준으로 subway 테이블에 접근한다.
-            List<SubwayDto> subwayList = new ArrayList<>();
-            currentPlace.getPlaceSubways().forEach(placeSubway -> subwayList.add((SubwayDto) subwayService.transfer(placeSubway.getSubway())));
+            List<Subway> subwayList = new ArrayList<>();
+            currentPlace.getPlaceSubways().forEach(placeSubway -> subwayList.add(((PlaceSubwayDto) placeSubwayService.transfer(placeSubway)).getSubway()));
             // subway 테이블을 기준으로 subway -> hotpalces에 접근합니다.
             List<HotplacesDto> currentHotplaces= new ArrayList<>();
             subwayList.forEach(subway -> subway.getHotplacesList()

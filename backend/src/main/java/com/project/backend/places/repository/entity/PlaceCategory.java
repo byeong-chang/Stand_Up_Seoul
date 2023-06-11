@@ -11,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "place_category")
 @JsonIgnoreProperties
+@Getter
 public class PlaceCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
