@@ -6,6 +6,8 @@ import com.project.backend.restaurants.repository.entity.Restaurant;
 
 public interface RestaurantService extends Transfer {
 
+
+    RestaurantDto getBoard(int restaurant_id);
     default RestaurantDto enttiyToDto(Restaurant restaurant){
         RestaurantDto dto = RestaurantDto.builder()
                 .id(restaurant.getId())
@@ -31,5 +33,4 @@ public interface RestaurantService extends Transfer {
         return dto;
     }
 
-    RestaurantDto getBoard(int restaurant_id);
 }
