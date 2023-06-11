@@ -1,5 +1,6 @@
 seoul00api.py
 data/
 images/
+plugins/
 __pycache__/
 test.ipynb
