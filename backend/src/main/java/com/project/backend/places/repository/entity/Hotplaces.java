@@ -1,6 +1,7 @@
 package com.project.backend.places.repository.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -43,7 +44,8 @@ public class Hotplaces {
     @Column(name = "addr", length = 255)
     private String address;
 
-    @Column(name = "created_date")
+    @UpdateTimestamp
+    @Column(name = "created_date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", insertable= false)
     private LocalDateTime createdDate;
 
 }
