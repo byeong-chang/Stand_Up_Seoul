@@ -1,7 +1,6 @@
 package com.project.backend.controller;
 
-
-import com.project.backend.accounts.entity.User;
+import com.project.backend.accounts.repository.entity.Users;
 import com.project.backend.places.dto.CulturalEventDto;
 import com.project.backend.places.service.CulturalEventService;
 import com.project.backend.places.service.HotPlacesService;
@@ -33,7 +32,7 @@ public class BoardController {
         return restaurantService.getBoard(id);
     }
     @PostMapping(value = "retaurant/{id}")
-    public String postRestaurant(Model model, User user ,@PathVariable int id){
+    public String postRestaurant(Model model, Users user , @PathVariable int id){
         return "redirect:/restaurant/{id}";
     }
 
@@ -43,7 +42,7 @@ public class BoardController {
         return culturalEventService.getBoard(id);
     }
     @PostMapping(value = "culturalEvent/{id}")
-    public String postCulturalEvent(Model model, User user ,@PathVariable int id){
+    public String postCulturalEvent(Model model, Users user ,@PathVariable int id){
         return "redirect:/culturalEvent/{id}";
     }
 
@@ -53,7 +52,7 @@ public class BoardController {
         return hotPlacesService.getBoard(id);
     }
     @PostMapping(value = "hotplace/{id}")
-    public String postHotplace(Model model, User user ,@PathVariable int id){
+    public String postHotplace(Model model, Users user ,@PathVariable int id){
         return "redirect:/hotplace/{id}";
     }
 
