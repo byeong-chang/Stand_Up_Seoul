@@ -11,7 +11,7 @@ import java.util.Map;
 public interface PopulationService extends Transfer {
     Map<Integer,LiveType> getLive();
 
-    default PopulationDto enttiyToDto(Population population){
+    default PopulationDto entityToDto(Population population){
         PopulationDto dto = PopulationDto.builder()
                 .id(population.getId())
                 .place(population.getPlace().getAreaName())

@@ -42,7 +42,7 @@ public class PopulationServiceImpl implements PopulationService{
 
     @Override
     public Object transfer(Object entity) {
-        PopulationDto dto = enttiyToDto((Population) entity);
+        PopulationDto dto = entityToDto((Population) entity);
         return  dto;
     }
 
