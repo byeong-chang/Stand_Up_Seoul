@@ -28,6 +28,8 @@ public interface RestaurantService extends Transfer {
                 .reviewCount(restaurant.getReviewCount())
                 .bookmarkCount(restaurant.getBookmarkCount())
                 .starRating(restaurant.getStarRating())
+                .mapx(restaurant.getMapx())
+                .mapy(restaurant.getMapy())
                 .build();
         return dto;
     }

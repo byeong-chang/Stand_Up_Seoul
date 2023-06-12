@@ -32,5 +32,7 @@ public class RestaurantDto {
     private int reviewCount;
     private int starRating;
     private RestaurantAdmin RestaurantAdmin;
+    private double mapx;
+    private double mapy;
 
 }
