@@ -22,5 +22,10 @@ public class HotplacesDto {
     private String fileName;
     private String address;
     private LocalDateTime createdDate;
+    private int bookmarkCount;
+    private int clickCount;
+    private int likeCount;
+    private int reviewCount;
+    private double starRating;
 }
 
