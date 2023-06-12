@@ -22,7 +22,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Object transfer(Object entity) {
 
-        RestaurantDto dto = enttiyToDto((Restaurant) entity);
+        RestaurantDto dto = entityToDto((Restaurant) entity);
         return dto;
     }
 

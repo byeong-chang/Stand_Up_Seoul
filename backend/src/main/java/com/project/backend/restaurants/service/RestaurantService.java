@@ -8,7 +8,7 @@ public interface RestaurantService extends Transfer {
 
 
     RestaurantDto getBoard(int restaurant_id);
-    default RestaurantDto enttiyToDto(Restaurant restaurant){
+    default RestaurantDto entityToDto(Restaurant restaurant){
         RestaurantDto dto = RestaurantDto.builder()
                 .id(restaurant.getId())
                 .title(restaurant.getTitle())
@@ -22,9 +22,8 @@ public interface RestaurantService extends Transfer {
                 .subway(restaurant.getSubway().getSubwayName())
                 .fileName(restaurant.getFileName())
                 .createdDate(restaurant.getCreatedDate())
-                .marketAdmin(restaurant.getMarketAdmin())
+                .RestaurantAdmin(restaurant.getRestaurantAdmin())
                 .likeCount(restaurant.getLikeCount())
-                .dislikeCount(restaurant.getDislikeCount())
                 .clickCount(restaurant.getClickCount())
                 .reviewCount(restaurant.getReviewCount())
                 .bookmarkCount(restaurant.getBookmarkCount())
