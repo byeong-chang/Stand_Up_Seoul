@@ -72,10 +72,10 @@ public class Restaurant {
     @ColumnDefault("0")
     private int starRating;
 
-    @Column(name = "mapx")
+    @Column(name = "mapx", columnDefinition = "DOUBLE DEFAULT 0")
     private double mapx;
 
-    @Column(name = "mapy")
+    @Column(name = "mapy", columnDefinition = "DOUBLE DEFAULT 0")
     private double mapy;
 
 }
