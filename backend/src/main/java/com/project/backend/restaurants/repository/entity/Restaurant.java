@@ -1,5 +1,5 @@
 package com.project.backend.restaurants.repository.entity;
-import com.project.backend.accounts.entity.MarketAdmin;
+import com.project.backend.accounts.repository.entity.RestaurantAdmin;
 import com.project.backend.places.repository.entity.Subway;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -54,8 +54,8 @@ public class Restaurant {
     private LocalDateTime createdDate;
 
     @ManyToOne
-    @JoinColumn(name = "market_admin_email")
-    private MarketAdmin marketAdmin;
+    @JoinColumn(name = "restaurant_admin_email")
+    private RestaurantAdmin RestaurantAdmin;
 
     @ColumnDefault("0")
     private int likeCount;

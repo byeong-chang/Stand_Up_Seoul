@@ -5,7 +5,7 @@ import com.project.backend.places.repository.entity.Subway;
 
 public interface SubwayService extends Transfer{
 
-    default SubwayDto enttiyToDto(Subway subway){
+    default SubwayDto entityToDto(Subway subway){
         SubwayDto dto = SubwayDto.builder()
                 .id(subway.getId())
                 .subwayName(subway.getSubwayName())

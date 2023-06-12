@@ -1,6 +1,6 @@
 package com.project.backend.restaurants.dto;
 
-import com.project.backend.accounts.entity.MarketAdmin;
+import com.project.backend.accounts.repository.entity.RestaurantAdmin;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +31,6 @@ public class RestaurantDto {
     private int likeCount;
     private int reviewCount;
     private int starRating;
-    private MarketAdmin marketAdmin;
+    private RestaurantAdmin RestaurantAdmin;
 
 }

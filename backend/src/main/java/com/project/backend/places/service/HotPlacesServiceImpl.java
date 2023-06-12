@@ -20,7 +20,7 @@ public class HotPlacesServiceImpl implements HotPlacesService{
 
     @Override
     public Object transfer(Object entity) {
-        HotplacesDto dto =enttiyToDto((Hotplaces) entity);
+        HotplacesDto dto =entityToDto((Hotplaces) entity);
         return dto;
     }
 

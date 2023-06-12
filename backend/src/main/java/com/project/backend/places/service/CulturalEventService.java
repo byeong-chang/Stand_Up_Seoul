@@ -6,7 +6,7 @@ import com.project.backend.places.repository.entity.CulturalEvent;
 
 public interface CulturalEventService extends Transfer {
 
-    default CulturalEventDto enttiyToDto(CulturalEvent culturalEvent){
+    default CulturalEventDto entityToDto(CulturalEvent culturalEvent){
         CulturalEventDto dto = CulturalEventDto.builder()
                 .id(culturalEvent.getId())
                 .codeName(culturalEvent.getCodeName())

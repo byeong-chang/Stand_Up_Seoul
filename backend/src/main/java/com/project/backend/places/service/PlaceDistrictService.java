@@ -6,7 +6,7 @@ import com.project.backend.places.repository.entity.PlaceDistrict;
 
 public interface PlaceDistrictService extends Transfer {
 
-    default PlaceDistrictDto enttiyToDto(PlaceDistrict placeDistrict){
+    default PlaceDistrictDto entityToDto(PlaceDistrict placeDistrict){
         PlaceDistrictDto dto = PlaceDistrictDto.builder()
                 .id(placeDistrict.getId())
                 .district(placeDistrict.getDistrict())
