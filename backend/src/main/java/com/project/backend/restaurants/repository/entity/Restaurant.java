@@ -59,12 +59,23 @@ public class Restaurant {
 
     @ColumnDefault("0")
     private int likeCount;
+
     @ColumnDefault("0")
     private int clickCount;
+
     @ColumnDefault("0")
     private int reviewCount;
+
     @ColumnDefault("0")
     private int bookmarkCount;
+
     @ColumnDefault("0")
     private int starRating;
+
+    @Column(name = "mapx")
+    private double mapx;
+
+    @Column(name = "mapy")
+    private double mapy;
+
 }
