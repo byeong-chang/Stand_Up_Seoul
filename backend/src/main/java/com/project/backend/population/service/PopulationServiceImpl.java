@@ -75,7 +75,7 @@ public class PopulationServiceImpl implements PopulationService{
             // place 테이블을 기준으로 place_district -> district -> cultural_event에 접근합니다.
             List<CulturalEventDto> currentCulturalEvent = new ArrayList<>();
             currentPlace.getPlaceDistricts().forEach(placeDistrict -> {
-                (placeDistrictService.enttiyToDto(placeDistrict)).getDistrict().getCulturalEventList()
+                (placeDistrictService.entityToDto(placeDistrict)).getDistrict().getCulturalEventList()
                         .forEach(culturalEvent -> currentCulturalEvent.add((CulturalEventDto) culturalEventService.transfer(culturalEvent)));
             });
             //place 테이블을 기준으로 subway 테이블에 접근한다.

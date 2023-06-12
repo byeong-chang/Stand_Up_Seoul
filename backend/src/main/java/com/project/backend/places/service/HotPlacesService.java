@@ -8,7 +8,7 @@ import com.project.backend.places.repository.entity.Hotplaces;
 public interface HotPlacesService extends Transfer {
 
 
-    default HotplacesDto enttiyToDto(Hotplaces hotplaces){
+    default HotplacesDto entityToDto(Hotplaces hotplaces){
         HotplacesDto dto = HotplacesDto.builder()
                 .id(hotplaces.getId())
                 .contentId(hotplaces.getContentId())

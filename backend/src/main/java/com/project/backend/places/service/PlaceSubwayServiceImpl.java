@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class PlaceSubwayServiceImpl implements PlaceSubwayService{
     @Override
     public Object transfer(Object entity) {
-        PlaceSubwayDto dto = enttiyToDto((PlaceSubway) entity);
+        PlaceSubwayDto dto = entityToDto((PlaceSubway) entity);
         return  dto;
     }
 

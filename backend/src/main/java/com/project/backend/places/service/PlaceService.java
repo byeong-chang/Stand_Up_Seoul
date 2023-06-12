@@ -6,7 +6,7 @@ import com.project.backend.places.repository.entity.Place;
 
 public interface PlaceService extends Transfer {
 
-    default PlaceDto enttiyToDto(Place place){
+    default PlaceDto entityToDto(Place place){
         PlaceDto dto = PlaceDto.builder()
                 .id(place.getId())
                 .areaName(place.getAreaName())

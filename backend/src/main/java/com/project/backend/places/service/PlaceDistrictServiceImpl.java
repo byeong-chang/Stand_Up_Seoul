@@ -17,7 +17,7 @@ public class PlaceDistrictServiceImpl implements PlaceDistrictService{
 
     @Override
     public Object transfer(Object entity) {
-        PlaceDistrictDto dto = enttiyToDto((PlaceDistrict) entity);
+        PlaceDistrictDto dto = entityToDto((PlaceDistrict) entity);
         return dto;
     }
 }
