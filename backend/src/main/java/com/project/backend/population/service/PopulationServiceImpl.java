@@ -129,19 +129,37 @@ public class PopulationServiceImpl implements PopulationService{
 
     //실시간 상세 페이지
     @Override
-    public Map<String, PopulationDto> getDetail() {
-        //getLive()를 참고하면 만들기 쉬움
-        // 반환타입인 Map 형태로 데이터 만들고,
+    public Map<String, List<PopulationDto>> getDetail() {
+        // 반환타입인 Map 형태로 데이터 만들기
+        Map<String, List<PopulationDto>> listtypeMap = new HashMap<String, List<PopulationDto>>();
         //가장 최근 Population 데이터들 긁어옵니다.
-        List<Population> populations= this.populationRepository.findTop48ByOrderByIdDesc();
-        //for if문으로 원할 ,보통, 약간 붐빔, 붐빔 걸러주시고
-        for(Population population :populations){ //for문 짜서
-            if(population.getAreaCongest().getId()  == 1){
-//                ~~.add(population); //나눠서 add로 담기
+        List<Population> populations= populationRepository.findTop48ByOrderByIdDesc();
+        // 여유, 보통, 약간 붐빔, 붐빔으로 나눠 받을 리스트 만들기
+        List<PopulationDto> lowerCongest = new ArrayList<>();
+        List<PopulationDto> normalCongest = new ArrayList<>();
+        List<PopulationDto> crowdedCongest = new ArrayList<>();
+        List<PopulationDto> overcrowdedCongest = new ArrayList<>();
+        //for if문으로 여유, 보통, 약간 붐빔, 붐빔 걸러 각 리스트별로 담기
+        for (Population population :populations){
+            if (population.getAreaCongest().getId() == 1) {
+                lowerCongest.add((PopulationDto) transfer(population));
+            } else if (population.getAreaCongest().getId() == 2) {
+                normalCongest.add((PopulationDto) transfer(population));
+            } else if (population.getAreaCongest().getId() == 3) {
+                crowdedCongest.add((PopulationDto) transfer(population));
+            } else if (population.getAreaCongest().getId() == 4) {
+                overcrowdedCongest.add((PopulationDto) transfer(population));
+            } else {
+                continue;
             }
+            // 각 혼잡도 리스트별로 Map 타입에 넣기
+            listtypeMap.put("여유", lowerCongest);
+            listtypeMap.put("보통", normalCongest);
+            listtypeMap.put("약간 붐빔", crowdedCongest);
+            listtypeMap.put("붐빔", overcrowdedCongest);
         }
-        //잘 담았으면 아까 만듬 Map 타입 return 해주기
-        return null;
+        // 리스트가 추가된 Map 타입 return
+        return listtypeMap;
     }
 
     //실시간 Place 상세 페이지
@@ -150,4 +168,13 @@ public class PopulationServiceImpl implements PopulationService{
         //넘어온 place_id를 기준으로 데이터 넘겨주기
         return null;
     }
+
+
+
+        //makePopulationApi
+        //return null;
+
+        //넘어온 place_id를 기준으로 데이터 넘겨주기
+        //return null;
+
 }
