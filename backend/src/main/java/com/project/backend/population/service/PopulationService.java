@@ -6,6 +6,7 @@ import com.project.backend.places.dto.PlaceDto;
 import com.project.backend.population.dto.PopulationDto;
 import com.project.backend.population.repository.entity.Population;
 
+import java.util.List;
 import java.util.Map;
 
 public interface PopulationService extends Transfer {
@@ -35,7 +36,7 @@ public interface PopulationService extends Transfer {
         return dto;
     }
 
-    Map<String, PopulationDto> getDetail();
+    Map<String, List<PopulationDto>> getDetail();
 
     PlaceDto getPlaceDetail(int place_Id);
 }

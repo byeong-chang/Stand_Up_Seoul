@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,9 +29,9 @@ public class LiveContoller {
         return populationService.getLive();
     }
 
-//  실시간 상세 페이지 Get 매핑
+//  실시간 상세 페이지 Get 매핑 - population 혼잡도 분류
     @GetMapping(value = "detail")
-    public Map<String, PopulationDto> getDetail(){
+    public Map<String, List<PopulationDto>> getDetail(){
         return populationService.getDetail();
     }
 
