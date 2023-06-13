@@ -20,7 +20,6 @@ public interface HotPlacesService extends Transfer {
                 .fileName(hotplaces.getFileName())
                 .address(hotplaces.getAddress())
                 .createdDate(hotplaces.getCreatedDate())
-                .bookmarkCount(hotplaces.getBookmarkCount())
                 .clickCount(hotplaces.getClickCount())
                 .likeCount(hotplaces.getLikeCount())
                 .reviewCount(hotplaces.getReviewCount())

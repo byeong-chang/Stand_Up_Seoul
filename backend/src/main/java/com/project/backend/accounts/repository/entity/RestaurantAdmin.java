@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 @Data
-@Table(name = "restaurantAdmin")
+@Table(name = "restaurant_admin")
 public class RestaurantAdmin {
 
     @Id
@@ -22,7 +22,7 @@ public class RestaurantAdmin {
     private int id;
 
     @Column(name = "restaurant_id")
-    private int restaurantID;
+    private int restaurantId;
 
     @NotNull
     @Column(name = "email", length = 50, unique = true)

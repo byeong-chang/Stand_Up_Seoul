@@ -1,6 +1,9 @@
 package com.project.backend.places.repository.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -47,9 +50,6 @@ public class Hotplaces {
     @UpdateTimestamp
     @Column(name = "created_date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", insertable= false)
     private LocalDateTime createdDate;
-
-    @Column(name = "book_count", columnDefinition = "INT DEFAULT 0")
-    private int bookmarkCount;
 
     @Column(name = "click_count", columnDefinition = "INT DEFAULT 0")
     private int clickCount;

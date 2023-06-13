@@ -1,7 +1,10 @@
 package com.project.backend.restaurants.repository.entity;
-import com.project.backend.accounts.repository.entity.RestaurantAdmin;
+
 import com.project.backend.places.repository.entity.Subway;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -53,10 +56,6 @@ public class Restaurant {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurant_admin_email")
-    private RestaurantAdmin RestaurantAdmin;
-
     @ColumnDefault("0")
     private int likeCount;
 
@@ -67,10 +66,7 @@ public class Restaurant {
     private int reviewCount;
 
     @ColumnDefault("0")
-    private int bookmarkCount;
-
-    @ColumnDefault("0")
-    private int starRating;
+    private double starRating;
 
     @Column(name = "mapx", columnDefinition = "DOUBLE DEFAULT 0")
     private double mapx;

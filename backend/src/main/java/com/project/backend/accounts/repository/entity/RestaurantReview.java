@@ -35,7 +35,7 @@ public class RestaurantReview {
     private String reviewImg;
 
     @UpdateTimestamp
-    @Column(name = "create_date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", insertable= false)
+    @Column(name = "created_date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", insertable= false)
     private LocalDateTime createdDate;
 
 }
