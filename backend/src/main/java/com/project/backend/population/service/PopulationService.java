@@ -2,7 +2,6 @@ package com.project.backend.population.service;
 
 import com.project.backend.general.interfaces.Transfer;
 import com.project.backend.general.returnType.LiveType;
-import com.project.backend.places.dto.PlaceDto;
 import com.project.backend.population.dto.PopulationDto;
 import com.project.backend.population.repository.entity.Population;
 
@@ -38,5 +37,5 @@ public interface PopulationService extends Transfer {
 
     Map<String, List<PopulationDto>> getDetail();
 
-    PlaceDto getPlaceDetail(int place_Id);
+    Map<Integer, LiveType> getPlaceDetail(int place_Id);
 }
