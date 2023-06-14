@@ -1,7 +1,6 @@
 package com.project.backend.controller;
 
 import com.project.backend.general.returnType.LiveType;
-import com.project.backend.places.dto.PlaceDto;
 import com.project.backend.population.dto.PopulationDto;
 import com.project.backend.population.service.PopulationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class LiveContoller {
 
 //  실시간 상세 - 상세 페이지 Get 매핑
     @GetMapping(value = "detail/{place_id}")
-    public PlaceDto getPlaceDetail(@PathVariable int place_id){
+    public Map<Integer, LiveType> getPlaceDetail(@PathVariable int place_id){
         return populationService.getPlaceDetail(place_id);
     }
 }

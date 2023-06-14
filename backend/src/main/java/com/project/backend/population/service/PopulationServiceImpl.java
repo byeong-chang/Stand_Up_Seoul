@@ -5,6 +5,7 @@ import com.project.backend.places.dto.CulturalEventDto;
 import com.project.backend.places.dto.HotplacesDto;
 import com.project.backend.places.dto.PlaceDto;
 import com.project.backend.places.dto.PlaceSubwayDto;
+import com.project.backend.places.repository.PlaceRepository;
 import com.project.backend.places.repository.entity.Place;
 import com.project.backend.places.repository.entity.Subway;
 import com.project.backend.places.service.*;
@@ -28,9 +29,11 @@ public class PopulationServiceImpl implements PopulationService{
     PlaceDistrictService placeDistrictService;
     PlaceService placeService;
     PlaceSubwayService placeSubwayService;
+    PlaceRepository placeRepository;
 
     @Autowired
-    public PopulationServiceImpl(PopulationRepository populationRepository, RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService, PlaceDistrictService placeDistrictService, PlaceService placeService, PlaceSubwayService placeSubwayService) {
+    public PopulationServiceImpl(PopulationRepository populationRepository, RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService, PlaceDistrictService placeDistrictService, PlaceService placeService, PlaceSubwayService placeSubwayService,
+                                 PlaceRepository placeRepository) {
         this.populationRepository = populationRepository;
         this.restaurantService = restaurantService;
         this.culturalEventService = culturalEventService;
@@ -38,6 +41,7 @@ public class PopulationServiceImpl implements PopulationService{
         this.placeDistrictService = placeDistrictService;
         this.placeService = placeService;
         this.placeSubwayService = placeSubwayService;
+        this.placeRepository = placeRepository;
     }
 
     @Override
@@ -164,17 +168,21 @@ public class PopulationServiceImpl implements PopulationService{
 
     //실시간 Place 상세 페이지
     @Override
-    public PlaceDto getPlaceDetail(int place_id) {
-        //넘어온 place_id를 기준으로 데이터 넘겨주기
-        return null;
+    public Map<Integer, LiveType> getPlaceDetail(int place_id) {
+        //웹에 전달할 json 객체 liveTypeMap을 선언
+        Map<Integer, LiveType> liveTypeMap = new HashMap<>();
+        //가장 최근 Population 데이터들 긁어오기
+        List<Population> populations = this.populationRepository.findTop48ByOrderByIdDesc();
+        //48개 혼잡도 공간 중 여유인 데이터를 담을 리스트
+        List<Population> populationList = new ArrayList<>();
+        //해당 place_id으로 받아온 데이터를 populations에 담기
+        for (Population population : populations) {
+            if (population.getPlace().getId() == place_id) {
+                populationList.add(population);
+            }
+        }
+        //makePopulationApi 함수를 통해서 각 Place에 대한 hotplaces, restaurants ,cultural_event 데이터를 가져와 liveTypeMap에 담기
+        liveTypeMap = makePopulationApi(1, populationList);
+        return liveTypeMap;
     }
-
-
-
-        //makePopulationApi
-        //return null;
-
-        //넘어온 place_id를 기준으로 데이터 넘겨주기
-        //return null;
-
 }
