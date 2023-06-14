@@ -11,49 +11,56 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/board")
 public class BoardController {
-
-    RestaurantService restaurantService;
-    CulturalEventService culturalEventService;
-    HotPlacesService hotPlacesService;
-
-    @Autowired
-    public BoardController(RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService) {
-        this.restaurantService = restaurantService;
-        this.culturalEventService = culturalEventService;
-        this.hotPlacesService = hotPlacesService;
+    @GetMapping("/board")
+    public String board(){
+        System.out.println("연결 잘됨?");
+        return "연결테스트";
     }
-
-
-    //Restaurant Board 매핑
-    @GetMapping(value = "restaurant/{id}")
-    public RestaurantDto getRestaurant(@PathVariable int id){
-        return restaurantService.getBoard(id);
-    }
-    @PostMapping(value = "retaurant/{id}")
-    public String postRestaurant(Model model, Users user , @PathVariable int id){
-        return "redirect:/restaurant/{id}";
-    }
-
-    //CulturalEvent Board 매핑
-    @GetMapping(value = "culturalEvent/{id}")
-    public CulturalEventDto getCulturalEvent(@PathVariable int id){
-        return culturalEventService.getBoard(id);
-    }
-    @PostMapping(value = "culturalEvent/{id}")
-    public String postCulturalEvent(Model model, Users user ,@PathVariable int id){
-        return "redirect:/culturalEvent/{id}";
-    }
-
-    //Hotplace Board 매핑
-    @GetMapping(value = "hotplace/{id}")
-    public CulturalEventDto getHotplace(@PathVariable int id){
-        return hotPlacesService.getBoard(id);
-    }
-    @PostMapping(value = "hotplace/{id}")
-    public String postHotplace(Model model, Users user ,@PathVariable int id){
-        return "redirect:/hotplace/{id}";
-    }
-
 }
+//@RequestMapping("/board")
+//public class BoardController {
+//
+//    RestaurantService restaurantService;
+//    CulturalEventService culturalEventService;
+//    HotPlacesService hotPlacesService;
+//
+//    @Autowired
+//    public BoardController(RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService) {
+//        this.restaurantService = restaurantService;
+//        this.culturalEventService = culturalEventService;
+//        this.hotPlacesService = hotPlacesService;
+//    }
+//
+//
+//    //Restaurant Board 매핑
+//    @GetMapping(value = "restaurant/{id}")
+//    public RestaurantDto getRestaurant(@PathVariable int id){
+//        return restaurantService.getBoard(id);
+//    }
+//    @PostMapping(value = "retaurant/{id}")
+//    public String postRestaurant(Model model, Users user , @PathVariable int id){
+//        return "redirect:/restaurant/{id}";
+//    }
+//
+//    //CulturalEvent Board 매핑
+//    @GetMapping(value = "culturalEvent/{id}")
+//    public CulturalEventDto getCulturalEvent(@PathVariable int id){
+//        return culturalEventService.getBoard(id);
+//    }
+//    @PostMapping(value = "culturalEvent/{id}")
+//    public String postCulturalEvent(Model model, Users user ,@PathVariable int id){
+//        return "redirect:/culturalEvent/{id}";
+//    }
+//
+//    //Hotplace Board 매핑
+//    @GetMapping(value = "hotplace/{id}")
+//    public CulturalEventDto getHotplace(@PathVariable int id){
+//        return hotPlacesService.getBoard(id);
+//    }
+//    @PostMapping(value = "hotplace/{id}")
+//    public String postHotplace(Model model, Users user ,@PathVariable int id){
+//        return "redirect:/hotplace/{id}";
+//    }
+//
+//}
