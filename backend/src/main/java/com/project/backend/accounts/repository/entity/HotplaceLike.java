@@ -27,5 +27,4 @@ public class HotplaceLike {
     @ManyToOne
     @JoinColumn(name="users_id")
     private Users users;
-
 }

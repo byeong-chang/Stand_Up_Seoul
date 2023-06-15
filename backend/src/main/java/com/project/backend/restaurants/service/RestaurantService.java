@@ -1,13 +1,13 @@
 package com.project.backend.restaurants.service;
 
 import com.project.backend.general.interfaces.Transfer;
+import com.project.backend.general.returnType.RestaurantType;
 import com.project.backend.restaurants.dto.RestaurantDto;
 import com.project.backend.restaurants.repository.entity.Restaurant;
 
 public interface RestaurantService extends Transfer {
 
-
-    RestaurantDto getBoard(int restaurant_id);
+    RestaurantType getBoard(int restaurant_id);
     default RestaurantDto entityToDto(Restaurant restaurant){
         RestaurantDto dto = RestaurantDto.builder()
                 .id(restaurant.getId())
