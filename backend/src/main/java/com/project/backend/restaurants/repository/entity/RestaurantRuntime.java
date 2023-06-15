@@ -1,7 +1,9 @@
 package com.project.backend.restaurants.repository.entity;
 
-import com.project.backend.places.repository.entity.Place;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "restaurant_runtime")
+@Getter
 public class RestaurantRuntime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

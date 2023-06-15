@@ -9,6 +9,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -74,4 +75,6 @@ public class Restaurant {
     @Column(name = "mapy", columnDefinition = "DOUBLE DEFAULT 0")
     private double mapy;
 
+    @OneToMany(mappedBy = "restaurant")
+    private List<RestaurantRuntime> runtimeList;
 }
