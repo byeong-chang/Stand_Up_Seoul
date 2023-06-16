@@ -2,27 +2,29 @@ package com.project.backend.accounts.service;
 
 import com.project.backend.accounts.repository.entity.Users;
 import com.project.backend.accounts.repository.UsersRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@RequiredArgsConstructor
 @Service
 public class UserService {
 
     private final UsersRepository usersRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public Users create(String email, String password, String nickname, Date birth, String phoneNumber, String userAddress) {
+    public UserService(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+        this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public Users create(String email, String password, LocalDateTime birth, String phoneNumber, String userAddress) {
         Users users = new Users();
         users.setEmail(email);
-        users.setPassword(password);
-        users.setNickname(nickname);
+        users.setPassword(passwordEncoder.encode(password));
+        users.setBirth(birth);
         users.setPhoneNumber(phoneNumber);
         users.setUserAddress(userAddress);
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        users.setPassword(passwordEncoder.encode(password));
         this.usersRepository.save(users);
         return users;
     }
