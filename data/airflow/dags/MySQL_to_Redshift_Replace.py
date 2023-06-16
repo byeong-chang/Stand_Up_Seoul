@@ -21,7 +21,7 @@ dag = DAG(
     catchup = False,
     default_args = {
         'retries': 1,
-        'retry_delay': timedelta(minutes=3),
+        'retry_delay': timedelta(minutes=1),
         'on_failure_callback': slack.on_failure_callback
     }
 )
@@ -34,7 +34,6 @@ tables = [
     "restaurant_breaktime", "restaurant_like",
     "restaurant_review","restaurant_runtime", "users"
 ]
-# tables = ["hotplaces"]
 
 s3_bucket = "standupseoul"
 
@@ -63,7 +62,7 @@ for table in tables:
         task_id = f's3_to_redshift_{table}',
         s3_bucket = s3_bucket,
         s3_key = s3_key,
-        schema = '"' + schema + '"', # 예약어 관련 옵션으로 인한 쌍따옴표 추가
+        schema = '"' + schema + '"', # Delimited identifiers으로 인한 쌍따옴표 추가
         table = '"' + table + '"',
         copy_options=['csv'],
         method = 'REPLACE',
