@@ -1,6 +1,7 @@
 package com.project.backend.controller;
 
 import com.project.backend.accounts.repository.entity.Users;
+import com.project.backend.general.returnType.HotplaceType;
 import com.project.backend.general.returnType.RestaurantType;
 import com.project.backend.places.dto.CulturalEventDto;
 import com.project.backend.places.service.CulturalEventService;
@@ -19,7 +20,6 @@ public class BoardController {
     HotPlacesService hotPlacesService;
 
     @Autowired
-    
     public BoardController(RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService) {
         this.restaurantService = restaurantService;
         this.culturalEventService = culturalEventService;
@@ -54,7 +54,7 @@ public class BoardController {
 
     //Hotplace Board 매핑
     @GetMapping(value = "hotplace/{id}")
-    public CulturalEventDto getHotplace(@PathVariable int id){
+    public HotplaceType getHotplace(@PathVariable int id){
         return hotPlacesService.getBoard(id);
     }
     @PostMapping(value = "hotplace/{id}")

@@ -8,6 +8,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "restaurant_breaktime")
+@Getter
 public class RestaurantBreaktime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

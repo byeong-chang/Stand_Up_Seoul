@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @Data
-@Table(name = "restaurantReview")
+@Table(name = "restaurant_review")
 public class RestaurantReview {
 
     @Id
@@ -22,11 +22,11 @@ public class RestaurantReview {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Users user_id;
+    private Users userId;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant_id;
+    private Restaurant restaurantId;
 
     @Column(name = "review", columnDefinition = "TEXT")
     private String review;
