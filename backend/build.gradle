@@ -6,7 +6,7 @@ plugins {
 
 group = 'standupSeoul'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = "11"
 
 configurations {
     compileOnly {
@@ -22,6 +22,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
@@ -77,3 +78,4 @@ task copyReactBuildFiles(type: Copy) {
     from "$frontendDir/build"
     into "$projectDir/src/main/resources/static"
 }
+targetCompatibility = JavaVersion.VERSION_11

@@ -4,9 +4,11 @@ import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -54,4 +56,6 @@ public class Users {
     @Column(name = "created_date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", insertable= false)
     private LocalDateTime createdDate;
 
+    public Users(String email, String password, List<GrantedAuthority> authorities) {
+    }
 }
