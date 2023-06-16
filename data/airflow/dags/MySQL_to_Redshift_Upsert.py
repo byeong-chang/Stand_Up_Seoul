@@ -14,9 +14,9 @@ import json
 
 
 dag = DAG(
-    dag_id = 'MySQL_to_Redshift_Replace',
+    dag_id = 'MySQL_to_Redshift_Upsert',
     start_date = datetime(2023,5,30), 
-    schedule_interval='15 16 * * *',  # 한국 시간 기준 01시 15분에 작업 실행
+    schedule_interval='20 16 * * *',  # 한국 시간 기준 01시 20분에 작업 실행
     max_active_runs = 2,
     catchup = False,
     default_args = {
@@ -27,14 +27,7 @@ dag = DAG(
 )
 
 schema = "raw"
-tables = [
-    "cultural_event", "hotplaces",
-    "hotplace_like","hotplaces_review",
-    "restaurant", "restaurant_admin",
-    "restaurant_breaktime", "restaurant_like",
-    "restaurant_review","restaurant_runtime", "users"
-]
-
+tables = ["population","weather", "weather_fcst"]
 s3_bucket = "standupseoul"
 
 # task간 의존성 설정을 위한 리스트
@@ -62,10 +55,11 @@ for table in tables:
         task_id = f's3_to_redshift_{table}',
         s3_bucket = s3_bucket,
         s3_key = s3_key,
-        schema = '"' + schema + '"', # Delimited identifiers으로 인한 쌍따옴표 추가
+        schema = '"' + schema + '"',
         table = '"' + table + '"',
         copy_options=['csv'],
-        method = 'REPLACE',
+        method = 'UPSERT',
+        upsert_keys = ["id", "created_date"],
         redshift_conn_id = "redshift_dev_db",
         dag = dag
     )
