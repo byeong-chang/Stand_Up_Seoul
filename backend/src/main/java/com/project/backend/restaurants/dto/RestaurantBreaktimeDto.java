@@ -5,10 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class RestaurantRuntimeDto {
-    private String runTime;
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public class RestaurantBreaktimeDto {
+        private String breakTime;
 }
