@@ -63,4 +63,5 @@ public class Hotplaces {
     @Column(name = "star_rating", columnDefinition = "INT DEFAULT 0")
     private double starRating;
 
+
 }

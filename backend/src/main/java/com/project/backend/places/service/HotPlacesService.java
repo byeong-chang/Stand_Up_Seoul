@@ -1,12 +1,11 @@
 package com.project.backend.places.service;
 
 import com.project.backend.general.interfaces.Transfer;
-import com.project.backend.places.dto.CulturalEventDto;
+import com.project.backend.general.returnType.HotplaceType;
 import com.project.backend.places.dto.HotplacesDto;
 import com.project.backend.places.repository.entity.Hotplaces;
 
 public interface HotPlacesService extends Transfer {
-
 
     default HotplacesDto entityToDto(Hotplaces hotplaces){
         HotplacesDto dto = HotplacesDto.builder()
@@ -28,5 +27,5 @@ public interface HotPlacesService extends Transfer {
         return dto;
     }
 
-    CulturalEventDto getBoard(int id);
+    HotplaceType getBoard(int id);
 }

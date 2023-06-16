@@ -1,6 +1,7 @@
 package com.project.backend.accounts.repository.entity;
 
 
+import com.project.backend.places.repository.entity.Hotplaces;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,15 +18,19 @@ import java.time.LocalDateTime;
 @Data
 @Table(name = "hotplaces_review")
 public class HotplaceReview {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "user_id")
-    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users userId;
 
-    @Column(name = "hotplaces_id")
-    private int hotPlacesId;
+
+    @ManyToOne
+    @JoinColumn(name = "hotplaces_id")
+    private Hotplaces hotPlacesId;
 
     @NotNull
     @Column(name = "review", columnDefinition = "TEXT")
