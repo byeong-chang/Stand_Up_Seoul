@@ -219,7 +219,6 @@ function Home() {
             try {
                 const result = await axios.get("/live/home");
                 setData(result.data);
-                console.log("여기4");
             } catch (err) {
                 console.log(err);
             }

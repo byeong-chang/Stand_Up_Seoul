@@ -1,46 +1,44 @@
-import {useLocation, useParams} from 'react-router-dom';
-import React, {useEffect, useState} from "react";
-import axios from 'axios'
-const {kakao} = window;
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Test() {
-
-    const { id } = useParams();
-    const [message, setMessage] = useState([]);
+    const [location, setLocation] = useState({});
 
     useEffect(() => {
-        async function getData() {
-            try {
-                const result = await axios.get(`/board/restaurant/2`);
-                setMessage(result.data);
-            } catch (err) {
-                console.log(err);
-            }
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setLocation({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                });
+            },
+            (error) => console.log(error)
+        );
+    }, []);
+
+    useEffect(() => {
+        if (location.latitude && location.longitude) {
+            // 스프링 부트 API 엔드포인트
+            const apiUrl = 'http://localhost:8080/live/home';
+
+            // 위치 데이터를 스프링 부트로 전송하는 POST 요청
+            axios
+                .post(apiUrl, location)
+                .then((response) => {
+                    console.log('위치 데이터가 성공적으로 전송되었습니다.');
+                })
+                .catch((error) => {
+                    console.error('위치 데이터 전송 중 오류가 발생했습니다:', error);
+                });
         }
-        getData();
-    }, []);
+    }, [location]);
 
-    useEffect(() => {
-
-            const container = document.getElementById('map');
-            const options = {
-                center: new kakao.maps.LatLng(37.5665, 126.9780),
-                level: 3
-            };
-            const map = new kakao.maps.Map(container, options);
-
-            const markerPosition = new kakao.maps.LatLng(25, 132);
-
-            const marker = new kakao.maps.Marker({
-                position: markerPosition,
-            });
-
-            marker.setMap(map);
-
-    }, []);
-    return(
-        <div id="map" style={{width:'500px', height:'330px'}}></div>
-    )
+    return (
+        <div>
+            <h1>Latitude: {location.latitude}</h1>
+            <h1>Longitude: {location.longitude}</h1>
+        </div>
+    );
 }
 
 export default Test;

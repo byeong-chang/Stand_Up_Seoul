@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
+
 const SignUp = () => {
-    const [email, setId] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [password1, setPassword1] = useState('');
+    const [password2, setPassword2] = useState('');
     const [birthdate, setBirthdate] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [nickname, setNickname] = useState('');
@@ -13,11 +15,15 @@ const SignUp = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleEmailChange = (e) => {
-        setId(e.target.value);
+        setEmail(e.target.value);
     };
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
+    const handlePassword1Change = (e) => {
+        setPassword1(e.target.value);
+    };
+
+    const handlePassword2Change = (e) => {
+        setPassword2(e.target.value);
     };
 
     const handleBirthdayChange = (e) => {
@@ -43,9 +49,10 @@ const SignUp = () => {
 
         // 예시로 axios를 사용하여 회원가입 요청을 보내는 코드를 작성했습니다.
         axios
-            .post('http://localhost:8081/api/user/signup', {
+            .post('/api/user/signup', {
                 email,
-                password,
+                password1,
+                password2,
                 birthdate,
                 phoneNumber,
                 nickname,
@@ -60,16 +67,16 @@ const SignUp = () => {
                 // 회원가입 실패 시 처리
                 console.log(error);
                 setError(true);
-                setErrorMessage('회원가입에 실패했습니다');
+                setErrorMessage('회원가입에 실패했습니다1');
             });
     };
 
     return (
-        <div className='login_box' style={{textAlign: "center"}}>
+        <div className='login_box' style={{ textAlign: 'center' }}>
             <h1 style={{ marginBottom: '50px' }}>회원가입</h1>
             <form onSubmit={handleSignUp}>
                 <div>
-                    <label htmlFor='id'></label>
+                    <label htmlFor='email'></label>
                     <input
                         type='email'
                         id='email'
@@ -80,14 +87,25 @@ const SignUp = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor='password'></label>
+                    <label htmlFor='password1'></label>
                     <input
                         type='password'
-                        id='password'
+                        id='password1'
                         placeholder='비밀번호를 입력해주세요'
                         className='login_input idpw_pw'
-                        value={password}
-                        onChange={handlePasswordChange}
+                        value={password1}
+                        onChange={handlePassword1Change}
+                    />
+                </div>
+                <div>
+                    <label htmlFor='password2'></label>
+                    <input
+                        type='password'
+                        id='password2'
+                        placeholder='비밀번호 확인'
+                        className='login_input idpw_pw'
+                        value={password2}
+                        onChange={handlePassword2Change}
                     />
                 </div>
                 <div>
@@ -140,10 +158,10 @@ const SignUp = () => {
                 </Button>
             </form>
             <div style={{ width: '60%', margin: 'auto' }}>
-                <Link to='/**' style={{ color: 'gray', borderRight: '1px solid gray', padding: '0 10px' }}>
+                <Link to='/find-id' style={{ color: 'gray', borderRight: '1px solid gray', padding: '0 10px' }}>
                     아이디 찾기
                 </Link>
-                <Link to='/**' className='Link' style={{ color: 'gray', padding: '0 10px' }}>
+                <Link to='/find-password' className='Link' style={{ color: 'gray', padding: '0 10px' }}>
                     비밀번호 찾기
                 </Link>
             </div>
