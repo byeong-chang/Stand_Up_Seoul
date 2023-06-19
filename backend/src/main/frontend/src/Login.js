@@ -49,7 +49,7 @@ const LoginPage = (props) => {
     };
 
     return (
-        <div className='login_box'>
+        <div className='login_box' style={{textAlign: "center"}}>
             <h1 style={{ marginBottom: '50px' }}>로그인</h1>
             <form onSubmit={handleSubmit}>
                 <div>

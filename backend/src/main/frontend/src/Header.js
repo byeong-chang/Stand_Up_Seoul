@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import './App.css'
 function Header(){
     return(
         //  {/* <!-- Navigation--> */}
@@ -11,8 +11,8 @@ function Header(){
                  <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                      <li className="nav-item"><a className="nav-link" href="index.html">가고싶은곳</a></li>
                      <li className="nav-item"><a className="nav-link" href="about.html">미래 혼잡도 보기</a></li>
-                     <li className="nav-item"><a className="nav-link" href="contact.html">로그인</a></li>
-                     <li className="nav-item"><a className="nav-link" href="pricing.html">회원가입</a></li>
+                     <Link to="/login" style={{textDecoration:'none'}}><li className="nav-item"><a className="nav-link" href="contact.html">로그인</a></li></Link>
+                     <Link to="/signup" style={{textDecoration:'none'}}><li className="nav-item"><a className="nav-link" href="pricing.html">회원가입</a></li></Link>
                      <li className="nav-item"><a className="nav-link" href="faq.html">**</a></li>
                      <li className="nav-item dropdown">
                          <a className="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">**</a>
