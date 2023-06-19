@@ -4,11 +4,9 @@ import com.project.backend.general.returnType.LiveType;
 import com.project.backend.population.dto.PopulationDto;
 import com.project.backend.population.service.PopulationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +24,12 @@ public class LiveContoller {
     @GetMapping(value = "home")
     public Map<Integer, LiveType> getLive(){
         return populationService.getLive();
+    }
+
+    @ResponseBody
+    @PostMapping(value = "home")
+    public double postLive(@RequestBody HashMap<String,Double> location){
+        return location.get("Latitute") + location.get("Longitude");
     }
 
 //  실시간 상세 페이지 Get 매핑 - population 혼잡도 분류

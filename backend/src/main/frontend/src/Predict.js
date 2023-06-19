@@ -156,10 +156,54 @@ function Predict() {
                                     <h2 className="fw-bolder" style={{ marginLeft: '0px', marginRight: '30px', marginBottom: '0', whiteSpace: 'nowrap' }}>언제 어디로 가실건가요?</h2>
                                     <p className="lead fw-normal text-muted mb-0" style={{ fontSize: '14px', minWidth: '250px', marginRight: '30px' }}><DateTimePickerViews></DateTimePickerViews></p>
                                     <Form.Select aria-label="Default select example" style={{ minWidth: '200px', height: '57px', marginTop: '9.5px', marginRight: '30px' }}>
-                                        <option>목적지</option>
-                                        <option value="1">가산디지털단지역</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <option value="1">DMC(디지털미디어시티)</option>
+                                        <option value="2">가로수길</option>
+                                        <option value="3">가산디지털단지역</option>
+                                        <option value="4">강남 MICE 관광특구</option>
+                                        <option value="5">강남역</option>
+                                        <option value="6">건대입구역</option>
+                                        <option value="7">경복궁·서촌마을</option>
+                                        <option value="8">고속터미널역</option>
+                                        <option value="9">광화문·덕수궁</option>
+                                        <option value="10">교대역</option>
+                                        <option value="11">구로디지털단지역</option>
+                                        <option value="12">국립중앙박물관·용산가족공원</option>
+                                        <option value="13">낙산공원·이화마을</option>
+                                        <option value="14">남산공원</option>
+                                        <option value="15">동대문 관광특구</option>
+                                        <option value="16">뚝섬한강공원</option>
+                                        <option value="17">망원한강공원</option>
+                                        <option value="18">명동 관광특구</option>
+                                        <option value="19">반포한강공원</option>
+                                        <option value="20">북서울꿈의숲</option>
+                                        <option value="21">북촌한옥마을</option>
+                                        <option value="22">서울숲공원</option>
+                                        <option value="23">서울역</option>
+                                        <option value="24">선릉역</option>
+                                        <option value="25">성수카페거리</option>
+                                        <option value="26">수유리 먹자골목</option>
+                                        <option value="27">신도림역</option>
+                                        <option value="28">신림역</option>
+                                        <option value="29">신촌·이대역</option>
+                                        <option value="30">쌍문동 맛집거리</option>
+                                        <option value="31">압구정로데오거리</option>
+                                        <option value="32">여의도</option>
+                                        <option value="33">역삼역</option>
+                                        <option value="34">연신내역</option>
+                                        <option value="35">영등포 타임스퀘어</option>
+                                        <option value="36">왕십리역</option>
+                                        <option value="37">용산역</option>
+                                        <option value="38">월드컵공원</option>
+                                        <option value="39">이촌한강공원</option>
+                                        <option value="40">이태원 관광특구</option>
+                                        <option value="41">인사동·익선동</option>
+                                        <option value="42">잠실 관광특구</option>
+                                        <option value="43">잠실종합운동장</option>
+                                        <option value="44">잠실한강공원</option>
+                                        <option value="45">종로·청계 관광특구</option>
+                                        <option value="46">창덕궁·종묘</option>
+                                        <option value="47">창동 신경제 중심지</option>
+                                        <option value="48">홍대 관광특구</option>
                                     </Form.Select>
                                     <Button variant="primary" style={{ marginLeft: '-10px', minWidth: '100px', height: '58px', marginTop: '9.5px' }}>예측하기</Button>
                                 </div>
