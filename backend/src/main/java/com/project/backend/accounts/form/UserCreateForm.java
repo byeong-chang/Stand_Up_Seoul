@@ -23,7 +23,7 @@ public class UserCreateForm {
     @NotEmpty(message = "비밀번호 재확인은 필수 항목!")
     private String password2;
 
-    @DateTimeFormat(pattern = "yy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotEmpty(message = "생년월일은 필수 항목!")
     private String birth;
 

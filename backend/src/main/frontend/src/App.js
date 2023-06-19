@@ -11,8 +11,13 @@ import LiveDetail from './LiveDetail';
 import RestaurantPage from './RestaurantPage';
 import AxiosTest from "./AxiosTest";
 import Login from "./Login";
+import Test from "./test";
+import HotplacePage from "./HotplacePage";
+import SignUp from "./SignUp";
+import axios from "axios";
 function App() {
-    let navigate = useNavigate();
+    // let navigate = useNavigate();
+    // let restaurant = useState([]);
   return (
     <div className="App">
         <Header></Header>
@@ -21,9 +26,12 @@ function App() {
             <Route path="/predict/*" element={<Predict />}></Route>
           <Route path="/live/*" element={<Live />}></Route>
           <Route path="/livedetail/*" element={<LiveDetail />}></Route>
-          <Route path="/restaurantpage/*" element={<RestaurantPage />}></Route>
+          <Route path="/restaurant/:id" element={<RestaurantPage />}></Route>
+            <Route path="/hotplace/:id" element={<tplacePagHoe />}></Route>
             <Route path="/axiostest/*" element={<AxiosTest />}></Route>
             <Route path="/login/*" element={<Login />}></Route>
+            <Route path="/signup/*" element={<SignUp />}></Route>
+            <Route path="/test/*" element={<Test />}></Route>
 					{/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
 		   </Routes>
     </div>

@@ -22,11 +22,11 @@ const LoginPage = (props) => {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         // send login request
 
         axios
-            .post('http://localhost:8081/api/user/login', {
+            .post('/user/login', {
                 username: id, // 아이디를 "username"으로 변경
                 password1: password,
             })
@@ -35,10 +35,10 @@ const LoginPage = (props) => {
                 const token = response.data.token;
 
                 // 토큰을 로컬 스토리지에 저장
-                localStorage.setItem('token', token);
+                // localStorage.setItem('token', token);
 
                 // 원하는 페이지로 리다이렉트
-                window.location.href = '/sell';
+                window.location.href = '/home';
             })
             .catch((error) => {
                 // 로그인 에러 처리
@@ -49,7 +49,7 @@ const LoginPage = (props) => {
     };
 
     return (
-        <div className='login_box'>
+        <div className='login_box' style={{textAlign: "center"}}>
             <h1 style={{ marginBottom: '50px' }}>로그인</h1>
             <form onSubmit={handleSubmit}>
                 <div>
