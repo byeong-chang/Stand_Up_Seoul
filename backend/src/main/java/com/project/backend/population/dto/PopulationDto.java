@@ -1,6 +1,5 @@
 package com.project.backend.population.dto;
 
-import com.project.backend.places.repository.entity.Place;
 import com.project.backend.population.repository.entity.PopulationCongestMsg;
 import lombok.*;
 
@@ -30,4 +29,7 @@ public class PopulationDto {
     private double nonResidentPopulationRate;
     private LocalDateTime populationTime;
     private LocalDateTime createdDate;
+
+    // 쿼리문으로 받은 Place 테이블에 place_image 컬럼 추가
+    private String placeImage;
 }

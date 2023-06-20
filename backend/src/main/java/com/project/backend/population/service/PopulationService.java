@@ -15,6 +15,7 @@ public interface PopulationService extends Transfer {
         PopulationDto dto = PopulationDto.builder()
                 .id(population.getId())
                 .place(population.getPlace().getAreaName())
+                .placeImage(population.getPlace().getPlaceImage())
                 .areaCongest(population.getAreaCongest())
                 .areaPopulationMin(population.getAreaPopulationMin())
                 .areaPopulationMax(population.getAreaPopulationMax())
@@ -37,5 +38,5 @@ public interface PopulationService extends Transfer {
 
     Map<String, List<PopulationDto>> getDetail();
 
-    Map<Integer, LiveType> getPlaceDetail(int place_Id);
+    Map<Integer, LiveType> getPlaceDetail(int place_id);
 }
