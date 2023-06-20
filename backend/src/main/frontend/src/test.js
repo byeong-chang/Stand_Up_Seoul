@@ -19,7 +19,7 @@ function Test() {
     useEffect(() => {
         if (location.latitude && location.longitude) {
             // 스프링 부트 API 엔드포인트
-            const apiUrl = 'http://localhost:8080/live/home';
+            const apiUrl = 'http://localhost:8080/live/home/postAPI';
 
             // 위치 데이터를 스프링 부트로 전송하는 POST 요청
             axios
