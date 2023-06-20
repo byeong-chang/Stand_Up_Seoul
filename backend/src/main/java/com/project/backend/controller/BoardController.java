@@ -7,30 +7,19 @@ import com.project.backend.places.dto.CulturalEventDto;
 import com.project.backend.places.service.CulturalEventService;
 import com.project.backend.places.service.HotPlacesService;
 import com.project.backend.restaurants.service.RestaurantService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/board")
+@RequiredArgsConstructor
 public class BoardController {
-
-    RestaurantService restaurantService;
-    CulturalEventService culturalEventService;
-    HotPlacesService hotPlacesService;
-
-    @Autowired
-    public BoardController(RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService) {
-        this.restaurantService = restaurantService;
-        this.culturalEventService = culturalEventService;
-        this.hotPlacesService = hotPlacesService;
-    }
-
-    @GetMapping("/board")
-    public String board(){
-        System.out.println("연결 잘됨?");
-        return "연결테스트";
-    }
+    public final RestaurantService restaurantService;
+    public final CulturalEventService culturalEventService;
+    public final HotPlacesService hotPlacesService;
 
     //Restaurant Board 매핑
     @GetMapping(value = "restaurant/{id}")
