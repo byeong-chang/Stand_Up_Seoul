@@ -98,7 +98,7 @@ function RestaurantPage() {
                                 </div>
                                 {/*// <!-- Product actions-->*/}
                                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">View options</a>
+                                    <div className="text-center"><p className="btn btn-outline-dark mt-auto" href="#">View options</p>
                                     </div>
                                 </div>
                             </div>
@@ -130,7 +130,7 @@ function RestaurantPage() {
                                 </div>
                                 {/*// <!-- Product actions-->*/}
                                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
+                                    <div className="text-center"><p className="btn btn-outline-dark mt-auto" href="#">Add to cart</p>
                                     </div>
                                 </div>
                             </div>
@@ -154,7 +154,7 @@ function RestaurantPage() {
                                 </div>
                                 {/*// <!-- Product actions-->*/}
                                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
+                                    <div className="text-center"><p className="btn btn-outline-dark mt-auto" href="#">Add to cart</p>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@ function RestaurantPage() {
                                 </div>
                                 {/*// <!-- Product actions-->*/}
                                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
+                                    <div className="text-center"><p className="btn btn-outline-dark mt-auto" href="#">Add to cart</p>
                                     </div>
                                 </div>
                             </div>
