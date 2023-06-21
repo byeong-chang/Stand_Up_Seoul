@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.*;
 
 @Service
@@ -162,11 +161,13 @@ public class PopulationServiceImpl implements PopulationService{
     public Map<String, List<PopulationDto>> getDetail() {
         //웹에 전달할 json 객체 liveTypeMap입니다.
         Map<String, List<PopulationDto>> listTypeMap = new HashMap<>();
+
         //JPQL를 사용하여 데이터베이스에서 Population 엔티티를 이용해 Place 엔티티를 함께 조회
-        String jpql = "SELECT p FROM Population p JOIN FETCH p.place ORDER BY p.createdDate DESC";
-        TypedQuery<Population> query = entityManager.createQuery(jpql, Population.class);
-        query.setMaxResults(48);
-        List<Population> populations = query.getResultList();
+//        String jpql = "SELECT p FROM Population p JOIN FETCH p.place ORDER BY p.createdDate DESC";
+//        TypedQuery<Population> query = entityManager.createQuery(jpql, Population.class);
+//        query.setMaxResults(48);
+//        List<Population> populations = query.getResultList();
+        List<Population> populations= this.populationRepository.findTop48ByOrderByIdDesc();
         //여유, 보통, 약간 붐빔, 붐빔으로 나눠 받을 리스트 만들기
         List<PopulationDto> lowerCongest = new ArrayList<>();
         List<PopulationDto> normalCongest = new ArrayList<>();
