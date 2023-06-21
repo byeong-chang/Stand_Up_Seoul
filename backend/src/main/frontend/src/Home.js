@@ -11,43 +11,31 @@ import 'swiper/css/scrollbar';
 import './App.css'
 import React, {useEffect, useState} from "react";
 import restaurantPage from "./RestaurantPage";
+import Banner from "./Banner";
 
-function SwiperLiveFood({data}) {
-    // const [data, setData] = useState([]);
-    //
-    // useEffect(() => {
-    //     async function getData() {
-    //         try {
-    //             const result = await axios.get("/live/home");
-    //             setData(result.data);
-    //             console.log("여기1");
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-    //     }
-    //     getData();
-    // }, []);
-
+function SwiperLiveFood({ data }) {
     return (
         <Swiper
             modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={30}
             slidesPerView={3}
-            pagination={{clickable: true}}
+            // pagination={{ clickable: true }}
+            navigation={true}
             className="container px-5"
-            style={{width: "130%"}}
-            autoplay={{delay: 2300, disableOnInteraction: false}}
+            style={{ width: "130%", paddingBottom: '20px'  }}
+            autoplay={{ delay: 2300, disableOnInteraction: false }}
         >
             {Object.keys(data).map((key) =>
                 data[key].restaurantList.map((restaurant, index) => (
-                    <SwiperSlide key={key}>
-                        <Link to={`/restaurant/${restaurant.id}`} style={{textDecoration: 'none', color: 'black'}}>
-                            <div className="col mb-6 h-100" key={`${key}-${index}`}>
+                    <SwiperSlide key={`${key}-${index}`}>
+                        <Link to={`/restaurant/${restaurant.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                            <div className="col mb-6 h-100 rounded-3" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
                                 <div className="feature bg-primary bg-gradient text-white rounded-3 mb-3"></div>
                                 <div className="image-container">
-                                    <img className="img-fluid rounded-3 my-6" src={restaurant.fileName} alt="..."/>
+                                    <img className="img-fluid rounded-3 my-6" src={restaurant.fileName} alt="..." />
                                 </div>
-                                <h2 className="h5 mb-5 text-dark">{restaurant.title}</h2>
+                                <h5 className="fw-bolder mt-3" style={{ paddingLeft: '20px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{restaurant.title}</h5>
+                                <p className="card-text mb-0" style={{ paddingLeft: '20px' }}>{restaurant.restaurantCategory}</p>
                             </div>
                         </Link>
                     </SwiperSlide>
@@ -57,25 +45,7 @@ function SwiperLiveFood({data}) {
     );
 }
 
-function SwiperLive({data}) {
-    // const [data, setData] = useState([]);
-    //
-    // useEffect(() => {
-    //     async function getData() {
-    //         try {
-    //             const result = await axios.get('/live/home');
-    //             setData(result.data);
-    //             console.log("여기2");
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-    //     }
-    //     // 데이터가 비어있을 때만 요청하도록 변경
-    //     if (data.length === 0) {
-    //         getData();
-    //     }
-    // }, [data]); // 의존성 배열에 data 추가
-
+function SwiperLive({ data }) {
     // 중복 슬라이드를 제거하는 함수
     const removeDuplicates = (arr, prop) => {
         return arr.reduce((uniqueArr, item) => {
@@ -97,20 +67,21 @@ function SwiperLive({data}) {
             modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={30}
             slidesPerView={3}
-            pagination={{clickable: true}}
+            // pagination={{ clickable: true }}
             className="container px-5"
-            style={{width: '130%'}}
-            autoplay={{delay: 2000, disableOnInteraction: false}}
+            style={{ width: '130%', paddingBottom: '20px' }}
+            autoplay={{ delay: 2000, disableOnInteraction: false }}
         >
             {uniqueData.map((hotplace) => (
-                <SwiperSlide key={hotplace.id}>
-                    <Link to={`/restaurant/${hotplace.id}`} style={{textDecoration: 'none', color: 'black'}}>
-                        <div className="col mb-6 h-100">
+                <SwiperSlide>
+                    <Link to={`/restaurant/${hotplace.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                        <div className="col mb-6 h-100 rounded-3" key={hotplace.id} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
                             <div className="feature bg-primary bg-gradient text-white rounded-3 mb-3"></div>
                             <div className="image-container">
-                                <img className="img-fluid rounded-3 my-6" src={hotplace.fileName} alt="..."/>
+                                <img className="img-fluid rounded-3 my-6" src={hotplace.fileName} alt="..." />
                             </div>
-                            <h2 className="h5 mb-5">{hotplace.title}</h2>
+                            <h5 className="fw-bolder mt-3" style={{ paddingLeft: '20px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{hotplace.title}</h5>
+                            <p className="card-footer mb-0" style={{ paddingLeft: '20px' }}>{hotplace.contentType}</p>
                         </div>
                     </Link>
                 </SwiperSlide>
@@ -121,21 +92,6 @@ function SwiperLive({data}) {
 
 
 function SwiperLive2({data}) {
-
-    // const [data, setData] = useState([]);
-    //
-    // useEffect(() => {
-    //     async function getData() {
-    //         try {
-    //             const result = await axios.get("/live/home");
-    //             setData(result.data);
-    //             console.log("여기3");
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-    //     }
-    //     getData();
-    // }, []);
 
     return (
         <Swiper
@@ -150,13 +106,14 @@ function SwiperLive2({data}) {
             {Object.keys(data).map((key) =>
                 data[key].culturalEventList.map((culturalEvent, index) => (
                     <SwiperSlide>
-                        <div className="card h-100shadow border-0" key={`${key}-${index}`}>
+                        <div className="card h-100 shadow border-3" key={`${key}-${index}`} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
                             <img className="card-img-top" src={culturalEvent.mainImage} alt="..."
-                                 style={{objectFit: "cover", height: "400px"}}/>
-                            <div className="card-body p-4">
-                                <div className="badge bg-info bg-gradient rounded-pill mb-2">{culturalEvent.place}</div>
-                                <a className="text-decoration-none link-dark stretched-link" href="#!"><h5
-                                    className="card-title mb-3">{culturalEvent.title}</h5></a>
+                                 style={{ objectFit: "cover", maxHeight: "350px", width: "100%" }}/>
+                            <div className="card-body p-2">
+                                <div className="badge bg-info bg-gradient rounded-pill mb-2"  style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{culturalEvent.place}</div>
+                                <Link to="#!" className="text-decoration-none link-dark stretched-link">
+                                    <h5 className="card-title mb-3">{culturalEvent.title}</h5>
+                                </Link>
                                 <p className="card-text mb-0">{culturalEvent.codeName}</p>
                             </div>
                             <div className="card-footer p-4 pt-0 bg-transparent border-top-0">
@@ -193,8 +150,8 @@ function Home() {
 
         if (token) {
             // 사용자가 로그인되어 있는 경우
-            const userId = localStorage.getItem('userId'); // 로컬 스토리지 또는 서버에서 사용자 ID 가져오기
-            setLoggedInUser({username: userId}); // 사용자 ID를 loggedInUser 상태에 설정
+            const username = localStorage.getItem('username'); // 로컬 스토리지 또는 서버에서 사용자 ID 가져오기
+            setLoggedInUser({ username: username }); // 사용자 ID를 loggedInUser 상태에 설정
         } else {
             // 사용자가 로그인되어 있지 않은 경우
             setLoggedInUser(null);
@@ -207,9 +164,10 @@ function Home() {
 
         // 로컬 스토리지에서 토큰 제거
         localStorage.removeItem('token');
+        localStorage.removeItem('username');
 
         // 원하는 페이지로 이동
-        window.location.href = '/**';
+        window.location.href = '/sell';
     };
 
     const [data, setData] = useState([]);
@@ -232,51 +190,27 @@ function Home() {
             <main className="flex-shrink-0">
                 {/* <!-- Navigation--> */}
                 {/* <!-- Header--> */}
-                <header className="bg-dark py-1">
-                    <div className="container px-5">
-                        <div className="row gx-5 align-items-center justify-content-center">
-                            <div className="col-lg-8 col-xl-7 col-xxl-6">
-                                <div className="my-5 text-center text-xl-start">
-                                    <h1 className="display-5 fw-bolder text-white mb-4">실시간 혼잡도 낮은 지역</h1>
-                                    {Object.keys(data).map(key => (
-                                        <p className="lead fw-normal text-white-50 mb-4" key={key}><a
-                                            className="nav-link" href="index.html">{data[key].place.areaName}</a></p>
-                                    ))}
-                                    {/*<p className="lead fw-normal text-white-50 mb-4"><a className="nav-link" href="index.html">{message[key].place.areaName}</a></p>*/}
-                                    {/*<p className="lead fw-normal text-white-50 mb-4">{message[key].place.areaName}</p>*/}
-                                    {/*<p className="lead fw-normal text-white-50 mb-4">{message[key].place.areaName}</p>*/}
-                                    <div
-                                        className="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-                                        <Link to="/predict" className="btn btn-info text-light btn-lg px-4 me-sm-3">미래
-                                            혼잡도 예측하러가기</Link>
-                                        <Link to="/live" className="btn btn-outline-light btn-lg px-4"
-                                              href="#!">상세정보</Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img
-                                className="img-fluid rounded-3 my-5"
-                                src="https://standupseoul.s3.ap-northeast-2.amazonaws.com/place/%EA%B0%80%EB%A1%9C%EC%88%98%EA%B8%B8.jpg"
-                                alt="..."/></div>
-                        </div>
-                    </div>
-                </header>
+               <Banner livedata={data} loggedInUser={loggedInUser} handleLogout={handleLogout}></Banner>
                 {/* <!-- Features section--> */}
                 <section className="py-0 mb-0" id="features">
-                    <div className="container px-5 my-5 mx-0">
-                        <div className="row gx-5">
-                            <div className="col-lg-4 mb-5 mb-lg-0"><h2 className="fw-bolder mt-3">근처맛집</h2></div>
-                            <div className="col-lg-8">
+                    <div className="container px-5 my-5 mx-auto">
+                        <div className="row gx-5 align-items-center">
+                            <div className="mb-5 mb-lg-0 col text-start"> {/* 수정된 부분: text-center -> text-start, col 추가 */}
+                                <h4 className="fw-bolder mt-3">주변맛집</h4>
+                            </div>
+                            <div className="mb-lg-0 d-flex justify-content-center">
                                 <SwiperLiveFood data={data}></SwiperLiveFood>
                             </div>
                         </div>
                     </div>
                 </section>
-                <section className="py-0 mb-0" id="features">
-                    <div className="container px-5 my-5 mx-0">
-                        <div className="row gx-5">
-                            <div className="col-lg-4 mb-5 mb-lg-0"><h2 className="fw-bolder mt-3">근처명소</h2></div>
-                            <div className="col-lg-8">
+                <section className="py-0 mb-0 h-100" id="features">
+                    <div className="container px-5 my-5 mx-auto">
+                        <div className="row gx-5 align-items-center"> {/* 수정된 부분: align-items-center 추가 */}
+                            <div className="mb-5 mb-lg-0 col text-start"> {/* 수정된 부분: text-center -> text-start, col 추가 */}
+                                <h4 className="fw-bolder mt-3">주변명소</h4>
+                            </div>
+                            <div className="mb-lg-0 d-flex justify-content-center">
                                 <SwiperLive data={data}></SwiperLive>
                             </div>
                         </div>
@@ -309,11 +243,11 @@ function Home() {
                             <div className="small m-0 text-white">Copyright &copy; Your Website 2023</div>
                         </div>
                         <div className="col-auto">
-                            <a className="link-light small" href="#!">Privacy</a>
+                            <p className="link-light small" href="#!">Privacy</p>
                             <span className="text-white mx-1">&middot;</span>
-                            <a className="link-light small" href="#!">Terms</a>
+                            <p className="link-light small" href="#!">Terms</p>
                             <span className="text-white mx-1">&middot;</span>
-                            <a className="link-light small" href="#!">Contact</a>
+                            <p className="link-light small" href="#!">Contact</p>
                         </div>
                     </div>
                 </div>

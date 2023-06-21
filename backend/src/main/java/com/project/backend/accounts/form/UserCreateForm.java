@@ -31,7 +31,7 @@ public class UserCreateForm {
     @NotEmpty(message = "전화번호는 필수 항목!")
     private String phoneNumber;
 
-    private String userAddresss;
+    private String userAddress;
 
     @Size(min = 3, max = 15)
     @NotEmpty(message = "닉네임은 필수 항목!")

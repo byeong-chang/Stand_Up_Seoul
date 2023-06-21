@@ -4,9 +4,12 @@ import com.project.backend.accounts.dto.ResponseDto;
 import com.project.backend.accounts.dto.UsersDto;
 import com.project.backend.accounts.repository.entity.Users;
 import com.project.backend.accounts.service.UserService;
+import com.project.backend.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,15 +24,18 @@ import java.time.LocalDate;
 public class UserController {
 
     private final UserService userService;
+    private final TokenProvider tokenProvider;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody UsersDto usersDto){
+        public ResponseEntity<?> registerUser(@RequestBody UsersDto usersDto){
         try{
+            userService.passwordCheck(usersDto.getPassword(),usersDto.getPasswordCheck());
             //요청을 이용해 저장할 사용자 만들기
             Users user = Users.builder()
                     .id(usersDto.getId())
                     .email(usersDto.getEmail())
-                    .password(usersDto.getPassword())
+                    .password(passwordEncoder.encode(usersDto.getPassword()))
                     .birth(LocalDate.parse(usersDto.getBirth()))
                     .phoneNumber(usersDto.getPhoneNumber())
                     .userAddress(usersDto.getUserAddress())
@@ -62,12 +68,17 @@ public class UserController {
     public ResponseEntity<?> authenticate(@RequestBody UsersDto usersDto){
         Users user = userService.getByCredentials(
                 usersDto.getEmail(),
-                usersDto.getPassword()
+                usersDto.getPassword(),
+                passwordEncoder
         );
         if(user != null){
+            // 토큰 생성
+            final String token = tokenProvider.create(user);
             final UsersDto responseUserDTO = UsersDto.builder()
                     .email(user.getEmail())
                     .id(user.getId())
+                    .token(token)
+                    .nickname(user.getNickname())
                     .build();
             return ResponseEntity.ok().body(responseUserDTO);
         }else {

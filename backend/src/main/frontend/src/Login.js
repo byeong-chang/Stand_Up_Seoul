@@ -8,13 +8,13 @@ import './App.css';
 const LoginPage = (props) => {
     let navigate = useNavigate();
 
-    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleIdChange = (e) => {
-        setId(e.target.value);
+        setEmail(e.target.value);
     };
 
     const handlePasswordChange = (e) => {
@@ -22,23 +22,23 @@ const LoginPage = (props) => {
     };
 
     const handleSubmit = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         // send login request
 
         axios
-            .post('/user/login', {
-                username: id, // 아이디를 "username"으로 변경
-                password1: password,
+            .post('/auth/signin', {
+                email: email, // 아이디를 "username"으로 변경
+                password: password,
             })
             .then((response) => {
                 // 로그인 성공 시 처리
                 const token = response.data.token;
 
                 // 토큰을 로컬 스토리지에 저장
-                // localStorage.setItem('token', token);
+                localStorage.setItem('token', token);
 
                 // 원하는 페이지로 리다이렉트
-                window.location.href = '/home';
+                navigate('/');
             })
             .catch((error) => {
                 // 로그인 에러 처리
@@ -55,11 +55,11 @@ const LoginPage = (props) => {
                 <div>
                     <label htmlFor='id'></label>
                     <input
-                        type='text'
-                        id='id'
+                        type='email'
+                        id='email'
                         placeholder='아이디를 입력해주세요'
                         className='login_input idpw_id'
-                        value={id}
+                        value={email}
                         onChange={handleIdChange}
                     />
                 </div>

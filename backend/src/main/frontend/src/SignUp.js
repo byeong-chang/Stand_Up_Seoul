@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 
 const SignUp = () => {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
-    const [password1, setPassword1] = useState('');
-    const [password2, setPassword2] = useState('');
-    const [birthdate, setBirthdate] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState('');
+    const [birth, setBirth] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [userAddress, setUserAddress] = useState('');
     const [nickname, setNickname] = useState('');
-    const [address, setAddress] = useState('');
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -19,15 +21,15 @@ const SignUp = () => {
     };
 
     const handlePassword1Change = (e) => {
-        setPassword1(e.target.value);
+        setPassword(e.target.value);
     };
 
     const handlePassword2Change = (e) => {
-        setPassword2(e.target.value);
+        setPasswordCheck(e.target.value);
     };
 
     const handleBirthdayChange = (e) => {
-        setBirthdate(e.target.value);
+        setBirth(e.target.value);
     };
 
     const handlePhoneNumberChange = (e) => {
@@ -39,29 +41,28 @@ const SignUp = () => {
     };
 
     const handleAddressChange = (e) => {
-        setAddress(e.target.value);
+        setUserAddress(e.target.value);
     };
 
     const handleSignUp = (e) => {
         e.preventDefault();
         // 회원가입 처리 로직 작성
-        // ...
-
         // 예시로 axios를 사용하여 회원가입 요청을 보내는 코드를 작성했습니다.
         axios
-            .post('/api/user/signup', {
-                email,
-                password1,
-                password2,
-                birthdate,
-                phoneNumber,
-                nickname,
-                address,
+            .post('/auth/signup', {
+                email : email,
+                password: password,
+                passwordCheck: passwordCheck,
+                birth: birth,
+                phoneNumber: phoneNumber,
+                userAddress: userAddress,
+                nickname : nickname,
             })
             .then((response) => {
                 // 회원가입 성공 시 처리
                 console.log(response.data);
                 // 원하는 동작 수행
+                navigate('/login');
             })
             .catch((error) => {
                 // 회원가입 실패 시 처리
@@ -72,6 +73,38 @@ const SignUp = () => {
     };
 
     return (
+        <div>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div className="container px-5">
+                    <Link to="/" className="navbar-brand">스탠드업서울</Link>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li className="nav-item"><Link to="/" className="nav-link">가고싶은곳</Link></li>
+                            <li className="nav-item"><Link to="/about" className="nav-link">미래 혼잡도 보기</Link></li>
+                            <li className="nav-item"><Link to="/login" className="nav-link">로그인</Link></li>
+                            <li className="nav-item"><Link to="/signup" className="nav-link">회원가입</Link></li>
+                            <li className="nav-item"><Link to="/" className="nav-link">**</Link></li>
+                            <li className="nav-item dropdown">
+                                <Link to="/" className="nav-link dropdown-toggle" id="navbarDropdownBlog" role="button" data-bs-toggle="dropdown" aria-expanded="false">**</Link>
+                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                                    <li><Link to="/" className="dropdown-item">**</Link></li>
+                                    <li><Link to="/" className="dropdown-item">**</Link></li>
+                                </ul>
+                            </li>
+                            <li className="nav-item dropdown">
+                                <Link to="/" className="nav-link dropdown-toggle" id="navbarDropdownPortfolio" role="button" data-bs-toggle="dropdown" aria-expanded="false">**</Link>
+                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+                                    <li><Link to="/" className="dropdown-item">**</Link></li>
+                                    <li><Link to="/" className="dropdown-item">**</Link></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         <div className='login_box' style={{ textAlign: 'center' }}>
             <h1 style={{ marginBottom: '50px' }}>회원가입</h1>
             <form onSubmit={handleSignUp}>
@@ -93,7 +126,7 @@ const SignUp = () => {
                         id='password1'
                         placeholder='비밀번호를 입력해주세요'
                         className='login_input idpw_pw'
-                        value={password1}
+                        value={password}
                         onChange={handlePassword1Change}
                     />
                 </div>
@@ -104,7 +137,7 @@ const SignUp = () => {
                         id='password2'
                         placeholder='비밀번호 확인'
                         className='login_input idpw_pw'
-                        value={password2}
+                        value={passwordCheck}
                         onChange={handlePassword2Change}
                     />
                 </div>
@@ -115,7 +148,7 @@ const SignUp = () => {
                         type='date'
                         id='birthdate'
                         className='login_input idpw_pw'
-                        value={birthdate}
+                        value={birth}
                         onChange={handleBirthdayChange}
                     />
                 </div>
@@ -148,7 +181,7 @@ const SignUp = () => {
                         id='address'
                         placeholder='주소를 입력해주세요'
                         className='login_input idpw_pw'
-                        value={address}
+                        value={userAddress}
                         onChange={handleAddressChange}
                     />
                 </div>
@@ -165,6 +198,7 @@ const SignUp = () => {
                     비밀번호 찾기
                 </Link>
             </div>
+        </div>
         </div>
     );
 };

@@ -84,7 +84,7 @@ function Comment(props) {
                     {/*       <div>{item.review}</div>*/}
                     {/*   </div>*/}
                     {/*))}*/}
-                    {/* Comment with nested comments */}
+                    {/* Comment with nested comments*/}
                     {commentList && commentList.map((item) => (
                         <div className="d-flex mb-4" key={item.user}>
                             {/* Parent comment */}
