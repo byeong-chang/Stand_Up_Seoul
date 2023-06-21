@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface PopulationService extends Transfer {
-    Map<Integer,LiveType> getLive();
 
     default PopulationDto entityToDto(Population population){
         PopulationDto dto = PopulationDto.builder()
@@ -35,8 +34,9 @@ public interface PopulationService extends Transfer {
                 .createdDate(population.getCreatedDate()).build();
         return dto;
     }
-
+    Map<Integer,LiveType> getLive();
+    Map<Integer,LiveType> getLocationLive(Double Logitude, Double Latitude);
     Map<String, List<PopulationDto>> getDetail();
+    Map<Integer, LiveType> getPlaceDetail(int place_Id);
 
-    Map<Integer, LiveType> getPlaceDetail(int place_id);
 }

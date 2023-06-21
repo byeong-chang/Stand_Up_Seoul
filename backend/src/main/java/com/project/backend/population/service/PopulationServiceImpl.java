@@ -14,7 +14,7 @@ import com.project.backend.population.repository.PopulationRepository;
 import com.project.backend.population.repository.entity.Population;
 import com.project.backend.restaurants.dto.RestaurantDto;
 import com.project.backend.restaurants.service.RestaurantService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -23,31 +23,19 @@ import javax.persistence.TypedQuery;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class PopulationServiceImpl implements PopulationService{
 
-    PopulationRepository populationRepository;
-    RestaurantService restaurantService;
-    CulturalEventService culturalEventService;
-    HotPlacesService hotPlacesService;
-    PlaceDistrictService placeDistrictService;
-    PlaceService placeService;
-    PlaceSubwayService placeSubwayService;
-    PlaceRepository placeRepository;
+    public final PopulationRepository populationRepository;
+    public final RestaurantService restaurantService;
+    public final CulturalEventService culturalEventService;
+    public final HotPlacesService hotPlacesService;
+    public final PlaceDistrictService placeDistrictService;
+    public final PlaceService placeService;
+    public final PlaceSubwayService placeSubwayService;
+    public final PlaceRepository placeRepository;
     @PersistenceContext
     private EntityManager entityManager;
-
-    @Autowired
-    public PopulationServiceImpl(PopulationRepository populationRepository, RestaurantService restaurantService, CulturalEventService culturalEventService, HotPlacesService hotPlacesService, PlaceDistrictService placeDistrictService, PlaceService placeService, PlaceSubwayService placeSubwayService,
-                                 PlaceRepository placeRepository) {
-        this.populationRepository = populationRepository;
-        this.restaurantService = restaurantService;
-        this.culturalEventService = culturalEventService;
-        this.hotPlacesService = hotPlacesService;
-        this.placeDistrictService = placeDistrictService;
-        this.placeService = placeService;
-        this.placeSubwayService = placeSubwayService;
-        this.placeRepository = placeRepository;
-    }
 
     @Override
     public Object transfer(Object entity) {
@@ -133,6 +121,39 @@ public class PopulationServiceImpl implements PopulationService{
         Collections.shuffle(lowerCongest);
         //각 Place에 대한 hotplaces, restaurants ,cultural_event 데이터를 가져오는 함수 사용
         liveTypeMap = makePopulationApi(4,lowerCongest);
+        return liveTypeMap;
+    }
+
+    public Double Distance(Double Logitude, Double Latitude, Double x, Double y){
+        return (Logitude - x)*(Logitude - x) + (Latitude - y)*(Latitude - y);
+    }
+    @Override
+    public Map<Integer, LiveType> getLocationLive(Double Logitude, Double Latitude) {
+        //웹에 전달할 json 객체 liveTypeMap입니다.
+        Map<Integer,LiveType> liveTypeMap = new HashMap<Integer, LiveType>();
+        // 가장 최근 48개의 혼잡도 데이터를 가져옵니다.
+        List<Population> populations= this.populationRepository.findTop48ByOrderByIdDesc();
+        // x,y 값의 제곱의 차를 사용해 현재 위치와 populations들의 위치를 비교하여 딕셔너리에 담는다.
+        HashMap<Integer, Double> cosDistance = new HashMap<Integer, Double>();
+        // 가장 유사한 4개의 Population을 담을 리스트입니다.
+        List<Population> simPopulation = new ArrayList<>();
+        // congest_id = 1 인 경우 여유로운 혼잡도이므로 lowerCongest에 담아줍니다.
+        for(int i = 0 ; i <48; i ++){
+            Population temp = populations.get(i);
+            if (temp.getAreaCongest().getId() == 1) {
+                Double distance = Distance(Logitude, Latitude, temp.getPlace().getMapx(), temp.getPlace().getMapy());
+                cosDistance.put(i, distance);
+            }
+        }
+        //정렬 value 기준으로 정렬해서 앞에 4개 넣어주기
+        List<Integer> keySet = new ArrayList<>(cosDistance.keySet());
+        // Value 값으로 오름차순 정렬
+        keySet.sort((o1, o2) -> cosDistance.get(o1).compareTo(cosDistance.get(o2)));
+        for (int i=0; i<4;i++){
+            simPopulation.add(populations.get(keySet.get(i)));
+        }
+        //각 Place에 대한 hotplaces, restaurants ,cultural_event 데이터를 가져오는 함수 사용
+        liveTypeMap = makePopulationApi(4,simPopulation);
         return liveTypeMap;
     }
 
