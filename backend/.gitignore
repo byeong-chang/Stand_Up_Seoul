@@ -15,6 +15,9 @@ application.yml
 .idea/**/dictionaries
 .idea/**/shelf
 
+# react-appkey
+src/main/frontend/.env
+
 # AWS User-specific
 .idea/**/aws.xml
 
@@ -273,7 +276,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+src/main/frontend/.env
 .venv
 env/
 venv/

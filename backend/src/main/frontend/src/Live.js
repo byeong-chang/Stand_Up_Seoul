@@ -8,6 +8,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import './App.css'
 import {useEffect, useState} from "react";
+import Banner from "./Banner";
 
 function SwiperLiveCrowded({data}) {
     return (
@@ -22,9 +23,9 @@ function SwiperLiveCrowded({data}) {
         >
             {data.붐빔 && Array.isArray(data.붐빔) && data.붐빔.map((item, index) => (
                 <SwiperSlide key={`crowded-${item.id}-${index}`}>
-                    <div className="card h-100">
+                    <div className="card h-100" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
                         {/* <!--image--> */}
-                        <img className="card-img-top" src="https://standupseoul.s3.ap-northeast-2.amazonaws.com/place/%EA%B1%B4%EB%8C%80%EC%9E%85%EA%B5%AC%EC%97%AD.jpg" alt="..." />
+                        <img className="card-img-top" src={item.placeImage} alt="..." />
                         {/* <!--details--> */}
                         <div className="card-body p-4">
                             <div className="text-center">
@@ -59,9 +60,9 @@ function SwiperLiveLittle({data}) {
         >
             {data["약간 붐빔"] && Array.isArray(data["약간 붐빔"]) && data["약간 붐빔"].map((item, index) => (
                 <SwiperSlide key={`little-${item.id}-${index}`}>
-                    <div className="card h-100">
+                    <div className="card h-100" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
                         {/* <!--image--> */}
-                        <img className="card-img-top" src="https://standupseoul.s3.ap-northeast-2.amazonaws.com/place/%EA%B1%B4%EB%8C%80%EC%9E%85%EA%B5%AC%EC%97%AD.jpg" alt="..." />
+                        <img className="card-img-top" src={item.placeImage} alt="..." />
                         {/* <!--details--> */}
                         <div className="card-body p-4">
                             <div className="text-center">
@@ -96,9 +97,9 @@ function SwiperLiveUsually({data}) {
         >
             {data.보통 && Array.isArray(data.보통) && data.보통.map((item, index) => (
                 <SwiperSlide key={`usually-${item.id}-${index}`}>
-                    <div className="card h-100">
+                    <div className="card h-100" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
                         {/* <!--image--> */}
-                        <img className="card-img-top" src="https://standupseoul.s3.ap-northeast-2.amazonaws.com/place/%EA%B1%B4%EB%8C%80%EC%9E%85%EA%B5%AC%EC%97%AD.jpg" alt="..." />
+                        <img className="card-img-top" src={item.placeImage} alt="..." />
                         {/* <!--details--> */}
                         <div className="card-body p-4">
                             <div className="text-center">
@@ -133,9 +134,9 @@ function SwiperLiveFree({data}) {
         >
             {data.여유 && Array.isArray(data.여유) && data.여유.map((item, index) => (
                 <SwiperSlide key={`free-${item.id}-${index}`}>
-                    <div className="card h-100">
+                    <div className="card h-100" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
                         {/* <!--image--> */}
-                        <img className="card-img-top" src="https://standupseoul.s3.ap-northeast-2.amazonaws.com/place/%EA%B1%B4%EB%8C%80%EC%9E%85%EA%B5%AC%EC%97%AD.jpg" alt="..." />
+                        <img className="card-img-top" src={item.placeImage} alt="..." />
                         {/* <!--details--> */}
                         <div className="card-body p-4">
                             <div className="text-center">
@@ -146,11 +147,12 @@ function SwiperLiveFree({data}) {
                         {/* <!--actions--> */}
                         <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div className="text-center">
-                                <Link to="/livedetail" className="btn btn-outline-dark mt-auto">상세보기</Link>
+                                <Link to={`/livedetail/${item.id}`} style={{ textDecoration: 'none', color: 'black' }} className="btn btn-outline-dark mt-auto">상세보기</Link>
                             </div>
                         </div>
                     </div>
                 </SwiperSlide>
+
             ))}
         </Swiper>
 
@@ -160,12 +162,16 @@ function SwiperLiveFree({data}) {
 function Live() {
 
     const [data, setData] = useState([]);
+    const [livedata, setlivedata] = useState([]);
 
     useEffect(() => {
         async function getData() {
             try {
-                const result = await axios.get("/live/detail");
-                setData(result.data);
+                const Detailresult = await axios.get("/live/detail");
+                setData(Detailresult.data);
+
+                const Homeresult = await axios.get("/live/home");
+                setlivedata(Homeresult.data);
             } catch (err) {
                 console.log(err);
             }
@@ -173,6 +179,10 @@ function Live() {
 
         getData();
     }, []);
+
+
+
+
 
     return (
         <div>
@@ -199,22 +209,23 @@ function Live() {
             {/*        </div>*/}
             {/*    </header>*/}
             {/* <!-- Section--> */}
+            <Banner livedata={livedata}></Banner>
             <section className="py-5" style={{ textAlign: 'left'   /* other inner styles */ }}>
                 <div className="container px-4 px-lg-5 mt-5">
-                    <h1 className="display-6 fw-bolder" style={{ fontSize: '24px', marginLeft: '40px', marginBottom: '20px' }}>붐빔</h1>
-                    <SwiperLiveCrowded data={data}></SwiperLiveCrowded>
-                </div>
-                <div className="container px-4 px-lg-5 mt-5">
-                    <h1 className="display-6 fw-bolder" style={{ fontSize: '24px', marginLeft: '40px', marginBottom: '20px' }}>약간붐빔</h1>
-                    <SwiperLiveLittle data={data}></SwiperLiveLittle>
+                    <h1 className="display-6 fw-bolder" style={{ fontSize: '24px', marginLeft: '40px', marginBottom: '20px' }}>여유</h1>
+                    <SwiperLiveFree data={data}></SwiperLiveFree>
                 </div>
                 <div className="container px-4 px-lg-5 mt-5">
                     <h1 className="display-6 fw-bolder" style={{ fontSize: '24px', marginLeft: '40px', marginBottom: '20px' }}>보통</h1>
                     <SwiperLiveUsually data={data}></SwiperLiveUsually>
                 </div>
                 <div className="container px-4 px-lg-5 mt-5">
-                    <h1 className="display-6 fw-bolder" style={{ fontSize: '24px', marginLeft: '40px', marginBottom: '20px' }}>여유</h1>
-                    <SwiperLiveFree data={data}></SwiperLiveFree>
+                    <h1 className="display-6 fw-bolder" style={{ fontSize: '24px', marginLeft: '40px', marginBottom: '20px' }}>약간붐빔</h1>
+                    <SwiperLiveLittle data={data}></SwiperLiveLittle>
+                </div>
+                <div className="container px-4 px-lg-5 mt-5">
+                    <h1 className="display-6 fw-bolder" style={{ fontSize: '24px', marginLeft: '40px', marginBottom: '20px' }}>붐빔</h1>
+                    <SwiperLiveCrowded data={data}></SwiperLiveCrowded>
                 </div>
             </section>
             {/* <!-- Footer--> */}
@@ -223,11 +234,11 @@ function Live() {
                     <div className="row align-items-center justify-content-between flex-column flex-sm-row">
                         <div className="col-auto"><div className="small m-0 text-white">Copyright &copy; Your Website 2023</div></div>
                         <div className="col-auto">
-                            <a className="link-light small" href="#!">Privacy</a>
+                            <p className="link-light small" href="#!">Privacy</p>
                             <span className="text-white mx-1">&middot;</span>
-                            <a className="link-light small" href="#!">Terms</a>
+                            <p className="link-light small" href="#!">Terms</p>
                             <span className="text-white mx-1">&middot;</span>
-                            <a className="link-light small" href="#!">Contact</a>
+                            <p className="link-light small" href="#!">Contact</p>
                         </div>
                     </div>
                 </div>
