@@ -1,5 +1,10 @@
 package com.project.backend.places.repository.entity;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -8,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Getter
 @Table(name = "hotplaces")
 public class Hotplaces {
 
@@ -42,7 +47,21 @@ public class Hotplaces {
     @Column(name = "addr", length = 255)
     private String address;
 
-    @Column(name = "created_date")
+    @UpdateTimestamp
+    @Column(name = "created_date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", insertable= false)
     private LocalDateTime createdDate;
+
+    @Column(name = "click_count", columnDefinition = "INT DEFAULT 0")
+    private int clickCount;
+
+    @Column(name = "like_count", columnDefinition = "INT DEFAULT 0")
+    private int likeCount;
+
+    @Column(name = "review_count", columnDefinition = "INT DEFAULT 0")
+    private int reviewCount;
+
+    @Column(name = "star_rating", columnDefinition = "INT DEFAULT 0")
+    private double starRating;
+
 
 }

@@ -1,16 +1,22 @@
 package com.project.backend.restaurants.repository.entity;
+
 import com.project.backend.places.repository.entity.Subway;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "restaurant")
+@Getter
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,4 +56,25 @@ public class Restaurant {
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
+
+    @ColumnDefault("0")
+    private int likeCount;
+
+    @ColumnDefault("0")
+    private int clickCount;
+
+    @ColumnDefault("0")
+    private int reviewCount;
+
+    @ColumnDefault("0")
+    private double starRating;
+
+    @Column(name = "mapx", columnDefinition = "DOUBLE DEFAULT 0")
+    private double mapx;
+
+    @Column(name = "mapy", columnDefinition = "DOUBLE DEFAULT 0")
+    private double mapy;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<RestaurantRuntime> runtimeList;
 }

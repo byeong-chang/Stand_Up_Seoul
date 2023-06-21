@@ -1,5 +1,6 @@
 package com.project.backend.places.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,8 +9,9 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "place_category")
+@JsonIgnoreProperties
+@Getter
 public class PlaceCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

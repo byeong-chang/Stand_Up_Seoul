@@ -1,4 +1,5 @@
 package com.project.backend.places.repository.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -7,7 +8,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "subway_detail")
 public class SubwayDetail {
     @Id

@@ -1,7 +1,5 @@
 package com.project.backend.population.repository.entity;
 
-
-import com.project.backend.places.repository.entity.District;
 import com.project.backend.places.repository.entity.Place;
 import lombok.*;
 
@@ -12,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Data
 @Table(name = "population")
 public class Population {
     @Id

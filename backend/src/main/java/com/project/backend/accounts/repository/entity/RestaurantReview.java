@@ -1,7 +1,6 @@
 package com.project.backend.accounts.repository.entity;
 
 import com.project.backend.restaurants.repository.entity.Restaurant;
-import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,37 +12,30 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @Data
-@ToString
-@Table(name = "restaurantReview")
+@Table(name = "restaurant_review")
 public class RestaurantReview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users userId;
+
+    @ManyToOne
     @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
+    private Restaurant restaurantId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_email")
-    private User user;
-
-    @NotNull
-    @UpdateTimestamp
-    @Column(name = "create_date")
-    private LocalDateTime createdDate;
-
-    @NotNull
-    @Column(name = "restaurant_review", columnDefinition = "TEXT", length = 500) // 리뷰 글자수 500자로 제한
-    private String restaurantReview;
-
-    @NotNull
-    @Column(name = "restaurant_eval")
-    private int restaurantEval;
+    @Column(name = "review", columnDefinition = "TEXT")
+    private String review;
 
     @Column(name = "review_img", columnDefinition = "TEXT")
     private String reviewImg;
+
+    @UpdateTimestamp
+    @Column(name = "created_date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", insertable= false)
+    private LocalDateTime createdDate;
 
 }

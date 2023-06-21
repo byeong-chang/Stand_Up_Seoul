@@ -1,0 +1,85 @@
+.App {
+  /*text-align: center;*/
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.login_box {
+  width: 500px;
+  height: 700px;
+  background-color: #F6F6f6;
+  padding-top: 50px;
+  margin: 150px auto;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+}
+
+.login_input {
+  width: 80%;
+  height: 50px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.login_btn {
+  background-color: #0052A4;
+  width: 80%;
+  height: 50px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 75%; /* 이미지의 가로-세로 비율에 맞게 조정 (예시로는 4:3 비율) */
+}
+
+.image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지가 비율을 유지하면서 컨테이너에 가득 차도록 설정 */
+}
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+

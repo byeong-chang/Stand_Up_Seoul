@@ -53,67 +53,81 @@ def weather_transform_load(**context):
         # places
         with open('/var/lib/airflow/data/서울시 주요 48장소.txt', 'r') as file:
             for place in file:
-                place = place.strip()
-                key = f'seoulcity/seoulcity_{ymd_format}/seoulcity_{ymdhm_format}/seoulcity_{place}_{ymdhm_format}.xml'
-                xml_data = load_xml_from_s3(s3_hook, bucket_name, key)
+                try:
+                    place = place.strip()
+                    key = f'seoulcity/seoulcity_{ymd_format}/seoulcity_{ymdhm_format}/seoulcity_{place}_{ymdhm_format}.xml'
+                    xml_data = load_xml_from_s3(s3_hook, bucket_name, key)
 
-                # Parse the XML data
-                root = ET.fromstring(xml_data)
-                
-                # Transform
-                area_nm = root.find('CITYDATA/AREA_NM').text
-                
-                # DB에서 장소 값 매핑
-                cur.execute(f"select id from place where area_nm = '{place}';")
-                result = cur.fetchone()
-                if result:
-                    place_id = result[0]
-                    logging.info(f"Place ID: {place_id}")
-                else:
-                    logging.info('There is no place_id')
-                    raise
-                
-
-                temp = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/TEMP').text
-                sensible_temp = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/SENSIBLE_TEMP').text
-                max_temp = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/MAX_TEMP').text
-                min_temp = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/MIN_TEMP').text
-                humidity = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/HUMIDITY').text
-                wind_dirct = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/WIND_DIRCT').text
-                wind_spd = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/WIND_SPD').text
-                precipitation = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PRECIPITATION').text
-                precpt_type = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PRECPT_TYPE').text
-                pcp_msg = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PCP_MSG').text
-                uv_index_lvl = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/UV_INDEX_LVL').text
-                uv_index = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/UV_INDEX').text
-                uv_msg = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/UV_MSG').text
-                pm25_index = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PM25_INDEX').text
-                pm25 = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PM25').text
-                pm10_index = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PM10_INDEX').text
-                pm10 = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PM10').text
-                air_idx = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/AIR_IDX').text
-                air_idx_mvl = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/AIR_IDX_MVL').text
-                air_msg = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/AIR_MSG').text
-                weather_time = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/WEATHER_TIME').text
-                created_date = execution_date
-                
-                # INSERT(Load)
-                sql = '''
-                    INSERT INTO weather
-                    (place_id, temp, sensible_temp, max_temp, min_temp, humidity, wind_dirct, wind_spd, 
-                    precipitation, precpt_type, pcp_msg, uv_index_lvl, uv_index, uv_msg, pm25_index,
-                    pm25, pm10_index, pm10, air_idx, air_idx_mvl, air_msg, weather_time, created_date)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-                    '''
+                    # Parse the XML data
+                    root = ET.fromstring(xml_data)
                     
-                params = (place_id, temp, sensible_temp, max_temp, min_temp, humidity, wind_dirct, wind_spd, 
-                            precipitation, precpt_type, pcp_msg, uv_index_lvl, uv_index, uv_msg, pm25_index,
-                            pm25, pm10_index, pm10, air_idx, air_idx_mvl, air_msg, weather_time, created_date)
-                cur.execute(sql, params)
-                logging.info("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s",
-                            place_id, temp, sensible_temp, max_temp, min_temp, humidity, wind_dirct, wind_spd, 
-                            precipitation, precpt_type, pcp_msg, uv_index_lvl, uv_index, uv_msg, pm25_index,
-                            pm25, pm10_index, pm10, air_idx, air_idx_mvl, air_msg, weather_time, created_date)
+                    # Transform
+                    area_nm = root.find('CITYDATA/AREA_NM').text
+                    
+                    # DB에서 장소 값 매핑
+                    cur.execute(f"select id from place where area_nm = '{place}';")
+                    result = cur.fetchone()
+                    if result:
+                        place_id = result[0]
+                        logging.info(f"Place ID: {place_id}")
+                    else:
+                        logging.info('There is no place_id')
+                        raise
+                    
+
+                    temp = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/TEMP').text
+                    sensible_temp = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/SENSIBLE_TEMP').text
+                    max_temp = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/MAX_TEMP').text
+                    min_temp = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/MIN_TEMP').text
+                    humidity = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/HUMIDITY').text
+                    wind_dirct = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/WIND_DIRCT').text
+                    wind_spd = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/WIND_SPD').text
+                    precipitation = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PRECIPITATION').text
+                    precpt_type = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PRECPT_TYPE').text
+                    pcp_msg = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PCP_MSG').text
+                    uv_index_lvl = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/UV_INDEX_LVL').text
+                    uv_index = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/UV_INDEX').text
+                    uv_msg = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/UV_MSG').text
+                    pm25_index = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PM25_INDEX').text
+                    pm25 = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PM25').text
+                    pm10_index = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PM10_INDEX').text
+                    pm10 = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/PM10').text
+                    air_idx = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/AIR_IDX').text
+                    air_idx_mvl = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/AIR_IDX_MVL').text
+                    air_msg = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/AIR_MSG').text
+                    weather_time = root.find('CITYDATA/WEATHER_STTS/WEATHER_STTS/WEATHER_TIME').text
+                    created_date = execution_date
+                    
+                    # None 값 넣지 않기 위해 에러 발생 코드 작성
+                    if None in [place_id, temp, sensible_temp, max_temp, min_temp, humidity, wind_dirct, wind_spd, 
+                                precipitation, precpt_type, pcp_msg, uv_index_lvl, uv_index, uv_msg, pm25_index,
+                                pm25, pm10_index, pm10, air_idx, air_idx_mvl, air_msg, weather_time, created_date]:
+                        raise ValueError('One or more values are None')  # 하나라도 None일 경우 에러 발생
+                    
+                    # INSERT(Load)
+                    sql = '''
+                        INSERT INTO weather
+                        (place_id, temp, sensible_temp, max_temp, min_temp, humidity, wind_dirct, wind_spd, 
+                        precipitation, precpt_type, pcp_msg, uv_index_lvl, uv_index, uv_msg, pm25_index,
+                        pm25, pm10_index, pm10, air_idx, air_idx_mvl, air_msg, weather_time, created_date)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+                        '''
+                        
+                    params = (place_id, temp, sensible_temp, max_temp, min_temp, humidity, wind_dirct, wind_spd, 
+                                precipitation, precpt_type, pcp_msg, uv_index_lvl, uv_index, uv_msg, pm25_index,
+                                pm25, pm10_index, pm10, air_idx, air_idx_mvl, air_msg, weather_time, created_date)
+                    cur.execute(sql, params)
+                    logging.info("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s",
+                                place_id, temp, sensible_temp, max_temp, min_temp, humidity, wind_dirct, wind_spd, 
+                                precipitation, precpt_type, pcp_msg, uv_index_lvl, uv_index, uv_msg, pm25_index,
+                                pm25, pm10_index, pm10, air_idx, air_idx_mvl, air_msg, weather_time, created_date)
+                
+                # 각 for문 별 예외처리 추가(슬랙 메세지, 에러 로그 추가)
+                except Exception as e:
+                    error_message = f"Warning - Weather : An error occurred for place '{place}':\n```\n{e}\n```"
+                    slack.send_message_to_a_slack_channel(error_message, ":scream:")
+                    logging.error('Warning : An error occurred for place %s: %s', place, e)
+                    continue
                 
         cur.execute("COMMIT;")
         logging.info(f'{datetime.now} Weather transform, load process sucess')
@@ -215,8 +229,8 @@ dag = DAG(
     max_active_runs = 1,
     catchup = False,
     default_args = {
-        # 'retries': 1,
-        # 'retry_delay': timedelta(minutes=1),
+        'retries': 1,
+        'retry_delay': timedelta(minutes=1),
         'on_failure_callback': slack.on_failure_callback
     }
 )

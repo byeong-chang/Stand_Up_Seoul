@@ -1,5 +1,6 @@
 package com.project.backend.places.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,8 +10,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Table(name = "cultural_event")
+@Getter
 public class CulturalEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
