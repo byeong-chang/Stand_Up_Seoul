@@ -3,22 +3,17 @@ package com.project.backend.controller;
 import com.project.backend.general.returnType.LiveType;
 import com.project.backend.population.dto.PopulationDto;
 import com.project.backend.population.service.PopulationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/live")
+@RequiredArgsConstructor
 public class LiveContoller {
-    private PopulationService populationService;
-
-    @Autowired
-    public LiveContoller(PopulationService populationService) {
-        this.populationService = populationService;
-    }
+    private final PopulationService populationService;
 
 //   실시간 페이지 Get 매핑
     @GetMapping(value = "home")
@@ -26,10 +21,11 @@ public class LiveContoller {
         return populationService.getLive();
     }
 
-    @ResponseBody
-    @PostMapping(value = "home")
-    public double postLive(@RequestBody HashMap<String,Double> location){
-        return location.get("Latitute") + location.get("Longitude");
+    @RequestMapping(method = RequestMethod.GET, path = "home/postAPI")
+    public Map<Integer,LiveType> postLive(){//@RequestBody Location location){
+        Double Logitude = 126.8860197;
+        Double Latitude = 37.4683733;
+        return populationService.getLocationLive(Logitude,Latitude);
     }
 
 //  실시간 상세 페이지 Get 매핑 - population 혼잡도 분류
