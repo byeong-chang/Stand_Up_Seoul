@@ -1,6 +1,7 @@
 package com.project.backend.controller;
 
 import com.project.backend.general.returnType.LiveType;
+import com.project.backend.general.returnType.Location;
 import com.project.backend.population.dto.PopulationDto;
 import com.project.backend.population.service.PopulationService;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,9 @@ public class LiveContoller {
         return populationService.getLive();
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "home/postAPI")
-    public Map<Integer,LiveType> postLive(){//@RequestBody Location location){
-        Double Logitude = 126.8860197;
-        Double Latitude = 37.4683733;
-        return populationService.getLocationLive(Logitude,Latitude);
+    @RequestMapping(method = RequestMethod.POST, path = "home/post")
+    public Map<Integer,LiveType> postLive(@RequestBody Location location){
+        return populationService.getLocationLive(location.getLogitude(),location.getLatitude());
     }
 
 //  실시간 상세 페이지 Get 매핑 - population 혼잡도 분류

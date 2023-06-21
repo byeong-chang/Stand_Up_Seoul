@@ -1,49 +1,83 @@
 package com.project.backend.controller;
 
-import com.project.backend.accounts.form.UserCreateForm;
+import com.project.backend.accounts.dto.ResponseDto;
+import com.project.backend.accounts.dto.UsersDto;
+import com.project.backend.accounts.repository.entity.Users;
 import com.project.backend.accounts.service.UserService;
-import org.springframework.dao.DataIntegrityViolationException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
-import java.time.LocalDateTime;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+
+@Slf4j
 @RestController
-@RequestMapping("/api/user")
+@RequiredArgsConstructor
+@RequestMapping("/auth")
 public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@RequestBody UsersDto usersDto){
+        try{
+            //요청을 이용해 저장할 사용자 만들기
+            Users user = Users.builder()
+                    .id(usersDto.getId())
+                    .email(usersDto.getEmail())
+                    .password(usersDto.getPassword())
+                    .birth(LocalDate.parse(usersDto.getBirth()))
+                    .phoneNumber(usersDto.getPhoneNumber())
+                    .userAddress(usersDto.getUserAddress())
+                    .reviewCount(usersDto.getReviewCount())
+                    .nickname(usersDto.getNickname())
+                    .createdDate(LocalDate.now())
+                    .build();
+            //서비스를 이용해 레포지터리에 사용자 저장
+            Users registerUser = userService.create(user);
+            UsersDto responseUserDTO = UsersDto.builder()
+                    .id(registerUser.getId())
+                    .email(registerUser.getEmail())
+                    .password(registerUser.getPassword())
+                    .birth(registerUser.getBirth().toString())
+                    .phoneNumber(registerUser.getPhoneNumber())
+                    .userAddress(registerUser.getUserAddress())
+                    .reviewCount(registerUser.getReviewCount())
+                    .nickname(registerUser.getNickname())
+                    .createdDate(registerUser.getCreatedDate())
+                    .build();
+            return ResponseEntity.ok().body(responseUserDTO);
+        }catch (Exception e){
+            //사용자 정보는 항상 하나이므로 리스트로 만들어야 하는 ResponseDTO를 사용하지 않고 그냥 UserDTO 리턴
+            ResponseDto responseDTO = ResponseDto.builder().error(e.getMessage()).build();
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@Valid @RequestBody UserCreateForm userCreateForm, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            // 유효성 검사 오류가 있는 경우
-            return ResponseEntity.badRequest().body("유효성 검사 오류");
+    @PostMapping("/signin")
+    public ResponseEntity<?> authenticate(@RequestBody UsersDto usersDto){
+        Users user = userService.getByCredentials(
+                usersDto.getEmail(),
+                usersDto.getPassword()
+        );
+        if(user != null){
+            final UsersDto responseUserDTO = UsersDto.builder()
+                    .email(user.getEmail())
+                    .id(user.getId())
+                    .build();
+            return ResponseEntity.ok().body(responseUserDTO);
+        }else {
+            ResponseDto responseDto = ResponseDto.builder()
+                    .error("Login failed.")
+                    .build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDto);
         }
-
-        if (!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
-            // 비밀번호가 일치하지 않는 경우
-            return ResponseEntity.badRequest().body("비밀번호가 일치하지 않습니다.");
-        }
-
-        try {
-            userService.create(userCreateForm.getEmail(), userCreateForm.getPassword1(), LocalDateTime.parse(userCreateForm.getBirth()), userCreateForm.getPhoneNumber(), userCreateForm.getNickname());
-        } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
-            // 이미 등록된 사용자인 경우
-            return ResponseEntity.badRequest().body("이미 등록된 사용자입니다.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            // 기타 예외 발생 시
-            return ResponseEntity.badRequest().body("회원가입에 실패했습니다.");
-        }
-
-        return ResponseEntity.ok("회원가입이 성공적으로 처리되었습니다.");
     }
 
 }

@@ -1,42 +1,42 @@
 package com.project.backend.accounts.repository.entity;
 
 import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.LocalDate;
 
-@Getter
-@Setter
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @Data
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class Users {
 
     @Id
+//    @GeneratedValue(generator = "system-uuid")
+//    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
     @NotNull
-    @Column(name = "email", unique = true, nullable = false, length = 50)
+    @Column(name = "email",nullable = false, length = 50)
     private String email;
 
     @NotNull
-    @Column(name = "password", length = 50)
+    @Column(name = "password",nullable = false, length = 50)
     private String password;
 
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "birth")
-    private LocalDateTime birth;
+    private LocalDate birth;
 
     @NotNull
     @Column(name = "phone_number", unique = true, length = 15)
@@ -54,8 +54,5 @@ public class Users {
 
     @UpdateTimestamp
     @Column(name = "created_date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", insertable= false)
-    private LocalDateTime createdDate;
-
-    public Users(String email, String password, List<GrantedAuthority> authorities) {
-    }
+    private LocalDate createdDate;
 }
