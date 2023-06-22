@@ -23,4 +23,5 @@ public class UsersDto {
     private int reviewCount;
     private String nickname;
     private LocalDate createdDate;
+    private String sex;
 }

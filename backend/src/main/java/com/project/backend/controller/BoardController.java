@@ -36,10 +36,6 @@ public class BoardController {
     public CulturalEventDto getCulturalEvent(@PathVariable int id){
         return culturalEventService.getBoard(id);
     }
-    @PostMapping(value = "culturalEvent/{id}")
-    public String postCulturalEvent(Model model, Users user ,@PathVariable int id){
-        return "redirect:/culturalEvent/{id}";
-    }
 
     //Hotplace Board 매핑
     @GetMapping(value = "hotplace/{id}")
