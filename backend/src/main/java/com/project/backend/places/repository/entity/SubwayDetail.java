@@ -1,6 +1,8 @@
 package com.project.backend.places.repository.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -35,4 +37,13 @@ public class SubwayDetail {
 
     @Column(name = "sub_stn_y")
     private double subStnY;
+
+    @Column(name = "q1")
+    private int q1;
+
+    @Column(name = "q2")
+    private int q2;
+
+    @Column(name = "q3")
+    private int q3;
 }
