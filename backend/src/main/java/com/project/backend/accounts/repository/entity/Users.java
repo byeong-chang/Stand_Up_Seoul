@@ -55,4 +55,7 @@ public class Users {
     @UpdateTimestamp
     @Column(name = "created_date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", insertable= false)
     private LocalDate createdDate;
+
+    @Column(name = "sex", nullable = false, length = 10)
+    private String sex;
 }

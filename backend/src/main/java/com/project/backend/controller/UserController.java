@@ -42,6 +42,7 @@ public class UserController {
                     .reviewCount(usersDto.getReviewCount())
                     .nickname(usersDto.getNickname())
                     .createdDate(LocalDate.now())
+                    .sex((usersDto.getSex()))
                     .build();
             //서비스를 이용해 레포지터리에 사용자 저장
             Users registerUser = userService.create(user);
@@ -55,6 +56,7 @@ public class UserController {
                     .reviewCount(registerUser.getReviewCount())
                     .nickname(registerUser.getNickname())
                     .createdDate(registerUser.getCreatedDate())
+                    .sex(registerUser.getSex())
                     .build();
             return ResponseEntity.ok().body(responseUserDTO);
         }catch (Exception e){
