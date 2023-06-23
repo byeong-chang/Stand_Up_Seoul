@@ -124,8 +124,6 @@ public class PopulationServiceImpl implements PopulationService{
     }
 
     public Double distance(Double Logitude, Double Latitude, Double x, Double y){
-        System.out.println(Latitude);
-        System.out.println(Logitude);
         return Math.sqrt((Logitude - x)*(Logitude - x) + (Latitude - y)*(Latitude - y));
     }
     @Override
@@ -143,7 +141,6 @@ public class PopulationServiceImpl implements PopulationService{
             Population temp = populations.get(i);
             if (temp.getAreaCongest().getId() == 1) {
                 Double distance = distance(Logitude, Latitude, temp.getPlace().getMapx(), temp.getPlace().getMapy());
-                System.out.println(distance);
                 cosDistance.put(i, distance);
             }
         }
