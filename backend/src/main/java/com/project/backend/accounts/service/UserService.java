@@ -14,6 +14,10 @@ public class UserService {
 
     private final UsersRepository usersRepository;
 
+    public Users getUser(int userId){
+        return usersRepository.findById(userId);
+    }
+
     public void passwordCheck(String password, String passwordCheck){
         if (!password.equals(passwordCheck)){
             log.warn("Password is not same to passwordCheck");
