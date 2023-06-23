@@ -28,4 +28,6 @@ public interface HotPlacesService extends Transfer {
     }
 
     HotplaceType getBoard(int id);
+
+    Hotplaces getHotplace(int hotplaceId);
 }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface HotplaceReviewRepository extends JpaRepository<HotplaceReview, Integer> {
     @Query(value = "select * from hotplaces_review where hotplaces_id = :id", nativeQuery = true)
     List<HotplaceReview> findHotplaces(@Param("id") int id);
+    HotplaceReview findById(int id);
+    HotplaceReview deleteById(int id);
 }

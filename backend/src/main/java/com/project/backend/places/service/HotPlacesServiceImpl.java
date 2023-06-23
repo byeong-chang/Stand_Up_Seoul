@@ -36,10 +36,16 @@ public class HotPlacesServiceImpl implements HotPlacesService{
         HotplaceType hotplaceType = new HotplaceType();
         Optional<Hotplaces> entity = hotplacesRepository.findById(hotplace_id);
         HotplacesDto hotplacesDto = (HotplacesDto) transfer(entity.get());
-        List<HotplaceReviewDto> hotplaceReviewDtoList = hotplaceReviewService.getHotplaceReview(hotplace_id);
+        List<HotplaceReviewDto> hotplaceReviewDtoList = hotplaceReviewService.getHotplaceReviews(hotplace_id);
 
         hotplaceType.setHotplacesDto(hotplacesDto);
         hotplaceType.setHotplaceReviewDtos(hotplaceReviewDtoList);
         return hotplaceType;
+    }
+
+    @Override
+    public Hotplaces getHotplace(int hotplaceId) {
+        Optional<Hotplaces> hotplaces = hotplacesRepository.findById(hotplaceId);
+        return hotplaces.get();
     }
 }
