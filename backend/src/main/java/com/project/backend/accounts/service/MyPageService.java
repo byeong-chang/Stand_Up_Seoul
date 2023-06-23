@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -22,9 +21,8 @@ public class MyPageService {
     public List<UsersDto> retrieve(@AuthenticationPrincipal String userId) {
         List<UsersDto> userInfo = new ArrayList<>();
         // 사용자 정보 가져오기
-        Optional<Users> userOptional = usersRepository.findById(Integer.parseInt(userId));
-        if (userOptional.isPresent()) {
-            Users user = userOptional.get();
+        Users user = usersRepository.findById(Integer.parseInt(userId));
+        if (user != null) {
             UsersDto usersDto = new UsersDto();
             usersDto.setId(user.getId());
             usersDto.setEmail(user.getEmail());
@@ -40,8 +38,8 @@ public class MyPageService {
         return userInfo;
     }
 
-    /*public void updateNickname(Users user, String nickname) {
+    public void updateNickname(Users user, String nickname) {
         user.updateNickname(nickname);
         usersRepository.save(user);
-    }*/
+    }
 }
