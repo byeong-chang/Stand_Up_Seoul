@@ -63,7 +63,6 @@ public class BoardController {
         restaurantReviewService.deleteReview(restaurantReview);
         return "redirect:/board/restaurant/"+restaurantReview.getRestaurantId().getId();
     }
-
     //Hotplace Board 매핑
     @GetMapping(value = "hotplace/{id}")
     public HotplaceType getHotplace(@PathVariable int id){
@@ -73,7 +72,7 @@ public class BoardController {
     public String postHotplace(@PathVariable int hotplaceId, @RequestBody HotplaceReviewDto dto, @AuthenticationPrincipal String userId){
         HotplaceReview hotplaceReview = HotplaceReview.builder()
                 .review(dto.getReview())
-                .reviewImage(dto.getReviewImage())
+                .reviewImage(dto.getReviewImg())
                 .createdDate(LocalDate.now())
                 .userId(userService.getUser(Integer.parseInt(userId)))
                 .hotPlacesId(hotPlacesService.getHotplace(hotplaceId))
@@ -85,7 +84,7 @@ public class BoardController {
     @PostMapping("hotplace/modify/{hotplaceBoardId}")
     public String modifyHotplaceReview(@PathVariable int hotplaceBoardId ,@RequestBody HotplaceReviewDto dto){
         HotplaceReview hotplaceReview = hotplaceReviewService.getHotplaceReview(hotplaceBoardId);
-        hotplaceReview.setReviewImage(dto.getReviewImage());
+        hotplaceReview.setReviewImage(dto.getReviewImg());
         hotplaceReview.setReview(dto.getReview());
         hotplaceReviewService.saveReview(hotplaceReview);
         return "redirect:/board/hotplace/"+hotplaceReview.getHotPlacesId().getId();

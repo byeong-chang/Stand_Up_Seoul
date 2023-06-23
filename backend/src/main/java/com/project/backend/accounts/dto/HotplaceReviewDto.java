@@ -16,6 +16,6 @@ public class HotplaceReviewDto {
     private String user;
     private String hotPlaces;
     private String review;
-    private String reviewImage;
+    private String reviewImg;
     private LocalDate createdDate;
 }
