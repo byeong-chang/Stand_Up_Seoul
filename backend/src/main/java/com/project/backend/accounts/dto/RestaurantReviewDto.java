@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -13,9 +13,10 @@ import java.time.LocalDateTime;
 @Builder
 public class RestaurantReviewDto {
 
+    private int id;
     private String user;
     private String restaurant;
     private String review;
     private String reviewImg;
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 }
