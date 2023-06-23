@@ -1,10 +1,7 @@
 package com.project.backend.restaurants.repository.entity;
 
 import com.project.backend.places.repository.entity.Subway;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -16,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "restaurant")
-@Getter
+@Data
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

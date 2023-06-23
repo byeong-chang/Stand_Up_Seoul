@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Builder
@@ -40,5 +40,5 @@ public class HotplaceReview {
     private String reviewImage;
 
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 }

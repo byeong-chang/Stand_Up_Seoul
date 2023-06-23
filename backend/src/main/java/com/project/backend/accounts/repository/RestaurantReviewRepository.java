@@ -10,4 +10,6 @@ import java.util.List;
 public interface RestaurantReviewRepository extends JpaRepository<RestaurantReview, String> {
     @Query(value = "select * from restaurant_review where restaurant_id = :id", nativeQuery = true)
     List<RestaurantReview> findrestaurants(@Param("id") int id);
+    RestaurantReview findById(int id);
+    RestaurantReview deleteById(RestaurantReview restaurantReview);
 }

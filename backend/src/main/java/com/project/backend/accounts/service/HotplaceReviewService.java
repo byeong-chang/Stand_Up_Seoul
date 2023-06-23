@@ -19,5 +19,8 @@ public interface HotplaceReviewService extends Transfer {
         return dto;
     }
 
-    List<HotplaceReviewDto> getHotplaceReview(int hotplaceId);
+    List<HotplaceReviewDto> getHotplaceReviews(int hotplaceId);
+    HotplaceReview getHotplaceReview(int hotplaceReviewId);
+    void deleteReview(HotplaceReview hotplaceReview);
+    void saveReview(HotplaceReview hotplaceReview);
 }
