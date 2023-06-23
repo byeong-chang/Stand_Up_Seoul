@@ -13,7 +13,7 @@ public interface HotplaceReviewService extends Transfer {
                 .user(hotplaceReview.getUserId().getNickname())
                 .hotPlaces(hotplaceReview.getHotPlacesId().getTitle())
                 .review(hotplaceReview.getReview())
-                .reviewImage(hotplaceReview.getReviewImage())
+                .reviewImg(hotplaceReview.getReviewImage())
                 .createdDate(hotplaceReview.getCreatedDate())
                 .build();
         return dto;
