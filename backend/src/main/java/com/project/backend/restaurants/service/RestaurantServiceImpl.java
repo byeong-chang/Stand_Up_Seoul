@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -32,8 +31,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public RestaurantType getBoard(int restaurant_id){
         RestaurantType restaurantTypes = new RestaurantType();
-        Optional<Restaurant> entity = restaurantRepository.findById(restaurant_id);
-        Restaurant restaurant = entity.get();
+        Restaurant entity = restaurantRepository.findById(restaurant_id);
+        Restaurant restaurant = entity;
 
         List<RestaurantRuntimeDto> restaurantRuntimeDtos = new ArrayList<>();
         restaurant.getRuntimeList().forEach(restaurantRuntime -> restaurantRuntimeDtos.add((RestaurantRuntimeDto) restaurantRuntimeService.transfer(restaurantRuntime)));
@@ -41,8 +40,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantTypes.setRestaurantDto((RestaurantDto) transfer(restaurant));
         restaurantTypes.setRestaurantRuntimeDtos(restaurantRuntimeDtos);
         restaurantTypes.setRestaurantBreaktimeDtos(restaurantBreaktimeService.getAllBreaktime(restaurant_id));
-        restaurantTypes.setRestaurantReviewDtos(restaurantReviewService.getRestaurantReview(restaurant_id));
+        restaurantTypes.setRestaurantReviewDtos(restaurantReviewService.getRestaurantReviews(restaurant_id));
 
         return restaurantTypes;
     }
+
+    @Override
+    public Restaurant getRestaurant(int restaurantId) {
+        return restaurantRepository.findById(restaurantId);
+    }
+
 }
