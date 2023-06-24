@@ -1,8 +1,10 @@
 from airflow.providers.amazon.aws.hooks.redshift_sql import RedshiftSQLHook
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
 from sqlalchemy import create_engine
 from datetime import datetime, timedelta
 from catboost import CatBoostClassifier
+from imblearn.over_sampling import SMOTE
 from plugins import slack
 import os
 import warnings
@@ -25,8 +27,7 @@ def main():
     # model fit and save
     save_path = sys.argv[1]
     model_fit_save(df, save_path)
-
-
+    
 def redshift_connector():
     # Connection to Redshift
     redshift_hook = RedshiftSQLHook(redshift_conn_id="redshift_dev_db")
@@ -127,34 +128,56 @@ def model_fit_save(df, save_path):
     # 특성과 타겟 데이터 분할
     X = df.drop(columns = 'area_congest_id')
     y = df['area_congest_id']
-
-    # 베스트 파라미터 정의
-    best_params = {'depth': 7, 'iterations': 300, 'learning_rate': 0.1}
-
+    
+    # SMOTE 적용
+    smote = SMOTE(random_state=42)
+    X, y = smote.fit_resample(X, y)
+    
     # train-test 분할
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
     
+
+    # 모델 검증
+    # 베스트 파라미터 정의
+    best_params = {'depth': 7, 'iterations': 1000, 'learning_rate': 0.5}
+
+
     # 베스트 파라미터로 모델 학습
-    model = CatBoostClassifier(**best_params, random_state = 42)
+    model = CatBoostClassifier(**best_params, random_state = 42, has_time=True)
 
     # 모델 학습
-    model.fit(X_train, y_train)
+    model.fit(X_train, y_train, eval_set = (X_test, y_test), early_stopping_rounds=300, verbose=True)
     
     # 검증 데이터 정확도 계산
-    accuracy = model.score(X_test, y_test)
+    y_test_pred = model.predict(X_test)    
+    accuracy = accuracy_score(y_test, y_test_pred)
+    precision = precision_score(y_test, y_test_pred, average='weighted')
+    recall = recall_score(y_test, y_test_pred, average='weighted')
+    f1 = f1_score(y_test, y_test_pred, average='weighted')
+    
+
+    # 모니터링 코드(슬랙)
+    now = datetime.now().strftime('%Y년 %m월 %d일')
+    message = f'''
+            {now} 학습 모델 결과
+            accuracy : {accuracy}
+            precision : {precision}
+            recall : {recall}
+            f1 : {f1}
+            '''
+
+    slack.send_message_to_a_slack_channel(message, ":heavy_check_mark:")
+    logging.info(message)
+    
+    
     
     # 전체 데이터 다시 fit
     model.fit(X, y)
     
     # 모델 저장
-    now = datetime.now().strftime('%Y년 %m월 %d일')
     joblib.dump(model, save_path)
     
-    # 모니터링 코드(슬랙)
-    message = f"{now} 학습된 모델 정확도는 {accuracy}입니다."
-    slack.send_message_to_a_slack_channel(message, ":heavy_check_mark:")
 
-    logging.info(f'Model accuracy: {accuracy}')
     
     
 if __name__ == '__main__':
