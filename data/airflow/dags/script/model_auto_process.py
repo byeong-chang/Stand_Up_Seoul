@@ -130,8 +130,11 @@ def model_fit_save(df, save_path):
     y = df['area_congest_id']
     
     # SMOTE 적용
-    smote = SMOTE(random_state=42)
-    X, y = smote.fit_resample(X, y)
+    # smote = SMOTE(random_state=42)
+    # X, y = smote.fit_resample(X, y)
+    
+    # 클래스 별 가중치 계산
+    class_weights = compute_class_weights(y)
     
     # train-test 분할
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
@@ -139,31 +142,45 @@ def model_fit_save(df, save_path):
 
     # 모델 검증
     # 베스트 파라미터 정의
-    best_params = {'depth': 7, 'iterations': 1000, 'learning_rate': 0.5}
+    best_params = {'bagging_temperature': 0.5, 'depth': 7, 'iterations': 1000, 'l2_leaf_reg': 1, 'learning_rate': 0.5, 'random_strength': 0.5}
 
 
     # 베스트 파라미터로 모델 학습
-    model = CatBoostClassifier(**best_params, random_state = 42, has_time=True)
+    model = CatBoostClassifier(**best_params, random_state = 42, has_time=True, class_weights=class_weights)
 
     # 모델 학습
     model.fit(X_train, y_train, eval_set = (X_test, y_test), early_stopping_rounds=300, verbose=True)
     
-    # 검증 데이터 정확도 계산
-    y_test_pred = model.predict(X_test)    
-    accuracy = accuracy_score(y_test, y_test_pred)
-    precision = precision_score(y_test, y_test_pred, average='weighted')
-    recall = recall_score(y_test, y_test_pred, average='weighted')
-    f1 = f1_score(y_test, y_test_pred, average='weighted')
-    
+    # 학습 데이터 예측
+    y_train_pred = model.predict(X_train)
+    train_accuracy = accuracy_score(y_train, y_train_pred)
+    train_precision = precision_score(y_train, y_train_pred, average='weighted')
+    train_recall = recall_score(y_train, y_train_pred, average='weighted')
+    train_f1 = f1_score(y_train, y_train_pred, average='weighted')
+
+    # 테스트 데이터 예측
+    y_test_pred = model.predict(X_test)
+    test_accuracy = accuracy_score(y_test, y_test_pred)
+    test_precision = precision_score(y_test, y_test_pred, average='weighted')
+    test_recall = recall_score(y_test, y_test_pred, average='weighted')
+    test_f1 = f1_score(y_test, y_test_pred, average='weighted')
+
 
     # 모니터링 코드(슬랙)
     now = datetime.now().strftime('%Y년 %m월 %d일')
     message = f'''
             {now} 학습 모델 결과
-            accuracy : {accuracy}
-            precision : {precision}
-            recall : {recall}
-            f1 : {f1}
+            -- train --
+            accuracy : {train_accuracy}
+            precision : {train_precision}
+            recall : {train_recall}
+            f1 : {train_f1}
+            
+            -- test --
+            accuracy : {test_accuracy}
+            precision : {test_precision}
+            recall : {test_recall}
+            f1 : {test_f1}
             '''
 
     slack.send_message_to_a_slack_channel(message, ":heavy_check_mark:")
@@ -177,7 +194,14 @@ def model_fit_save(df, save_path):
     # 모델 저장
     joblib.dump(model, save_path)
     
-
+def compute_class_weights(y):
+    class_counts = y.value_counts()
+    total_samples = len(y)
+    class_weights = {}
+    for class_label, count in class_counts.items():
+        weight = total_samples / (len(class_counts) * count)
+        class_weights[class_label] = weight
+    return class_weights
     
     
 if __name__ == '__main__':
