@@ -2,11 +2,11 @@ package com.project.backend.controller;
 
 import com.project.backend.accounts.dto.HotplaceReviewDto;
 import com.project.backend.accounts.dto.RestaurantReviewDto;
+import com.project.backend.accounts.repository.entity.HotplaceLike;
 import com.project.backend.accounts.repository.entity.HotplaceReview;
+import com.project.backend.accounts.repository.entity.RestaurantLike;
 import com.project.backend.accounts.repository.entity.RestaurantReview;
-import com.project.backend.accounts.service.HotplaceReviewService;
-import com.project.backend.accounts.service.RestaurantReviewService;
-import com.project.backend.accounts.service.UserService;
+import com.project.backend.accounts.service.*;
 import com.project.backend.general.returnType.HotplaceType;
 import com.project.backend.general.returnType.RestaurantType;
 import com.project.backend.places.dto.CulturalEventDto;
@@ -31,11 +31,13 @@ public class BoardController {
     public final UserService userService;
     public final RestaurantReviewService restaurantReviewService;
     public final HotplaceReviewService hotplaceReviewService;
+    public final RestaurantLikeService restaurantLikeService;
+    public final HotplaceLikeService hotplaceLikeService;
 
     //Restaurant Board 매핑
     @GetMapping(value = "restaurant/{id}")
-    public RestaurantType getRestaurant(@PathVariable int id){
-        return restaurantService.getBoard(id);
+    public RestaurantType getRestaurant(@PathVariable int id ,@AuthenticationPrincipal String userId){
+        return restaurantService.getBoard(id, Integer.parseInt(userId));
     }
     @PostMapping("restaurant/insert/{restaurantId}")
     public String insertRestaurantReview(@PathVariable int restaurantId ,@RequestBody RestaurantReviewDto dto, @AuthenticationPrincipal String userId){
@@ -62,11 +64,26 @@ public class BoardController {
         RestaurantReview restaurantReview = restaurantReviewService.getRestaurantReview(restaurantBoardId);
         restaurantReviewService.deleteReview(restaurantReview);
         return "redirect:/board/restaurant/"+restaurantReview.getRestaurantId().getId();
+}
+    @GetMapping("restaurant/like/{restaurantId}")
+    public String likeRestaurant(@PathVariable int restaurantId,@AuthenticationPrincipal String userId){
+        RestaurantLike restaurantLike = RestaurantLike.builder()
+                .restaurant(restaurantService.getRestaurant(restaurantId))
+                .user(userService.getUser(Integer.parseInt(userId)))
+                .build();
+        restaurantLikeService.saveRestaurantLike(restaurantLike);
+        return "redirect:/board/restaurant/"+restaurantId;
+    }
+    @GetMapping("restaurant/like/delete/{restaurantLikeId}")
+    public String deleteRestaurantLike(@PathVariable int restaurantLikeId){
+        RestaurantLike restaurantLike = restaurantLikeService.getRestaurantLike(restaurantLikeId);
+        restaurantLikeService.deleteRestaurantLike(restaurantLike);
+        return "redirect:/board/restaurant/"+ restaurantLike.getRestaurant().getId();
     }
     //Hotplace Board 매핑
-    @GetMapping(value = "hotplace/{id}")
-    public HotplaceType getHotplace(@PathVariable int id){
-        return hotPlacesService.getBoard(id);
+    @GetMapping(value = "hotplace/{hotplaceId}")
+    public HotplaceType getHotplace(@PathVariable int hotplaceId, @AuthenticationPrincipal String userId){
+        return hotPlacesService.getBoard(hotplaceId,Integer.parseInt(userId));
     }
     @PostMapping(value = "hotplace/insert/{hotplaceId}")
     public String postHotplace(@PathVariable int hotplaceId, @RequestBody HotplaceReviewDto dto, @AuthenticationPrincipal String userId){
@@ -79,7 +96,6 @@ public class BoardController {
                 .build();
         hotplaceReviewService.saveReview(hotplaceReview);
         return "redirect:/board/hotplace/"+hotplaceId;
-
     }
     @PostMapping("hotplace/modify/{hotplaceBoardId}")
     public String modifyHotplaceReview(@PathVariable int hotplaceBoardId ,@RequestBody HotplaceReviewDto dto){
@@ -95,7 +111,21 @@ public class BoardController {
         hotplaceReviewService.deleteReview(hotplaceReview);
         return "redirect:/board/hotplace"+hotplaceReview.getHotPlacesId().getId();
     }
-
+    @GetMapping("hotplace/like/{hotplaceId}")
+    public String likeHotplace(@PathVariable int hotplaceId,@AuthenticationPrincipal String userId){
+        HotplaceLike hotplaceLike = HotplaceLike.builder()
+                .hotplaces(hotPlacesService.getHotplace(hotplaceId))
+                .user(userService.getUser(Integer.parseInt(userId)))
+                .build();
+        hotplaceLikeService.saveHotplaceLike(hotplaceLike);
+        return "redirect:/board/hotplace/"+hotplaceId;
+    }
+    @GetMapping("hotplace/like/delete/{hotplaceLikeId}")
+    public String deleteHotplaceLike(@PathVariable int hotplaceLikeId){
+        HotplaceLike hotplaceLike = hotplaceLikeService.getHotplaceLike(hotplaceLikeId);
+        hotplaceLikeService.deleteHotplaceLike(hotplaceLike);
+        return "redirect:/board/hotplace/"+hotplaceLike.getHotplaces().getId();
+    }
     //CulturalEvent Board 매핑
     @GetMapping(value = "culturalEvent/{id}")
     public CulturalEventDto getCulturalEvent(@PathVariable int id){
