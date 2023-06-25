@@ -26,5 +26,5 @@ public class RestaurantLike {
 
     @ManyToOne
     @JoinColumn(name="users_id")
-    private Users users;
+    private Users user;
 }
