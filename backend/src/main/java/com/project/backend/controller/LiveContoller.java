@@ -23,10 +23,6 @@ public class LiveContoller {
     }
     @PostMapping("home/post")
     public Map<Integer, LiveType> postLive(@RequestBody LogilatiDto logilatiDto) {
-        System.out.println("--------------------------");
-        System.out.println(logilatiDto);
-        System.out.println(logilatiDto.getLatitude());
-        System.out.println(logilatiDto.getLongitude());
         return populationService.getLocationLive(logilatiDto.getLongitude(), logilatiDto.getLatitude());
     }
 //  실시간 상세 페이지 Get 매핑 - population 혼잡도 분류

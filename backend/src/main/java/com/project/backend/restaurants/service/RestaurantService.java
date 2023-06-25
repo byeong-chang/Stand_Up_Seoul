@@ -30,7 +30,7 @@ public interface RestaurantService extends Transfer {
                 .build();
         return dto;
     }
-    RestaurantType getBoard(int restaurant_id);
+    RestaurantType getBoard(int restaurantId, int userId);
 
     Restaurant getRestaurant(int restaurantId);
 }

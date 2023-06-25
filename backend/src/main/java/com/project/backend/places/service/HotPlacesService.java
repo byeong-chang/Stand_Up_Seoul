@@ -27,7 +27,7 @@ public interface HotPlacesService extends Transfer {
         return dto;
     }
 
-    HotplaceType getBoard(int id);
+    HotplaceType getBoard(int hotpalceId,int userId);
 
     Hotplaces getHotplace(int hotplaceId);
 }

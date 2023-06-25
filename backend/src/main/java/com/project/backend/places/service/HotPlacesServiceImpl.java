@@ -1,29 +1,24 @@
 package com.project.backend.places.service;
 
 import com.project.backend.accounts.dto.HotplaceReviewDto;
+import com.project.backend.accounts.service.HotplaceLikeService;
 import com.project.backend.accounts.service.HotplaceReviewService;
 import com.project.backend.general.returnType.HotplaceType;
 import com.project.backend.places.dto.HotplacesDto;
 import com.project.backend.places.repository.HotplacesRepository;
 import com.project.backend.places.repository.entity.Hotplaces;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class HotPlacesServiceImpl implements HotPlacesService{
-    HotplacesRepository hotplacesRepository;
-    HotplaceReviewService hotplaceReviewService;
-
-    @Autowired
-    public HotPlacesServiceImpl(HotplacesRepository hotplacesRepository, HotplaceReviewService hotplaceReviewService) {
-        this.hotplacesRepository = hotplacesRepository;
-        this.hotplaceReviewService = hotplaceReviewService;
-    }
-
-
+    private final HotplacesRepository hotplacesRepository;
+    private final HotplaceReviewService hotplaceReviewService;
+    private final HotplaceLikeService hotplaceLikeService;
 
     @Override
     public Object transfer(Object entity) {
@@ -32,13 +27,14 @@ public class HotPlacesServiceImpl implements HotPlacesService{
     }
 
     @Override
-    public HotplaceType getBoard(int hotplace_id) {
+    public HotplaceType getBoard(int hotplaceId, int userId) {
         HotplaceType hotplaceType = new HotplaceType();
-        Optional<Hotplaces> entity = hotplacesRepository.findById(hotplace_id);
+        Optional<Hotplaces> entity = hotplacesRepository.findById(hotplaceId);
         HotplacesDto hotplacesDto = (HotplacesDto) transfer(entity.get());
-        List<HotplaceReviewDto> hotplaceReviewDtoList = hotplaceReviewService.getHotplaceReviews(hotplace_id);
+        List<HotplaceReviewDto> hotplaceReviewDtoList = hotplaceReviewService.getHotplaceReviews(hotplaceId);
 
         hotplaceType.setHotplacesDto(hotplacesDto);
+        hotplaceType.setHotplaceLikeDto(hotplaceLikeService.getByUserIdAndHotplaceId(hotplaceId,userId));
         hotplaceType.setHotplaceReviewDtos(hotplaceReviewDtoList);
         return hotplaceType;
     }

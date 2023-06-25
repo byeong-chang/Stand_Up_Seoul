@@ -1,5 +1,6 @@
 package com.project.backend.general.returnType;
 
+import com.project.backend.accounts.dto.RestaurantLikeDto;
 import com.project.backend.accounts.dto.RestaurantReviewDto;
 import com.project.backend.restaurants.dto.RestaurantBreaktimeDto;
 import com.project.backend.restaurants.dto.RestaurantDto;
@@ -13,5 +14,6 @@ public class RestaurantType {
     RestaurantDto restaurantDto;
     List<RestaurantRuntimeDto> restaurantRuntimeDtos;
     List<RestaurantBreaktimeDto> restaurantBreaktimeDtos;
+    RestaurantLikeDto restaurantLikeDto;
     List<RestaurantReviewDto> restaurantReviewDtos;
 }
