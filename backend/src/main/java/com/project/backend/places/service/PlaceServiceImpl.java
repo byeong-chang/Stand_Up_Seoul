@@ -6,6 +6,8 @@ import com.project.backend.places.repository.entity.Place;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PlaceServiceImpl implements PlaceService{
     PlaceRepository placeRepository;
@@ -19,5 +21,10 @@ public class PlaceServiceImpl implements PlaceService{
     public Object transfer(Object entity){
     PlaceDto dto = entityToDto((Place) entity);
         return dto;
+    }
+
+    @Override
+    public List<Place> searchAll(String search) {
+        return placeRepository.findByAreaNameContaining(search);
     }
 }
