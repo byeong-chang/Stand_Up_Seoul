@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Entity
@@ -40,9 +41,11 @@ public class Users {
 
     @NotNull
     @Column(name = "phone_number", unique = true, length = 15)
+    @Pattern(regexp = "^01([0])-?([0-9]{3,4})-?([0-9]{4})$")
     private String phoneNumber;
 
     @Column(name = "user_address")
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-]{3,50}$")
     private String userAddress;
 
     @Column(name = "review_count", columnDefinition = "INT DEFAULT 0")
@@ -50,6 +53,7 @@ public class Users {
 
     @NotNull
     @Column(name = "nickname", unique = true, length = 30)
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-zA-Z0-9-]{3,50}$")
     private String nickname;
 
     @UpdateTimestamp
