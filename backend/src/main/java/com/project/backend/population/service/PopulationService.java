@@ -38,6 +38,7 @@ public interface PopulationService extends Transfer {
     Map<Integer,LiveType> getLive();
     Map<Integer,LiveType> getLocationLive(Double Logitude, Double Latitude);
     Map<String, List<PopulationDto>> getDetail();
-    Map<Integer, LiveType> getPlaceDetail(int place_Id);
+    Map<Integer, LiveType> getPlaceDetail(int placeId);
+    Map<Integer, LiveType> getPlaceCategoryDetail(int placeId, List<Integer> restaurantCategories, List<Integer> contentTypes);
 
 }
