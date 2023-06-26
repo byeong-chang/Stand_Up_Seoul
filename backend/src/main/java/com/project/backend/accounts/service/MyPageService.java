@@ -7,9 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -17,13 +15,15 @@ import java.util.List;
 public class MyPageService {
 
     private final UsersRepository usersRepository;
+    public void login(Users user) {}
 
-    public List<UsersDto> retrieve(@AuthenticationPrincipal String userId) {
-        List<UsersDto> userInfo = new ArrayList<>();
+    public void logout(String email) {}
+
+    public UsersDto retrieve(@AuthenticationPrincipal String userId) {
+        UsersDto usersDto = new UsersDto();
         // 사용자 정보 가져오기
         Users user = usersRepository.findById(Integer.parseInt(userId));
         if (user != null) {
-            UsersDto usersDto = new UsersDto();
             usersDto.setId(user.getId());
             usersDto.setEmail(user.getEmail());
             usersDto.setPassword(user.getPassword());
@@ -33,13 +33,33 @@ public class MyPageService {
             usersDto.setNickname(user.getNickname());
             usersDto.setCreatedDate(user.getCreatedDate());
             usersDto.setSex(user.getSex());
-            userInfo.add(usersDto);
         }
-        return userInfo;
+        return usersDto;
     }
 
-//    public void updateNickname(Users user, String nickname) {
-//        user.updateNickname(nickname);
-//        usersRepository.save(user);
-//    }
+    @Transactional
+    public void deleteUser(String userId, String email) {
+        Users user = usersRepository.findById(Integer.parseInt(userId));
+        if (user != null) {
+            logout(email);
+            usersRepository.delete(user);
+        }
+    }
+
+    public UsersDto convertToUsersDto(Users user) {
+        if (user == null) {
+            return null;
+        }
+        UsersDto usersDto = new UsersDto();
+        usersDto.setId(user.getId());
+        usersDto.setEmail(user.getEmail());
+        usersDto.setPassword(user.getPassword());
+        usersDto.setBirth(String.valueOf(user.getBirth()));
+        usersDto.setPhoneNumber(user.getPhoneNumber());
+        usersDto.setUserAddress(user.getUserAddress());
+        usersDto.setNickname(user.getNickname());
+        usersDto.setCreatedDate(user.getCreatedDate());
+        usersDto.setSex(user.getSex());
+        return usersDto;
+    }
 }
