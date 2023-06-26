@@ -35,9 +35,9 @@ public class BoardController {
     public final HotplaceLikeService hotplaceLikeService;
 
     //Restaurant Board 매핑
-    @GetMapping(value = "restaurant/{id}")
-    public RestaurantType getRestaurant(@PathVariable int id ,@AuthenticationPrincipal String userId){
-        return restaurantService.getBoard(id, Integer.parseInt(userId));
+    @GetMapping(value = "restaurant/{restaurantId}")
+    public RestaurantType getRestaurant(@PathVariable int restaurantId ,@AuthenticationPrincipal String userId){
+        return restaurantService.getBoard(restaurantId, Integer.parseInt(userId));
     }
     @PostMapping("restaurant/insert/{restaurantId}")
     public String insertRestaurantReview(@PathVariable int restaurantId ,@RequestBody RestaurantReviewDto dto, @AuthenticationPrincipal String userId){
@@ -127,9 +127,9 @@ public class BoardController {
         return "redirect:/board/hotplace/"+hotplaceLike.getHotplaces().getId();
     }
     //CulturalEvent Board 매핑
-    @GetMapping(value = "culturalEvent/{id}")
-    public CulturalEventDto getCulturalEvent(@PathVariable int id){
-        return culturalEventService.getBoard(id);
+    @GetMapping(value = "culturalEvent/{culturalEventId}")
+    public CulturalEventDto getCulturalEvent(@PathVariable int culturalEventId){
+        return culturalEventService.getBoard(culturalEventId);
     }
 }
 

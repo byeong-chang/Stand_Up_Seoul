@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if(token != null && !token.equalsIgnoreCase("null")){
                 //userId 가져오기. 위조된 경우 예외 처리된다.
                 String userId = tokenProvider.validateAndGetUserId(token);
-                log.info("Authenticated uesr ID : " + userId);
+                log.info("Authenticated user ID : " + userId);
                 //인증 완료. SecurityContextHolder에 등록해야 인증된 사용자라고 생각한다.
                 AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userId, //인증된 사용자의 정보, 문자열이 아니어도 아무것이나 넣을 수 있다. 보통 UserDetails라는 오브젝트를 넣는데 우리는 넣지 않았다.

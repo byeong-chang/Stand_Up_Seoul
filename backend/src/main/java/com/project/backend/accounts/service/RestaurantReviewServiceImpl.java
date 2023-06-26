@@ -40,7 +40,6 @@ public class RestaurantReviewServiceImpl implements RestaurantReviewService{
     @Override
     public RestaurantReview getRestaurantReview(int restaurantReviewId) {
         RestaurantReview restaurantReview = restaurantReviewRepository.findById(restaurantReviewId);
-        log.info(String.valueOf(restaurantReview.getId()));
         return restaurantReview;
     }
 

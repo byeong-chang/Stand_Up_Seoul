@@ -1,5 +1,6 @@
 #설정파일 제외
 application.yml
+AWSConfig.java
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,intellij+all,visualstudiocode,java,python,react,gradle
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,intellij+all,visualstudiocode,java,python,react,gradle

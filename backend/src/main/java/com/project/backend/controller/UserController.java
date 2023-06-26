@@ -39,7 +39,7 @@ public class UserController {
                     .birth(LocalDate.parse(usersDto.getBirth()))
                     .phoneNumber(usersDto.getPhoneNumber())
                     .userAddress(usersDto.getUserAddress())
-                    .reviewCount(usersDto.getReviewCount())
+                    .reviewCount(0)
                     .nickname(usersDto.getNickname())
                     .createdDate(LocalDate.now())
                     .sex((usersDto.getSex()))

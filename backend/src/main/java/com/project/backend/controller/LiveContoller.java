@@ -5,6 +5,7 @@ import com.project.backend.places.dto.LogilatiDto;
 import com.project.backend.population.dto.PopulationDto;
 import com.project.backend.population.service.PopulationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/live")
 @RequiredArgsConstructor
+@Slf4j
 public class LiveContoller {
     private final PopulationService populationService;
 
@@ -32,8 +34,8 @@ public class LiveContoller {
     }
 
 //  실시간 상세 - 상세 페이지 Get 매핑
-    @GetMapping(value = "detail/{place_id}")
-    public Map<Integer, LiveType> getPlaceDetail(@PathVariable int place_id){
-        return populationService.getPlaceDetail(place_id);
+    @GetMapping(value = "detail/{placeId}")
+    public Map<Integer, LiveType> getPlaceDetail(@PathVariable int placeId){
+        return populationService.getPlaceDetail(placeId);
     }
 }

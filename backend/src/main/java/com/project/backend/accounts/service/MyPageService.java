@@ -38,8 +38,8 @@ public class MyPageService {
         return userInfo;
     }
 
-    public void updateNickname(Users user, String nickname) {
-        user.updateNickname(nickname);
-        usersRepository.save(user);
-    }
+//    public void updateNickname(Users user, String nickname) {
+//        user.updateNickname(nickname);
+//        usersRepository.save(user);
+//    }
 }
