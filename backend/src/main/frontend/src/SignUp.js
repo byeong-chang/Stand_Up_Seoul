@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
+import Header from "./Header";
 
 const SignUp = () => {
-    const navigate = useNavigate();
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
@@ -15,6 +14,7 @@ const SignUp = () => {
     const [nickname, setNickname] = useState('');
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [sex, setSex] = useState('');
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -44,6 +44,11 @@ const SignUp = () => {
         setUserAddress(e.target.value);
     };
 
+    const handleSexChange = (e) => {
+        setSex(e.target.value);
+    };
+
+
     const handleSignUp = (e) => {
         e.preventDefault();
         // 회원가입 처리 로직 작성
@@ -57,12 +62,13 @@ const SignUp = () => {
                 phoneNumber: phoneNumber,
                 userAddress: userAddress,
                 nickname : nickname,
+                sex: sex,
             })
             .then((response) => {
                 // 회원가입 성공 시 처리
                 console.log(response.data);
                 // 원하는 동작 수행
-                navigate('/login');
+                navigate('/');
             })
             .catch((error) => {
                 // 회원가입 실패 시 처리
@@ -72,40 +78,11 @@ const SignUp = () => {
             });
     };
 
+    const navigate = useNavigate();
+
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container px-5">
-                    <Link to="/" className="navbar-brand">스탠드업서울</Link>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li className="nav-item"><Link to="/" className="nav-link">가고싶은곳</Link></li>
-                            <li className="nav-item"><Link to="/about" className="nav-link">미래 혼잡도 보기</Link></li>
-                            <li className="nav-item"><Link to="/login" className="nav-link">로그인</Link></li>
-                            <li className="nav-item"><Link to="/signup" className="nav-link">회원가입</Link></li>
-                            <li className="nav-item"><Link to="/" className="nav-link">**</Link></li>
-                            <li className="nav-item dropdown">
-                                <Link to="/" className="nav-link dropdown-toggle" id="navbarDropdownBlog" role="button" data-bs-toggle="dropdown" aria-expanded="false">**</Link>
-                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                </ul>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <Link to="/" className="nav-link dropdown-toggle" id="navbarDropdownPortfolio" role="button" data-bs-toggle="dropdown" aria-expanded="false">**</Link>
-                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        <div className='login_box' style={{ textAlign: 'center' }}>
+        <div className='sign_box' style={{ textAlign: 'center' }}>
             <h1 style={{ marginBottom: '50px' }}>회원가입</h1>
             <form onSubmit={handleSignUp}>
                 <div>
@@ -185,12 +162,35 @@ const SignUp = () => {
                         onChange={handleAddressChange}
                     />
                 </div>
+                <div>
+                    <p>성별을 선택하세요</p>
+                    <label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="male"
+                            checked={sex === "male"}
+                            onChange={handleSexChange}
+                        />
+                        남성
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="female"
+                            checked={sex === "female"}
+                            onChange={handleSexChange}
+                        />
+                        여성
+                    </label>
+                </div>
                 {error && <p style={{ color: 'orange' }}>{errorMessage}</p>}
-                <Button type='submit' className='login_btn'>
+                <Button type='submit' className='sign_btn btn-secondary'>
                     가입하기
                 </Button>
             </form>
-            <div style={{ width: '60%', margin: 'auto' }}>
+            <div className="mb-5">
                 <Link to='/find-id' style={{ color: 'gray', borderRight: '1px solid gray', padding: '0 10px' }}>
                     아이디 찾기
                 </Link>

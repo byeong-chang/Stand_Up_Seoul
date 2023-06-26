@@ -39,7 +39,7 @@ public class BoardController {
     public RestaurantType getRestaurant(@PathVariable int restaurantId ,@AuthenticationPrincipal String userId){
         return restaurantService.getBoard(restaurantId, Integer.parseInt(userId));
     }
-    @PostMapping("restaurant/insert/{restaurantId}")
+    @PostMapping("restaurant/insert/{restaurantId}")//넣을때
     public String insertRestaurantReview(@PathVariable int restaurantId ,@RequestBody RestaurantReviewDto dto, @AuthenticationPrincipal String userId){
         RestaurantReview restaurantReview = RestaurantReview.builder()
                 .review(dto.getReview())
@@ -51,7 +51,7 @@ public class BoardController {
         restaurantReviewService.saveReview(restaurantReview);
         return "redirect:/board/restaurant/"+restaurantId;
     }
-    @PostMapping("restaurant/modify/{restaurantBoardId}")
+    @PostMapping("restaurant/modify/{restaurantBoardId}")//수정할때
     public String modifyRestaurantReview(@PathVariable int restaurantBoardId ,@RequestBody RestaurantReviewDto dto){
         RestaurantReview restaurantReview = restaurantReviewService.getRestaurantReview(restaurantBoardId);
         restaurantReview.setReviewImg(dto.getReviewImg());
@@ -59,7 +59,7 @@ public class BoardController {
         restaurantReviewService.saveReview(restaurantReview);
         return "redirect:/board/restaurant/"+restaurantReview.getRestaurantId().getId();
     }
-    @GetMapping("restaurant/delete/{restaurantBoardId}")
+    @GetMapping("restaurant/delete/{restaurantBoardId}")//삭제할때
     public String deleteRestaurantReview(@PathVariable int restaurantBoardId){
         RestaurantReview restaurantReview = restaurantReviewService.getRestaurantReview(restaurantBoardId);
         restaurantReviewService.deleteReview(restaurantReview);

@@ -1,47 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Map, MapMarker, MapTypeId } from "react-kakao-maps-sdk";
+import { Link, useNavigate } from 'react-router-dom';
 
-function Test() {
-    const [location, setLocation] = useState({});
+const {kakao} = window;
+const Test = (props) => {
 
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setLocation({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                });
+    let navigate = useNavigate();
+
+    const [markers, setMarkers] = useState([
+        {
+            position: {
+                lat: 37.5673,
+                lng: 126.9785,
             },
-            (error) => console.log(error)
-        );
-    }, []);
+        },
+    ])
 
-    useEffect(() => {
-        if (location.latitude && location.longitude) {
-            // 스프링 부트 API 엔드포인트
-            const apiUrl = 'http://localhost:8080/live/home/postAPI';
+    const handleMapClick = (target, mouseEvent) => {
+        const newMarker = {
+            position: {
+                lat: mouseEvent.latLng.getLat(),
+                lng: mouseEvent.latLng.getLng(),
+            },
+        };
 
-            // 위치 데이터를 스프링 부트로 전송하는 POST 요청
-            axios
-                .post(apiUrl, location)
-                .then((response) => {
-                    console.log('위치 데이터가 성공적으로 전송되었습니다.');
-                })
-                .catch((error) => {
-                    console.error('위치 데이터 전송 중 오류가 발생했습니다:', error);
-                });
-        }
-    }, [location]);
+        setMarkers([newMarker]);
+        props.setLet(newMarker.position.lat);
+        props.setLng(newMarker.position.lng);
+        console.log(newMarker.position.lat);
+    };
+
+    const Click = () => {
+        navigate("/home")
+    };
+
 
     return (
-        <div>
-            <h1>Latitude: {location.latitude}</h1>
-            <h1>Longitude: {location.longitude}</h1>
-        </div>
+        <Map // 지도를 표시할 Container
+            center={{
+                // 지도의 중심좌표
+                lat: 37.5673,
+                lng: 126.9785,
+            }}
+            style={{
+                // 지도의 크기
+                width: "100%",
+                height: "100vh",
+            }}
+            level={3} // 지도의 확대 레벨
+            onClick={handleMapClick}
+        >
+            <MapTypeId type={kakao.maps.MapTypeId.TRAFFIC}/>
+            {markers.map((marker, index) => (
+                <MapMarker
+                    key={`${marker.position.lat}-${marker.position.lng}-${index}`}
+                    position={marker.position}
+                >
+                    <div style={{color: "#000", display: "flex", alignItems: "center" }}>
+                        해당지역으로 검색하시겠습니까?
+                        <button
+                            className="btn-info"
+                            onClick={Click}
+                            style={{ color: "blue", marginLeft: "10px", whiteSpace: "nowrap" }}
+                            rel="noreferrer"
+                        >
+                            이동
+                        </button>
+                    </div>
+
+                </MapMarker>
+            ))}
+
+        </Map>
     );
-}
+};
+
 
 export default Test;
-
-
-
