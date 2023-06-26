@@ -2,6 +2,7 @@ import {Link, useLocation, useParams} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import axios from 'axios'
 import Comment from "./Comment";
+import { IoHeartOutline, IoHeartSharp } from 'react-icons/io5';
 import Banner from "./Banner";
 import Header from "./Header";
 import {useNavigate} from "react-router-dom";
@@ -45,6 +46,7 @@ const {kakao} = window;
 function RestaurantPage(props) {
   const { id } = useParams();
   const [message, setMessage] = useState([]);
+  const [liked, setLiked] = useState(false);
   useEffect(() => {
     async function getData() {
       try {
@@ -59,6 +61,22 @@ function RestaurantPage(props) {
     }
     getData();
   }, []);
+
+  // const handleLike = () => {
+  //   setLiked(!liked); // 좋아요 상태를 반전시킴
+  //   // 좋아요 상태에 따라 서버로 요청을 보낼 수 있음
+  //   if (liked) {
+  //     axios.get(`/board/restaurant/like/delete/${id}`, {
+  //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+  //     });
+  //   }
+  //    else {
+  //     // 좋아요 추가 요청 처리
+  //     axios.get(`/board/restaurant/like/${id}`, null, {
+  //     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+  //     });
+  //   }
+  // };
 
   useEffect(() => {
     if (message.restaurantDto && message.restaurantDto.mapx && message.restaurantDto.mapy) {
@@ -78,6 +96,31 @@ function RestaurantPage(props) {
       marker.setMap(map);
     }
   }, [message]);
+
+  // 좋아요를누르고 눌린상태면 다시 원래대로 되돌리고 데이터를 다시 가져와서 좋아요개수 줄이거나 늘리고
+  const handleLike = async () => {
+    setLiked(!liked); // 좋아요 상태를 반전시킴
+    try {
+      if (liked) {
+        await axios.get(`/board/restaurant/like/delete/${id}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+      } else {
+        // 좋아요 추가 요청 처리
+        await axios.get(`/board/restaurant/like/${id}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+      }
+
+      // 좋아요 요청 처리 후에 데이터를 다시 가져옴
+      const result = await axios.get(`/board/restaurant/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      setMessage(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
       <div>
@@ -146,9 +189,14 @@ function RestaurantPage(props) {
                 )}
               </ul>
               <div id="map" style={{width:'500px', height:'360px'}}></div>
-              {/*  <div className="d-flex">*/}
-              {/*    <div id="map" style={{width:'500px', height:'330px'}}></div>*/}
-              {/*</div>*/}
+              <button className="btn btn-primary" onClick={handleLike}>
+                {liked ? <IoHeartSharp /> : <IoHeartOutline />}
+              </button>
+              {message.restaurantDto && (
+                  <div className="d-flex text-secondary">
+                    조회수: {message.restaurantDto.clickCount}
+                  </div>
+              )}
             </div>
           </div>
         </div>
