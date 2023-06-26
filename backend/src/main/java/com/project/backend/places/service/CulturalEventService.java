@@ -4,6 +4,8 @@ import com.project.backend.general.interfaces.Transfer;
 import com.project.backend.places.dto.CulturalEventDto;
 import com.project.backend.places.repository.entity.CulturalEvent;
 
+import java.util.List;
+
 public interface CulturalEventService extends Transfer {
 
     default CulturalEventDto entityToDto(CulturalEvent culturalEvent){
@@ -28,4 +30,6 @@ public interface CulturalEventService extends Transfer {
     }
 
     CulturalEventDto getBoard(int id);
+
+    List<CulturalEvent> searchAll(String search);
 }

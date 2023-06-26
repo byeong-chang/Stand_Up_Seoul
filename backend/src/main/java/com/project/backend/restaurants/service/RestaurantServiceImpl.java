@@ -57,4 +57,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepository.findById(restaurantId);
     }
 
+    @Override
+    public void saveRestaurant(Restaurant restaurant) {
+        restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public List<Restaurant> searchAll(String search) {
+        return restaurantRepository.findByTitleContaining(search);
+    }
+
 }

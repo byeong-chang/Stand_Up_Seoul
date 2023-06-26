@@ -44,4 +44,14 @@ public class HotPlacesServiceImpl implements HotPlacesService{
         Optional<Hotplaces> hotplaces = hotplacesRepository.findById(hotplaceId);
         return hotplaces.get();
     }
+
+    @Override
+    public void saveHotplace(Hotplaces hotplace) {
+        hotplacesRepository.save(hotplace);
+    }
+
+    @Override
+    public List<Hotplaces> searchAll(String search) {
+        return hotplacesRepository.findByTitleContaining(search);
+    }
 }

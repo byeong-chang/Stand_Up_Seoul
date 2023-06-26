@@ -6,6 +6,7 @@ import com.project.backend.places.repository.entity.CulturalEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,5 +30,10 @@ public class CulturalEventServiceImpl implements CulturalEventService{
         Optional<CulturalEvent> entity = culturalEventRepository.findById(cultural_event_id);
         CulturalEventDto dto = (CulturalEventDto) transfer(entity.get());
         return dto;
+    }
+
+    @Override
+    public List<CulturalEvent> searchAll(String search) {
+        return culturalEventRepository.findByTitleContaining(search);
     }
 }

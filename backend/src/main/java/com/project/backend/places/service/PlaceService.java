@@ -4,6 +4,8 @@ import com.project.backend.general.interfaces.Transfer;
 import com.project.backend.places.dto.PlaceDto;
 import com.project.backend.places.repository.entity.Place;
 
+import java.util.List;
+
 public interface PlaceService extends Transfer {
 
     default PlaceDto entityToDto(Place place){
@@ -19,4 +21,6 @@ public interface PlaceService extends Transfer {
                 .build();
         return dto;
     }
+
+    List<Place> searchAll(String search);
 }
