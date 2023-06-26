@@ -10,8 +10,10 @@ import com.project.backend.accounts.service.*;
 import com.project.backend.general.returnType.HotplaceType;
 import com.project.backend.general.returnType.RestaurantType;
 import com.project.backend.places.dto.CulturalEventDto;
+import com.project.backend.places.repository.entity.Hotplaces;
 import com.project.backend.places.service.CulturalEventService;
 import com.project.backend.places.service.HotPlacesService;
+import com.project.backend.restaurants.repository.entity.Restaurant;
 import com.project.backend.restaurants.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +39,9 @@ public class BoardController {
     //Restaurant Board 매핑
     @GetMapping(value = "restaurant/{restaurantId}")
     public RestaurantType getRestaurant(@PathVariable int restaurantId ,@AuthenticationPrincipal String userId){
+        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
+        restaurant.setClickCount(restaurant.getClickCount()+1);
+        restaurantService.saveRestaurant(restaurant);
         return restaurantService.getBoard(restaurantId, Integer.parseInt(userId));
     }
     @PostMapping("restaurant/insert/{restaurantId}")//넣을때
@@ -83,6 +88,9 @@ public class BoardController {
     //Hotplace Board 매핑
     @GetMapping(value = "hotplace/{hotplaceId}")
     public HotplaceType getHotplace(@PathVariable int hotplaceId, @AuthenticationPrincipal String userId){
+        Hotplaces hotplace = hotPlacesService.getHotplace(hotplaceId);
+        hotplace.setClickCount(hotplace.getClickCount()+1);
+        hotPlacesService.saveHotplace(hotplace);
         return hotPlacesService.getBoard(hotplaceId,Integer.parseInt(userId));
     }
     @PostMapping(value = "hotplace/insert/{hotplaceId}")
