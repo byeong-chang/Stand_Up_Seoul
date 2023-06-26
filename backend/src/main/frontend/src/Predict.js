@@ -157,6 +157,8 @@ function Predict() {
     const [year, setYear] = useState(2023);
     const [month, setMonth] = useState(6);
     const [day, setDay] = useState(25);
+    const [selectedValues, setSelectedValues] = useState([]);
+    const [selectedPlaceValues, setSelectedPlaceValues] = useState([]);
     const navigate = useNavigate();
 
     const handleHourChange = (e) => {
@@ -183,6 +185,26 @@ function Predict() {
 
     ]);
 
+    const handleCheckboxChange = (event) => {
+        const value = event.target.value;
+
+        if (event.target.checked) {
+            setSelectedValues([...selectedValues, value]);
+        } else {
+            setSelectedValues(selectedValues.filter((item) => item !== value));
+        }
+    };
+
+    const handleCheckboxPlaceChange = (event) => {
+        const value = event.target.value;
+
+        if (event.target.checked) {
+            setSelectedPlaceValues([...selectedPlaceValues, value]);
+        } else {
+            setSelectedPlaceValues(selectedPlaceValues.filter((item) => item !== value));
+        }
+    };
+
     const sendData = (e) => {
 
         e.preventDefault();
@@ -193,7 +215,9 @@ function Predict() {
         "year": year,
         "month": month,
         "day": day,
-        "hour": hour
+        'hour' : hour,
+        "restaurant_category_list" : selectedValues,
+        "hotplaces_category_list" : selectedPlaceValues
     });
 
     const config = {
@@ -211,24 +235,12 @@ function Predict() {
     axios.request(config)
         .then(response => {
             Setpredictdata(response.data);
-            console.log(predictdata.place_congest)
+            console.log(predictdata)
         })
         .catch(error => {
             console.log(error);
         });
     };
-
-    const [selectedCategories, setSelectedCategories] = useState([]);
-
-    const handleCategoryChange = (event) => {
-        const { value } = event.target;
-        if (selectedCategories.includes(value)) {
-            setSelectedCategories(selectedCategories.filter(category => category !== value));
-        } else {
-            setSelectedCategories([...selectedCategories, value]);
-        }
-    };
-
 
     return (
         <div>
@@ -241,6 +253,7 @@ function Predict() {
                 {/* <!-- About section one--> */}
                 <section className="py-5 bg-light" id="scroll-target">
                     <div className="container px-5">
+                        <h2 className="fw-bolder mb-4">시간과 장소를 선택하여 혼잡도를 예측해 보세요</h2>
                         <Form onSubmit={sendData} className="d-flex gap-3">
                             <Form.Group controlId="year">
                                 <Form.Label>년도:</Form.Label>
@@ -343,6 +356,125 @@ function Predict() {
                             </Form.Group>
                             <Button type="submit">전송</Button>
                         </Form>
+                        <p className="lead fw-bolder text-black-100 mt-3">{location}의 주변 맛집들을 알려드립니다</p>
+                        <Form>
+                            {['checkbox'].map((type) => (
+                                <div key={`inline-${type}`} className="mb-3">
+                                    <Form.Check
+                                        inline
+                                        label="기타"
+                                        name="group1"
+                                        value={"기타"}
+                                        type={type}
+                                        id={`inline-${type}-1`}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        label="양식"
+                                        name="group1"
+                                        value={"양식"}
+                                        type={type}
+                                        id={`inline-${type}-2`}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        // disabled
+                                        label="한식"
+                                        name="group1"
+                                        value={"한식"}
+                                        type={type}
+                                        id={`inline-${type}-3`}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        // disabled
+                                        label="카페/베이커리"
+                                        name="group1"
+                                        value={"카페/베이커리"}
+                                        type={type}
+                                        id={`inline-${type}-3`}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        // disabled
+                                        label="세계음식"
+                                        name="group1"
+                                        value={"세계음식"}
+                                        type={type}
+                                        id={`inline-${type}-3`}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        // disabled
+                                        label="중식"
+                                        name="group1"
+                                        value={"중식"}
+                                        type={type}
+                                        id={`inline-${type}-3`}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        // disabled
+                                        label="뷔페"
+                                        name="group1"
+                                        value={"뷔페"}
+                                        type={type}
+                                        id={`inline-${type}-3`}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        // disabled
+                                        label="일식"
+                                        name="group1"
+                                        value={"일식"}
+                                        type={type}
+                                        id={`inline-${type}-3`}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        // disabled
+                                        label="치킨/주점"
+                                        name="group1"
+                                        value={"치킨/주점"}
+                                        type={type}
+                                        id={`inline-${type}-3`}
+                                        onChange={handleCheckboxChange}
+                                    />
+                                </div>
+                            ))}
+                        </Form>
+                        <Form>
+                            {['checkbox'].map((type) => (
+                                <div key={`inline-${type}`} className="mb-3">
+                                    <Form.Check
+                                        inline
+                                        label="관광지"
+                                        name="group1"
+                                        value={"관광지"}
+                                        type={type}
+                                        id={`inline-${type}-1`}
+                                        onChange={handleCheckboxPlaceChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        label="문화시설"
+                                        name="group1"
+                                        value={"문화시설"}
+                                        type={type}
+                                        id={`inline-${type}-2`}
+                                        onChange={handleCheckboxPlaceChange}
+                                    />
+                                </div>
+                            ))}
+                        </Form>
                     </div>
                     <div className="container px-5 my-6">
                         <div className="row gx-5 align-items-center">
@@ -387,40 +519,6 @@ function Predict() {
                 <section className="py-6">
                     <div className="container px-4 px-lg-1 mt-5">
                         <h2 className="fw-bolder mb-4">주변맛집</h2>
-                        <Form>
-                            {['checkbox'].map((type) => (
-                                <div key={`inline-${type}`} className="mb-3">
-                                    <Form.Check
-                                        inline
-                                        label="기타"
-                                        name="group1"
-                                        value={"기타"}
-                                        type={type}
-                                        id={`inline-${type}-1`}
-                                        onChange={handleCategoryChange}
-                                    />
-                                    <Form.Check
-                                        inline
-                                        label="양식"
-                                        name="group1"
-                                        value={"양식"}
-                                        type={type}
-                                        id={`inline-${type}-2`}
-                                        onChange={handleCategoryChange}
-                                    />
-                                    <Form.Check
-                                        inline
-                                        // disabled
-                                        label="한식"
-                                        name="group1"
-                                        value={"한식"}
-                                        type={type}
-                                        id={`inline-${type}-3`}
-                                        onChange={handleCategoryChange}
-                                    />
-                                </div>
-                            ))}
-                        </Form>
                         <div className="row gx-2 gx-lg-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                             {predictdata.restaurant && predictdata.restaurant.map((restaurant) => (
                                 <div className="col mb-2" key={restaurant.id} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.05)' }}>
