@@ -1,7 +1,7 @@
-import { Navigation, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import {Navigation, Pagination} from 'swiper';
+import {Swiper, SwiperSlide} from 'swiper/react';
 import {Link, useParams} from "react-router-dom";
-
+import {useNavigate} from "react-router-dom";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -10,63 +10,120 @@ import './App.css'
 import * as React from "react";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import Header from "./Header";
 
-function SwiperLive() {
+function Card({message}) {
+
+    const navigate = useNavigate();
+
+    return(
+        <div>
+        {message[0] && message[0].restaurantList.map((restaurant) => (
+        <div class="card h-100" key={restaurant.id}>
+            <img class="card-img-top" src={restaurant.fileName} alt="..." />
+            <div class="card-body p-4">
+                <div class="text-center">
+                    <h5 class="fw-bolder">{restaurant.title}</h5>
+                    {restaurant.restaurantCategory}
+                </div>
+            </div>
+            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                <div class="text-center"> <span onClick={() => {
+                    navigate(`/restaurant/${restaurant.id}`)
+                }} className="btn btn-outline-dark mt-auto">상세보기</span></div>
+            </div>
+        </div>
+            ))}
+        </div>
+    )
+};
+function SwiperLive({message}) {
+
+    const navigate = useNavigate();
+
     return (
         <Swiper
             modules={[Navigation, Pagination]}
-            spaceBetween={50}
-            slidesPerView={3}
+            spaceBetween={20}
+            slidesPerView={4}
             navigation
-            pagination={{ clickable: true }}
+            pagination={{clickable: true}}
             // scrollbar={{ draggable: true }}
-            className='container px-5 py-5'
+            className="swiper-wrapper"
         >
-            <SwiperSlide>
-                <div className="card h-100 py-2">
-                    <div className="card-body">
-                        <h2 className="card-title">Card One</h2>
-                        <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+            {message[0] && message[0].restaurantList.map((restaurant) => (
+                <SwiperSlide key={restaurant.id} className="swiper-slide" style={{minWidth:"300px"}}>
+                    <div className="col mb-5" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
+                        <div className="card h-100">
+                            {/*// <!-- Product image-->*/}
+                            <div className="image-container">
+                            <img className="card-img-top" src={restaurant.fileName}
+                                 alt="..."/>
+                            </div>
+                            {/*// <!-- Product details-->*/}
+                            <div className="card-body p-2">
+                                <div className="text-center">
+                                    {/*// <!-- Product name-->*/}
+                                    <h5 className="fw-bolder">{restaurant.title}</h5>
+                                    {/*// <!-- Product price-->*/}
+                                    {restaurant.restaurantCategory}
+                                </div>
+                            </div>
+                            {/*// <!-- Product actions-->*/}
+                            <div className="card-footer p-3 pt-0 border-top-0 bg-transparent">
+                                <div className="text-center">
+                                    <span onClick={() => {
+                                        navigate(`/restaurant/${restaurant.id}`)
+                                    }} className="btn btn-outline-dark mt-auto">상세보기</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="card-footer"><p className="btn btn-primary btn-sm" href="#!">More Info</p></div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card h-100 py-2">
-                    <div className="card-body">
-                        <h2 className="card-title">Card One</h2>
-                        <img className="card-img-top" src="https://standupseoul.s3.ap-northeast-2.amazonaws.com/place/%EB%82%A8%EC%82%B0%EA%B3%B5%EC%9B%90.jpg" alt="..." />
+                </SwiperSlide>
+            ))}
+        </Swiper>
+    )
+};
+
+function SwiperLiveHotplace({message}) {
+    return (
+        <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={20}
+            slidesPerView={4}
+            navigation
+            pagination={{clickable: true}}
+            // scrollbar={{ draggable: true }}
+            className="swiper-wrapper"
+        >
+            {message[0] && message[0].hotplacesList.map((hotplaces) => (
+                <SwiperSlide key={hotplaces.id} className="swiper-slide">
+                    <div className="col mb-5" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
+                        <div className="card h-100">
+                            {/*// <!-- Product image-->*/}
+                            <div className="image-container">
+                            <img className="card-img-top" src={hotplaces.fileName}
+                                 alt="..."/>
+                            </div>
+                            {/*// <!-- Product details-->*/}
+                            <div className="card-body p-2">
+                                <div className="text-center">
+                                    {/*// <!-- Product name-->*/}
+                                    <h5 className="fw-bolder" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{hotplaces.title}</h5>
+                                    {/*// <!-- Product price-->*/}
+                                    {hotplaces.contentType}
+                                </div>
+                            </div>
+                            {/*// <!-- Product actions-->*/}
+                            <div className="card-footer p-3 pt-0 border-top-0 bg-transparent">
+                                <div className="text-center">
+                                    <Link to="#" className="btn btn-outline-dark mt-auto">상세보기</Link>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="card-footer"><p className="btn btn-primary btn-sm" href="#!">More Info</p></div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card h-100 py-2">
-                    <div className="card-body">
-                        <h2 className="card-title">Card One</h2>
-                        <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
-                    </div>
-                    <div className="card-footer"><p className="btn btn-primary btn-sm" href="#!">More Info</p></div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card h-100 py-2">
-                    <div className="card-body">
-                        <h2 className="card-title">Card One</h2>
-                        <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
-                    </div>
-                    <div className="card-footer"><p className="btn btn-primary btn-sm" href="#!">More Info</p></div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card h-100 py-2">
-                    <div className="card-body">
-                        <h2 className="card-title">Card One</h2>
-                        <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
-                    </div>
-                    <div className="card-footer"><p className="btn btn-primary btn-sm" href="#!">More Info</p></div>
-                </div>
-            </SwiperSlide>
+                </SwiperSlide>
+            ))}
         </Swiper>
     )
 };
@@ -74,12 +131,13 @@ function SwiperLive() {
 
 function Dashboard() {
 
-    const { placeId } = useParams();
+    const {id} = useParams();
 
     // 백엔드에서 받아온 placeId 삽입
-    const dashboardUrl = `http://15.165.110.156:8088/superset/dashboard/4/?placeid=${placeId}&standalone=2&show_filters=0&expand_filters=0`;
+    const dashboardUrl = `http://15.165.110.156:8088/superset/dashboard/4/?placeid=${id}&standalone=2&show_filters=0&expand_filters=0`;
 
     return (
+        <div style={{ width: '100%', height: '100vh', overflowX: 'auto' }}>
         <iframe
             title="Dashboard"
             src={dashboardUrl}
@@ -89,105 +147,112 @@ function Dashboard() {
             sandbox="allow-same-origin allow-scripts"
             onClick={(e) => e.preventDefault()} // 클릭 이벤트를 무시합니다.
         ></iframe>
+        </div>
     )
 }
 
 function LiveDetail() {
-    const { id } = useParams();
+    const {id} = useParams();
+    console.log(id);
     const [message, setMessage] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function getData() {
             try {
-                const result = await axios.get(`live/detail/${id}`);
+                const result = await axios.get(`${id}`, {
+                    headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+                });
                 setMessage(result.data);
+                console.log(result.data);
             } catch (err) {
                 console.log(err);
             }
         }
+
         getData();
     }, []);
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container px-5">
-                    <Link to="/" className="navbar-brand">스탠드업서울</Link>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li className="nav-item"><Link to="/" className="nav-link">가고싶은곳</Link></li>
-                            <li className="nav-item"><Link to="/about" className="nav-link">미래 혼잡도 보기</Link></li>
-                            <li className="nav-item"><Link to="/login" className="nav-link">로그인</Link></li>
-                            <li className="nav-item"><Link to="/signup" className="nav-link">회원가입</Link></li>
-                            <li className="nav-item"><Link to="/" className="nav-link">**</Link></li>
-                            <li className="nav-item dropdown">
-                                <Link to="/" className="nav-link dropdown-toggle" id="navbarDropdownBlog" role="button" data-bs-toggle="dropdown" aria-expanded="false">**</Link>
-                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                </ul>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <Link to="/" className="nav-link dropdown-toggle" id="navbarDropdownPortfolio" role="button" data-bs-toggle="dropdown" aria-expanded="false">**</Link>
-                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            {/* <!-- Responsive navbar--> */}
             {/* <!-- Page Content--> */}
             <div className="container px-4 px-lg-5">
                 {/* <!-- Heading Row--> */}
                 <div className="row gx-4 gx-lg-5 align-items-center my-5">
                     {/* <div className="col-lg-5"></div> */}
-                    <h1 className="font-weight-light">{message.population}의 실시간 정보를 보여드립니다</h1>
-                    <p>i have a pen i have a apple Uh! applepen i have a pen i have a pineapple Uh! penpineapple i have a penpineapple i have a applepen Uh! penpineappleapplepen</p>
+                    <h1 className="font-weight-light">현재 {message[0] && message[0].population.areaCongest.areaCongestMessage}</h1>
+                    <p>{message[0] && message[0].place.areaName}의 일주일 통계를 보여드립니다</p>
                     {/* <a className="btn btn-primary" href="#!">Call to Action!</a> */}
-
-                    <div className="col-lg-7">
+                    {/*<div className="col-lg-7">*/}
                         <Dashboard></Dashboard>
-                    </div>
+                    {/*</div>*/}
                 </div>
-                {/* <!-- Call to Action--> */}
-                <div className="card text-white bg-secondary my-5 py-4 text-center">
-                    <div className="card-body"><p className="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>
-                </div>
-                {/* <!-- Content Row--> */}
-                <div className="row gx-4 gx-lg-5">
-                    <h1 className="display-6 fw-bolder" style={{ fontSize: '30px', marginLeft: '-530px', marginBottom: '0px' }}>근처맛집</h1>
-                    <SwiperLive></SwiperLive>
-                </div>
-                <div className="row gx-4 gx-lg-5">
-                    <h1 className="display-6 fw-bolder" style={{ fontSize: '30px', marginLeft: '-530px', marginBottom: '0px' }}>근처명소</h1>
-                    <SwiperLive></SwiperLive>
-                </div>
-            </div>
-            {/* <!-- Footer--> */}
-            <footer className="bg-dark py-4 mt-auto">
-                <div className="container px-5">
-                    <div className="row align-items-center justify-content-between flex-column flex-sm-row">
-                        <div className="col-auto"><div className="small m-0 text-white">Copyright &copy; Your Website 2023</div></div>
-                        <div className="col-auto">
-                            <p className="link-light small" href="#!">Privacy</p>
-                            <span className="text-white mx-1">&middot;</span>
-                            <p className="link-light small" href="#!">Terms</p>
-                            <span className="text-white mx-1">&middot;</span>
-                            <p className="link-light small" href="#!">Contact</p>
+                <section className="py-6">
+                    <div className="container px-4 px-lg-1 mt-5">
+                        <h2 className="fw-bolder mb-4">{message[0] && message[0].place.areaName}의 주변맛집</h2>
+                        <div className="row gx-2 gx-lg-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                            {message[0] && message[0].restaurantList.map((restaurant) => (
+                                <div className="col mb-2" key={restaurant.id} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.05)' }}>
+                                <div className="card h-100">
+                                    <img className="card-img-top" src={restaurant.fileName} alt="..." style={{ objectFit: 'cover', height: '200px' }} />
+                                    <div className="card-body p-4">
+                                        <div className="text-center">
+                                            <h5 className="fw-bolder" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{restaurant.title}</h5>
+                                            {restaurant.restaurantCategory}
+                                        </div>
+                                    </div>
+                                    <div className="card-footer p-4 pt-0 border-top-0 bg-transparent mt-0">
+                                        <div className="text-center"> <span onClick={() => {
+                                            navigate(`/restaurant/${restaurant.id}`)
+                                        }} className="btn btn-outline-dark mt-auto">상세보기</span></div>
+                                    </div>
+                                </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
-            </footer>
-            {/* <!-- Bootstrap core JS--> */}
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-            {/* <!-- Core theme JS--> */}
-            <script src="js/scripts.js"></script>
+                </section>
+                <section className="py-6 mb-5">
+                    <div className="container px-4 px-lg-1 mt-5">
+                        <h2 className="fw-bolder mb-4">{message[0] && message[0].place.areaName}의 주변명소</h2>
+                        <div className="row gx-2 gx-lg-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                            {message[0] && message[0].hotplacesList.map((hotplaces) => (
+                                <div className="col mb-2" key={hotplaces.id} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.05)' }}>
+                                    <div className="card h-100">
+                                        <img className="card-img-top" src={hotplaces.fileName} style={{ objectFit: 'cover', height: '200px' }} alt="..." />
+                                        <div className="card-body p-4">
+                                            <div className="text-center">
+                                                <h5 className="fw-bolder" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{hotplaces.title}</h5>
+                                                {hotplaces.contentType}
+                                            </div>
+                                        </div>
+                                        <div className="card-footer p-3 pt-0 border-top-0 bg-transparent mt-0">
+                                            <div className="text-center"> <span onClick={() => {
+                                                navigate(`/hotplace/${hotplaces.id}`)
+                                            }} className="btn btn-outline-dark mt-auto">상세보기</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+                {/*<section className="py-6 bg-white">*/}
+                {/*    <div className="container px-4 px-lg-0 mt-5">*/}
+                {/*        <h2 className="fw-bolder mb-4">{message[0] && message[0].place.areaName}의 주변명소</h2>*/}
+                {/*        /!*<div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">*!/*/}
+
+                {/*        /!*</div>*!/*/}
+                {/*    </div>*/}
+                {/*    <SwiperLiveHotplace message={message}></SwiperLiveHotplace>*/}
+                {/*</section>*/}
+                {/* <!-- Bootstrap core JS--> */}
+                {/*<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>*/}
+                {/* <!-- Core theme JS--> */}
+                {/*<script src="js/scripts.js"></script>*/}
+                {/* <!-- Footer--> */}
+            </div>
         </div>
     )
 }

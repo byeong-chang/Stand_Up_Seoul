@@ -1,35 +1,36 @@
 import {Link} from "react-router-dom";
 import {Autoplay, Navigation, Pagination} from 'swiper';
 import {Swiper, SwiperSlide} from 'swiper/react';
-
 import axios from 'axios'
-
+import {useNavigate} from "react-router-dom";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import './App.css'
 import React, {useEffect, useState} from "react";
-import restaurantPage from "./RestaurantPage";
 import Banner from "./Banner";
+import Form from 'react-bootstrap/Form';
+
 
 function SwiperLiveFood({ data }) {
+
     return (
         <Swiper
             modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={30}
             slidesPerView={3}
             // pagination={{ clickable: true }}
-            navigation={true}
+            // navigation={true}
             className="container px-5"
             style={{ width: "130%", paddingBottom: '20px'  }}
             autoplay={{ delay: 2300, disableOnInteraction: false }}
         >
             {Object.keys(data).map((key) =>
                 data[key].restaurantList.map((restaurant, index) => (
-                    <SwiperSlide key={`${key}-${index}`}>
+                    <SwiperSlide key={`${key}-${index}`} style={{minWidth:"300px"}}>
                         <Link to={`/restaurant/${restaurant.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                            <div className="col mb-6 h-100 rounded-3" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
+                            <div className="col mb-6 h-100 rounded-3" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)'}}>
                                 <div className="feature bg-primary bg-gradient text-white rounded-3 mb-3"></div>
                                 <div className="image-container">
                                     <img className="img-fluid rounded-3 my-6" src={restaurant.fileName} alt="..." />
@@ -73,9 +74,9 @@ function SwiperLive({ data }) {
             autoplay={{ delay: 2000, disableOnInteraction: false }}
         >
             {uniqueData.map((hotplace) => (
-                <SwiperSlide>
-                    <Link to={`/restaurant/${hotplace.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                        <div className="col mb-6 h-100 rounded-3" key={hotplace.id} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
+                <SwiperSlide style={{minWidth:"300px"}}>
+                    <Link to={`/hotplace/${hotplace.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                        <div className="col mb-6 h-100 rounded-3" key={hotplace.id} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
                             <div className="feature bg-primary bg-gradient text-white rounded-3 mb-3"></div>
                             <div className="image-container">
                                 <img className="img-fluid rounded-3 my-6" src={hotplace.fileName} alt="..." />
@@ -93,6 +94,8 @@ function SwiperLive({ data }) {
 
 function SwiperLive2({data}) {
 
+    const maxLength = 33;
+
     return (
         <Swiper
             modules={[Navigation, Pagination]}
@@ -105,14 +108,16 @@ function SwiperLive2({data}) {
         >
             {Object.keys(data).map((key) =>
                 data[key].culturalEventList.map((culturalEvent, index) => (
-                    <SwiperSlide>
-                        <div className="card h-100 shadow border-3" key={`${key}-${index}`} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }}>
+                    <SwiperSlide style={{minWidth:"300px"}}>
+                        <div className="card h-100 shadow border-3" key={`${key}-${index}`} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
                             <img className="card-img-top" src={culturalEvent.mainImage} alt="..."
-                                 style={{ objectFit: "cover", maxHeight: "350px", width: "100%" }}/>
+                                 style={{ objectFit: "cover", height: "350px", width: "100%" }}/>
                             <div className="card-body p-2">
-                                <div className="badge bg-info bg-gradient rounded-pill mb-2"  style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{culturalEvent.place}</div>
-                                <Link to="#!" className="text-decoration-none link-dark stretched-link">
-                                    <h5 className="card-title mb-3">{culturalEvent.title}</h5>
+                                <div className="badge bg-info bg-gradient rounded-pill mb-2">
+                                    {culturalEvent.place.length <= maxLength ? culturalEvent.place : culturalEvent.place.slice(0, maxLength) + '...'}
+                                </div>
+                                <Link to={`/culture/${culturalEvent.id}`} className="text-decoration-none link-dark stretched-link">
+                                    <h5 className="card-title mb-3" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{culturalEvent.title}</h5>
                                 </Link>
                                 <p className="card-text mb-0">{culturalEvent.codeName}</p>
                             </div>
@@ -137,46 +142,35 @@ function SwiperLive2({data}) {
 };
 
 
-function Home() {
+function Home(props) {
 
-    const [loggedInUser, setLoggedInUser] = useState(null); // 로그인한 사용자
+    const [location, setLocation] = useState([]);
 
-    useEffect(() => {
-        checkLoggedInUser(); // 사용자가 이미 로그인되어 있는지 확인
-    }, []);
-
-    const checkLoggedInUser = () => {
-        const token = localStorage.getItem('token');
-
-        if (token) {
-            // 사용자가 로그인되어 있는 경우
-            const username = localStorage.getItem('username'); // 로컬 스토리지 또는 서버에서 사용자 ID 가져오기
-            setLoggedInUser({ username: username }); // 사용자 ID를 loggedInUser 상태에 설정
-        } else {
-            // 사용자가 로그인되어 있지 않은 경우
-            setLoggedInUser(null);
-        }
-    };
-
-    const handleLogout = () => {
-        // 로그인된 사용자 데이터 지우기
-        setLoggedInUser(null);
-
-        // 로컬 스토리지에서 토큰 제거
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-
-        // 원하는 페이지로 이동
-        window.location.href = '/sell';
-    };
+    const navigate = useNavigate();
 
     const [data, setData] = useState([]);
 
     useEffect(() => {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                setLocation({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                });
+            },
+            (error) => console.log(error)
+        );
+    }, []);
+
+    useEffect(() => {
         async function getData() {
+            // console.log(localStorage.getItem('token'));
             try {
-                const result = await axios.get("/live/home");
+                const result = await axios.get("/live/home", {
+                    headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+                });
                 setData(result.data);
+                console.log(result.data);
             } catch (err) {
                 console.log(err);
             }
@@ -185,13 +179,53 @@ function Home() {
         getData();
     }, []);
 
+    useEffect(() => {
+                setLocation({
+                    latitude: props.lat,
+                    longitude: props.lng,
+                });
+    }, []);
+
+    useEffect(() => {
+        if (location.latitude && location.longitude) {
+            // 스프링 부트 API 엔드포인트
+            const apiUrl = '/live/home/post';
+            console.log(props.lng)
+            // 위치 데이터를 스프링 부트로 전송하는 POST 요청
+            axios
+                .post(apiUrl, location, {
+                    headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+                })
+                .then((response) => {
+                    console.log('위치 데이터가 성공적으로 전송되었습니다.');
+                    console.log(location);
+                })
+                .catch((error) => {
+                    console.error('위치 데이터 전송 중 오류가 발생했습니다:', error);
+
+                });
+        }
+    }, [location]);
+
     return (
         <div className="d-flex flex-column h-100">
             <main className="flex-shrink-0">
-                {/* <!-- Navigation--> */}
                 {/* <!-- Header--> */}
-               <Banner livedata={data} loggedInUser={loggedInUser} handleLogout={handleLogout}></Banner>
+               <Banner livedata={data}></Banner>
                 {/* <!-- Features section--> */}
+                <section className="py-0 mb-0" id="features">
+                    <div className="container px-5 my-5 mx-auto">
+                        <div className="row gx-2 align-items-center">
+                            {/*<div className="mb-5 mb-lg-0 col text-start"> /!* 수정된 부분: text-center -> text-start, col 추가 *!/*/}
+                            {/*    /!*<h4 className="fw-bolder mt-3">주변맛집</h4>*!/*/}
+                            {/*</div>*/}
+                            {/*<div className="mb-lg-0 d-flex justify-content-center">*/}
+                            {/*    /!*<SwiperLiveFood data={data}></SwiperLiveFood>*!/*/}
+                            {/*</div>*/}
+                            {/*<div id="map" ref={mapContainer} style={{width:'100%', height:'360px', display:'block'}}></div>*/}
+                        </div>
+                    </div>
+                </section>
                 <section className="py-0 mb-0" id="features">
                     <div className="container px-5 my-5 mx-auto">
                         <div className="row gx-5 align-items-center">
@@ -236,22 +270,6 @@ function Home() {
                 </section>
             </main>
             {/* <!-- Footer--> */}
-            <footer className="bg-dark py-4 mt-auto">
-                <div className="container px-5">
-                    <div className="row align-items-center justify-content-between flex-column flex-sm-row">
-                        <div className="col-auto">
-                            <div className="small m-0 text-white">Copyright &copy; Your Website 2023</div>
-                        </div>
-                        <div className="col-auto">
-                            <p className="link-light small" href="#!">Privacy</p>
-                            <span className="text-white mx-1">&middot;</span>
-                            <p className="link-light small" href="#!">Terms</p>
-                            <span className="text-white mx-1">&middot;</span>
-                            <p className="link-light small" href="#!">Contact</p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
             {/* <!-- Bootstrap core JS--> */}
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
             {/* <!-- Core theme JS--> */}

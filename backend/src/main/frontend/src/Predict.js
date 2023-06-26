@@ -3,8 +3,7 @@ import {DemoContainer, DemoItem} from '@mui/x-date-pickers/internals/demo';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Form, Button } from 'react-bootstrap';
 import {Autoplay, Navigation, Pagination} from 'swiper';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {useEffect, useState} from "react";
@@ -16,7 +15,9 @@ import './App.css'
 import Banner from "./Banner";
 import axios from "axios";
 import {Link} from "react-router-dom";
-function SwiperLive() {
+import Header from "./Header";
+import {useNavigate} from "react-router-dom";
+function SwiperLiveHotPlace({predictdata}) {
     return (
         <Swiper
             modules={[Navigation, Pagination, Autoplay]}
@@ -28,227 +29,266 @@ function SwiperLive() {
             // scrollbar={{ draggable: true }}
             className='container px-5'
         >
-            <SwiperSlide>
-                <div className="card h-100">
-                    {/* <!-- Product image--> */}
-                    <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
-                    {/* <!-- Product details--> */}
-                    <div className="card-body p-4">
-                        <div className="text-center">
-                            {/* <!-- Product name--> */}
-                            <h5 className="fw-bolder">가산디지털단지역</h5>
-                            {/* <!-- Product price--> */}
+            {predictdata && predictdata.hotplaces && predictdata.hotplaces.map((hotplace) => (
+                <SwiperSlide key={hotplace.id} className="swiper-slide">
+                    <div className="col mb-5" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
+                        <div className="card h-100">
+                            {/*// <!-- Product image-->*/}
+                            <div className="image-container">
+                                <img className="card-img-top" src={hotplace.file_name}
+                                     alt="..."/>
+                            </div>
+                            {/*// <!-- Product details-->*/}
+                            <div className="card-body p-2">
+                                <div className="text-center">
+                                    {/*// <!-- Product name-->*/}
+                                    <h5 className="fw-bolder" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{hotplace.title}</h5>
+                                    {/*// <!-- Product price-->*/}
+                                    {hotplace.subway_nm}역
+                                </div>
+                            </div>
+                            {/*// <!-- Product actions-->*/}
+                            <div className="card-footer p-3 pt-0 border-top-0 bg-transparent">
+                                <div className="text-center">
+                                    <Link to="#" className="btn btn-outline-dark mt-auto">상세보기</Link>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    {/* <!-- Product actions--> */}
-                    <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div className="text-center"><p className="btn btn-outline-dark mt-auto" href="#">상세보기</p></div>
-                    </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card h-100">
-                    {/* <!-- Product image--> */}
-                    <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
-                    {/* <!-- Product details--> */}
-                    <div className="card-body p-4">
-                        <div className="text-center">
-                            {/* <!-- Product name--> */}
-                            <h5 className="fw-bolder">구로역</h5>
-                            {/* <!-- Product price--> */}
-                        </div>
-                    </div>
-                    {/* <!-- Product actions--> */}
-                    <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div className="text-center"><p className="btn btn-outline-dark mt-auto" href="#">상세보기</p></div>
-                    </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card h-100">
-                    {/* <!-- Product image--> */}
-                    <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
-                    {/* <!-- Product details--> */}
-                    <div className="card-body p-4">
-                        <div className="text-center">
-                            {/* <!-- Product name--> */}
-                            <h5 className="fw-bolder">신도림역</h5>
-                            {/* <!-- Product price--> */}
-                        </div>
-                    </div>
-                    {/* <!-- Product actions--> */}
-                    <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div className="text-center"><p className="btn btn-outline-dark mt-auto" href="#">상세보기</p></div>
-                    </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card h-100">
-                    {/* <!-- Product image--> */}
-                    <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
-                    {/* <!-- Product details--> */}
-                    <div className="card-body p-4">
-                        <div className="text-center">
-                            {/* <!-- Product name--> */}
-                            <h5 className="fw-bolder">독산역</h5>
-                            {/* <!-- Product price--> */}
-                        </div>
-                    </div>
-                    {/* <!-- Product actions--> */}
-                    <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div className="text-center"><p className="btn btn-outline-dark mt-auto" href="#">상세보기</p></div>
-                    </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card h-100">
-                    {/* <!-- Product image--> */}
-                    <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
-                    {/* <!-- Product details--> */}
-                    <div className="card-body p-4">
-                        <div className="text-center">
-                            {/* <!-- Product name--> */}
-                            <h5 className="fw-bolder">홍대입구역</h5>
-                            {/* <!-- Product price--> */}
-                        </div>
-                    </div>
-                    {/* <!-- Product actions--> */}
-                    <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div className="text-center"><p className="btn btn-outline-dark mt-auto" href="#">상세보기</p></div>
-                    </div>
-                </div>
-            </SwiperSlide>
+                </SwiperSlide>
+            ))}
         </Swiper>
     )
 };
 
+function SwiperLiveRestaurant({predictdata}) {
+    return (
+        <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            spaceBetween={30}
+            slidesPerView={4}
+            navigation
+            pagination={{clickable: true}}
+            autoplay={{delay: 2000, disableOnInteraction: false}}
+            // scrollbar={{ draggable: true }}
+            className='container px-5'
+        >
+            {predictdata.restaurant && predictdata.restaurant.map((restaurant) => (
+                <SwiperSlide key={restaurant.id} className="swiper-slide">
+                    <div className="col mb-5" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
+                        <div className="card h-100">
+                            {/*// <!-- Product image-->*/}
+                            <div className="image-container">
+                                <img className="card-img-top" src={restaurant.file_name}
+                                     alt="..."/>
+                            </div>
+                            {/*// <!-- Product details-->*/}
+                            <div className="card-body p-2">
+                                <div className="text-center">
+                                    {/*// <!-- Product name-->*/}
+                                    <h5 className="fw-bolder" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{restaurant.title}</h5>
+                                    {/*// <!-- Product price-->*/}
+                                    {restaurant.subway_nm}역
+                                </div>
+                            </div>
+                            {/*// <!-- Product actions-->*/}
+                            <div className="card-footer p-3 pt-0 border-top-0 bg-transparent">
+                                <div className="text-center">
+                                    <Link to="#" className="btn btn-outline-dark mt-auto">상세보기</Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </SwiperSlide>
+            ))}
+        </Swiper>
+    )
+};
 
-// function DateTimePickerViews() {
-//     return (
-//         <LocalizationProvider dateAdapter={AdapterDayjs}>
-//             <DemoContainer
-//                 components={['DateTimePicker', 'DateTimePicker', 'DateTimePicker']}
-//             >
-//                 <DemoItem label={''}>
-//                     <DateTimePicker views={['day', 'hours']}/>
-//                 </DemoItem>
-//             </DemoContainer>
-//         </LocalizationProvider>
-//     );
-// }
+function SwiperLiveAnother({predictdata}) {
+    return (
+        <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            spaceBetween={30}
+            slidesPerView={4}
+            navigation
+            pagination={{clickable: true}}
+            autoplay={{delay: 2000, disableOnInteraction: false}}
+            // scrollbar={{ draggable: true }}
+            className='container px-5'
+        >
+            {predictdata.another_place && predictdata.another_place.map((another_place) => (
+                <SwiperSlide key={another_place.id} className="swiper-slide">
+                    <div className="col mb-5" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
+                        <div className="card h-100">
+                            {/*// <!-- Product image-->*/}
+                            <div className="image-container">
+                                <img className="card-img-top" src={another_place.place_image}
+                                     alt="..."/>
+                            </div>
+                            {/*// <!-- Product details-->*/}
+                            <div className="card-body p-2">
+                                <div className="text-center">
+                                    {/*// <!-- Product name-->*/}
+                                    <h5 className="fw-bolder" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{another_place.area_nm}</h5>
+                                    {/*// <!-- Product price-->*/}
+                                    {another_place.predict_value}
+                                </div>
+                            </div>
+                            {/*// <!-- Product actions-->*/}
+                            <div className="card-footer p-3 pt-0 border-top-0 bg-transparent">
+                                <div className="text-center">
+                                    <Link to="#" className="btn btn-outline-dark mt-auto">상세보기</Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </SwiperSlide>
+            ))}
+        </Swiper>
+    )
+};
 
 function Predict() {
-    const [date, setDate] = useState(new Date());
-    const [location, setLocation] = useState('');
-    const [hour, setHour] = useState('');
 
-    const handleDateChange = (e) => {
-        const selectedDate = new Date(e.target.value);
-        setDate(selectedDate);
-    };
+    const [date, setDate] = useState(new Date());
+    const [location, setLocation] = useState('강남역');
+    const [hour, setHour] = useState(6);
+    const [year, setYear] = useState(2023);
+    const [month, setMonth] = useState(6);
+    const [day, setDay] = useState(25);
+    const navigate = useNavigate();
 
     const handleHourChange = (e) => {
         setHour(e.target.value);
+    };
+
+    const handleYearChange = (e) => {
+        setYear(e.target.value);
+    };
+
+    const handleMonthChange = (e) => {
+        setMonth(e.target.value);
+    };
+
+    const handleDayChange = (e) => {
+        setDay(e.target.value);
     };
 
     const handleLocationChange = (e) => {
         setLocation(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const [predictdata, Setpredictdata] = useState([
+
+    ]);
+
+    const sendData = (e) => {
+
         e.preventDefault();
 
-        // 입력된 값들을 이용하여 원하는 작업 수행
-        // 예: 서버로 데이터 전송, 다른 컴포넌트와 상태 공유 등
+    const data = JSON.stringify({
+        "user_id": localStorage.getItem('nickname'),
+        "area_nm": location,
+        "year": year,
+        "month": month,
+        "day": day,
+        "hour": hour
+    });
 
-        // 입력된 값들 출력
-        console.log('Date:', date);
-        console.log('Location:', location);
-
-        // 값 초기화
-        setDate(new Date());
-        setLocation('');
+    const config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'http://3.39.156.163:8000/predict',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: data
     };
 
-    const [livedata, setlivedata] = useState([]);
 
-    useEffect(() => {
-        async function getData() {
-            try {
-                const Homeresult = await axios.get("/live/home");
-                setlivedata(Homeresult.data);
-            } catch (err) {
-                console.log(err);
-            }
+
+    axios.request(config)
+        .then(response => {
+            Setpredictdata(response.data);
+            console.log(predictdata.place_congest)
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    };
+
+    const [selectedCategories, setSelectedCategories] = useState([]);
+
+    const handleCategoryChange = (event) => {
+        const { value } = event.target;
+        if (selectedCategories.includes(value)) {
+            setSelectedCategories(selectedCategories.filter(category => category !== value));
+        } else {
+            setSelectedCategories([...selectedCategories, value]);
         }
+    };
 
-        getData();
-    }, []);
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container px-5">
-                    <Link to="/" className="navbar-brand">스탠드업서울</Link>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li className="nav-item"><Link to="/" className="nav-link">가고싶은곳</Link></li>
-                            <li className="nav-item"><Link to="/about" className="nav-link">미래 혼잡도 보기</Link></li>
-                            <li className="nav-item"><Link to="/login" className="nav-link">로그인</Link></li>
-                            <li className="nav-item"><Link to="/signup" className="nav-link">회원가입</Link></li>
-                            <li className="nav-item"><Link to="/" className="nav-link">**</Link></li>
-                            <li className="nav-item dropdown">
-                                <Link to="/" className="nav-link dropdown-toggle" id="navbarDropdownBlog" role="button" data-bs-toggle="dropdown" aria-expanded="false">**</Link>
-                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                </ul>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <Link to="/" className="nav-link dropdown-toggle" id="navbarDropdownPortfolio" role="button" data-bs-toggle="dropdown" aria-expanded="false">**</Link>
-                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                    <li><Link to="/" className="dropdown-item">**</Link></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
         <div className="d-flex flex-column">
             <main className="flex-shrink-0">
                 {/* <!-- Navigation--> */}
                 {/* <!-- Header--> */}
                 <header className="py-6">
+                </header>
+                {/* <!-- About section one--> */}
+                <section className="py-5 bg-light" id="scroll-target">
                     <div className="container px-5">
-                        <form onSubmit={handleSubmit} className="d-flex gap-3">
-                            <div>
-                                <label htmlFor="date">날짜:</label>
-                                <input
-                                    type="date"
-                                    id="date"
-                                    value={date.toISOString().split('T')[0]}
-                                    onChange={handleDateChange}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="hour">시간:</label>
-                                <input
+                        <Form onSubmit={sendData} className="d-flex gap-3">
+                            <Form.Group controlId="year">
+                                <Form.Label>년도:</Form.Label>
+                                <Form.Control
                                     type="number"
-                                    id="hour"
+                                    min="1900"
+                                    max="9999"
+                                    placeholder="년도 입력"
+                                    value={year}
+                                    onChange={handleYearChange}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="month">
+                                <Form.Label>월:</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    min="1"
+                                    max="12"
+                                    placeholder="월 입력"
+                                    value={month}
+                                    onChange={handleMonthChange}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="day">
+                                <Form.Label>일:</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    min="1"
+                                    max="31"
+                                    placeholder="일 입력"
+                                    value={day}
+                                    onChange={handleDayChange}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="hour">
+                                <Form.Label>시간:</Form.Label>
+                                <Form.Control
+                                    type="number"
                                     min="0"
                                     max="23"
                                     placeholder="0-23"
                                     value={hour}
                                     onChange={handleHourChange}
                                 />
-                            </div>
-                            <div>
-                                <label htmlFor="location">장소:</label>
-                                <select id="location" value={location} onChange={handleLocationChange}>
+                            </Form.Group>
+                            <Form.Group controlId="location">
+                                <Form.Label>장소:</Form.Label>
+                                <Form.Select value={location} onChange={handleLocationChange}>
                                     <option value="">장소 선택</option>
                                     <option value="DMC(디지털미디어시티)">DMC(디지털미디어시티)</option>
                                     <option value="가로수길">가로수길</option>
@@ -298,104 +338,140 @@ function Predict() {
                                     <option value="창덕궁·종묘">창덕궁·종묘</option>
                                     <option value="창동 신경제 중심지">창동 신경제 중심지</option>
                                     <option value="홍대 관광특구">홍대 관광특구</option>
-                                    {/* 추가적인 장소 목록을 여기에 추가 */}
-                                </select>
-                            </div>
-                            <button type="submit">전송</button>
-                        </form>
+                                    {/* 추가적인 장소 옵션을 여기에 추가 */}
+                                </Form.Select>
+                            </Form.Group>
+                            <Button type="submit">전송</Button>
+                        </Form>
                     </div>
-                </header>
-                {/* <!-- About section one--> */}
-                <section className="py-5 bg-light" id="scroll-target">
                     <div className="container px-5 my-6">
                         <div className="row gx-5 align-items-center">
-
                             {/* <img className="img-fluid rounded mb-5 mb-lg-0" src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /> */}
-                            <p className="lead fw-bolder text-black-100 mb-0">**은 '혼잡'으로 예상됩니다</p>
-
+                            <p className="lead fw-bolder text-black-100 mb-0">그때의 {location}은(는) '{predictdata.place_congest}'으로 예상됩니다</p>
                         </div>
                         {/* <div className="col-lg-6">
                             <p className="lead fw-bolder text-black-100" style={{marginBottom: '160px'}}>근처의 다른 역을 추천해드립니다</p>
                            <SwiperLive></SwiperLive>
                         </div> */}
-
                     </div>
                 </section>
-                {/* <!-- About section two--> */}
-                <div className="container px-4 px-lg-5">
-                    {/* <!-- Content Row--> */}
-                    <div className="row gx-4 gx-lg-5" style={{marginTop: '50px', marginBottom: '50px'}}>
-                        <h1 className="display-6 fw-bolder"
-                            style={{fontSize: '30px', marginLeft: '-530px', marginBottom: '50px'}}>근처맛집</h1>
-                        <SwiperLive></SwiperLive>
-                    </div>
-                    <div className="row gx-4 gx-lg-5" style={{marginBottom: '50px'}}>
-                        <h1 className="display-6 fw-bolder"
-                            style={{fontSize: '30px', marginLeft: '-530px', marginBottom: '50px'}}>근처명소</h1>
-                        <SwiperLive></SwiperLive>
-                    </div>
-                </div>
                 {/* <!-- Team members section--> */}
-                <section className="py-5 bg-light">
-                    <div className="container px-5 my-5">
-                        <div className="text-center">
-                            <h2 className="fw-bolder">근처맛집</h2>
-                            <p className="lead fw-normal text-muted mb-5">**역 근처 맛집을 알려드립니다.</p>
+                {(predictdata.place_congest === "약간 붐빔" || predictdata.place_congest === "붐빔") && (
+                    <section className="py-6">
+                        <div className="container px-4 px-lg-1 mt-5">
+                            <h2 className="fw-bolder mb-4">AI가 예측한 다른 지역입니다</h2>
+                            <div className="row gx-2 gx-lg-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                                {predictdata.another_place && predictdata.another_place.map((another_place) => (
+                                    <div className="col mb-2" key={another_place.id} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.05)' }}>
+                                        <div className="card h-100">
+                                            <img className="card-img-top" src={another_place.place_image} alt="..." style={{ objectFit: 'cover', height: '200px' }} />
+                                            <div className="card-body p-4">
+                                                <div className="text-center">
+                                                    <h5 className="fw-bolder" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{another_place.area_nm}</h5>
+                                                    {another_place.predict_value}
+                                                </div>
+                                            </div>
+                                            <div className="card-footer p-4 pt-0 border-top-0 bg-transparent mt-0">
+                                                <div className="text-center"> <span onClick={() => {
+                                                    navigate(`/live/detail/${another_place.id}`)
+                                                }} className="btn btn-outline-dark mt-auto">상세보기</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                        <div className="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
-                            <div className="col mb-5 mb-5 mb-xl-0">
-                                <div className="text-center">
-                                    <img className="img-fluid rounded-circle mb-4 px-4"
-                                         src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..."/>
-                                    <h5 className="fw-bolder">병창이네</h5>
-                                    <div className="fst-italic text-muted">고깃집</div>
+                    </section>
+                )}
+                {(predictdata.place_congest === "여유" || predictdata.place_congest === "보통") && (
+                <section className="py-6">
+                    <div className="container px-4 px-lg-1 mt-5">
+                        <h2 className="fw-bolder mb-4">주변맛집</h2>
+                        <Form>
+                            {['checkbox'].map((type) => (
+                                <div key={`inline-${type}`} className="mb-3">
+                                    <Form.Check
+                                        inline
+                                        label="기타"
+                                        name="group1"
+                                        value={"기타"}
+                                        type={type}
+                                        id={`inline-${type}-1`}
+                                        onChange={handleCategoryChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        label="양식"
+                                        name="group1"
+                                        value={"양식"}
+                                        type={type}
+                                        id={`inline-${type}-2`}
+                                        onChange={handleCategoryChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        // disabled
+                                        label="한식"
+                                        name="group1"
+                                        value={"한식"}
+                                        type={type}
+                                        id={`inline-${type}-3`}
+                                        onChange={handleCategoryChange}
+                                    />
                                 </div>
-                            </div>
-                            <div className="col mb-5 mb-5 mb-xl-0">
-                                <div className="text-center">
-                                    <img className="img-fluid rounded-circle mb-4 px-4"
-                                         src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..."/>
-                                    <h5 className="fw-bolder">상욱이네</h5>
-                                    <div className="fst-italic text-muted">카페</div>
+                            ))}
+                        </Form>
+                        <div className="row gx-2 gx-lg-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                            {predictdata.restaurant && predictdata.restaurant.map((restaurant) => (
+                                <div className="col mb-2" key={restaurant.id} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.05)' }}>
+                                    <div className="card h-100">
+                                        <img className="card-img-top" src={restaurant.file_name} alt="..." style={{ objectFit: 'cover', height: '200px' }} />
+                                        <div className="card-body p-4">
+                                            <div className="text-center">
+                                                <h5 className="fw-bolder" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{restaurant.title}</h5>
+                                                {restaurant.restaurantCategory}
+                                            </div>
+                                        </div>
+                                        <div className="card-footer p-4 pt-0 border-top-0 bg-transparent mt-0">
+                                            <div className="text-center"> <span onClick={() => {
+                                                navigate(`/restaurant/${restaurant.id}`)
+                                            }} className="btn btn-outline-dark mt-auto">상세보기</span></div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col mb-5 mb-5 mb-sm-0">
-                                <div className="text-center">
-                                    <img className="img-fluid rounded-circle mb-4 px-4"
-                                         src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..."/>
-                                    <h5 className="fw-bolder">호영이네</h5>
-                                    <div className="fst-italic text-muted">술집</div>
-                                </div>
-                            </div>
-                            <div className="col mb-5">
-                                <div className="text-center">
-                                    <img className="img-fluid rounded-circle mb-4 px-4"
-                                         src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..."/>
-                                    <h5 className="fw-bolder">민수네</h5>
-                                    <div className="fst-italic text-muted">양식</div>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </section>
-            </main>
-            {/* <!-- Footer--> */}
-            <footer className="bg-dark py-4 mt-auto">
-                <div className="container px-5">
-                    <div className="row align-items-center justify-content-between flex-column flex-sm-row">
-                        <div className="col-auto">
-                            <div className="small m-0 text-white">Copyright &copy; Your Website 2023</div>
-                        </div>
-                        <div className="col-auto">
-                            <p className="link-light small" href="#!">Privacy</p>
-                            <span className="text-white mx-1">&middot;</span>
-                            <p className="link-light small" href="#!">Terms</p>
-                            <span className="text-white mx-1">&middot;</span>
-                            <p className="link-light small" href="#!">Contact</p>
+                    )}
+                {(predictdata.place_congest === "여유" || predictdata.place_congest === "보통") && (
+                <section className="py-6">
+                    <div className="container px-4 px-lg-1 mt-5">
+                        <h2 className="fw-bolder mb-4">주변명소</h2>
+                        <div className="row gx-2 gx-lg-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                            {predictdata && predictdata.hotplaces && predictdata.hotplaces.map((hotplace) => (
+                                <div className="col mb-2" key={hotplace.id} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.05)' }}>
+                                    <div className="card h-100">
+                                        <img className="card-img-top" src={hotplace.file_name} alt="..." style={{ objectFit: 'cover', height: '200px' }} />
+                                        <div className="card-body p-4">
+                                            <div className="text-center">
+                                                <h5 className="fw-bolder" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{hotplace.title}</h5>
+                                                {hotplace.restaurantCategory}
+                                            </div>
+                                        </div>
+                                        <div className="card-footer p-4 pt-0 border-top-0 bg-transparent mt-0">
+                                            <div className="text-center"> <span onClick={() => {
+                                                navigate(`/hotplace/${hotplace.id}`)
+                                            }} className="btn btn-outline-dark mt-auto">상세보기</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
-            </footer>
+                </section>
+                    )}
+            </main>
             {/* <!-- Bootstrap core JS--> */}
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
             {/* <!-- Core theme JS--> */}
