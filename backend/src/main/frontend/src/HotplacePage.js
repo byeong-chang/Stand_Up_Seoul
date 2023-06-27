@@ -2,6 +2,7 @@ import {Link, useLocation, useParams} from 'react-router-dom';
 import React, {useEffect, useState} from "react";
 import axios from 'axios'
 import { Map, MapMarker, MapTypeId } from "react-kakao-maps-sdk";
+import CommentHotplace from "./CommentHotplace";
 
 
 function HotplacePage(props) {
@@ -92,6 +93,8 @@ function HotplacePage(props) {
                     </div>
                 </div>
             </section>
+
+            <CommentHotplace message={message} id={id}></CommentHotplace>
             {/*// <!-- Bootstrap core JS-->*/}
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
             {/*// <!-- Core theme JS-->*/}

@@ -11,38 +11,6 @@ import {Autoplay, Navigation, Pagination} from "swiper";
 
 const {kakao} = window;
 
-// function SwiperLiveFood({ message }) {
-//   return (
-//       <Swiper
-//           modules={[Navigation, Pagination, Autoplay]}
-//           spaceBetween={30}
-//           slidesPerView={3}
-//           // pagination={{ clickable: true }}
-//           // navigation={true}
-//           className="container px-5"
-//           style={{ width: "130%", paddingBottom: '20px'  }}
-//           autoplay={{ delay: 2300, disableOnInteraction: false }}
-//       >
-//         {Object.keys(message).map((key) =>
-//             message[key].restaurantList.map((restaurant, index) => (
-//                 <SwiperSlide key={`${key}-${index}`}>
-//                   <Link to={`/restaurant/${restaurant.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-//                     <div className="col mb-6 h-100 rounded-3" style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)' }}>
-//                       <div className="feature bg-primary bg-gradient text-white rounded-3 mb-3"></div>
-//                       <div className="image-container">
-//                         <img className="img-fluid rounded-3 my-6" src={restaurant.fileName} alt="..." />
-//                       </div>
-//                       <h5 className="fw-bolder mt-3" style={{ paddingLeft: '20px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{restaurant.title}</h5>
-//                       <p className="card-text mb-0" style={{ paddingLeft: '20px' }}>{restaurant.restaurantCategory}</p>
-//                     </div>
-//                   </Link>
-//                 </SwiperSlide>
-//             ))
-//         )}
-//       </Swiper>
-//   );
-// }
-
 function RestaurantPage(props) {
   const { id } = useParams();
   const [message, setMessage] = useState([]);
@@ -54,6 +22,7 @@ function RestaurantPage(props) {
           headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
         });
         setMessage(result.data);
+        setLiked(result.data.restaurantLikeDto?.id > 0);
         console.log(result.data);
       } catch (err) {
         console.log(err);
@@ -61,22 +30,6 @@ function RestaurantPage(props) {
     }
     getData();
   }, []);
-
-  // const handleLike = () => {
-  //   setLiked(!liked); // 좋아요 상태를 반전시킴
-  //   // 좋아요 상태에 따라 서버로 요청을 보낼 수 있음
-  //   if (liked) {
-  //     axios.get(`/board/restaurant/like/delete/${id}`, {
-  //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-  //     });
-  //   }
-  //    else {
-  //     // 좋아요 추가 요청 처리
-  //     axios.get(`/board/restaurant/like/${id}`, null, {
-  //     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-  //     });
-  //   }
-  // };
 
   useEffect(() => {
     if (message.restaurantDto && message.restaurantDto.mapx && message.restaurantDto.mapy) {
@@ -102,7 +55,7 @@ function RestaurantPage(props) {
     setLiked(!liked); // 좋아요 상태를 반전시킴
     try {
       if (liked) {
-        await axios.get(`/board/restaurant/like/delete/${id}`, {
+        await axios.get(`/board/restaurant/like/delete/${message.restaurantLikeDto.id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
       } else {
@@ -117,6 +70,8 @@ function RestaurantPage(props) {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setMessage(result.data);
+      setLiked(!liked);
+      console.log(result.data);
     } catch (error) {
       console.log(error);
     }

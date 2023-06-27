@@ -52,6 +52,7 @@ function App() {
         // 로컬 스토리지에서 토큰 제거
         localStorage.removeItem('token');
         localStorage.removeItem('username');
+        localStorage.removeItem('location');
 
         // 원하는 페이지로 이동
         navigate('/');

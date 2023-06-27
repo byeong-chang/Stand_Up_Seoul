@@ -151,15 +151,26 @@ function Home(props) {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setLocation({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                });
-            },
-            (error) => console.log(error)
-        );
+        const fetchLocation = () => {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const storedLocation = localStorage.getItem('location');
+                    if (!storedLocation) {
+                        setLocation({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                        });
+                        localStorage.setItem('location', JSON.stringify({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                        }));
+                    }
+                },
+                (error) => console.log(error)
+            );
+        };
+
+        fetchLocation();
     }, []);
 
     useEffect(() => {
