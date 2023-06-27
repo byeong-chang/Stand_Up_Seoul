@@ -5,7 +5,6 @@ import com.project.backend.accounts.repository.UsersRepository;
 import com.project.backend.accounts.repository.entity.Users;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +18,7 @@ public class MyPageService {
 
     public void logout(String email) {}
 
-    public UsersDto retrieve(@AuthenticationPrincipal String userId) {
+    public UsersDto retrieve(String userId) {
         UsersDto usersDto = new UsersDto();
         // 사용자 정보 가져오기
         Users user = usersRepository.findById(Integer.parseInt(userId));

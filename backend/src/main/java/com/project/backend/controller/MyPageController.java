@@ -1,9 +1,9 @@
 package com.project.backend.controller;
 
 import com.project.backend.accounts.dto.UsersDto;
-import com.project.backend.accounts.repository.UsersRepository;
 import com.project.backend.accounts.repository.entity.Users;
 import com.project.backend.accounts.service.MyPageService;
+import com.project.backend.accounts.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class MyPageController {
 
     private final MyPageService myPageService;
-    private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     @GetMapping("/mypage")
     public ResponseEntity<UsersDto> retrieve(@AuthenticationPrincipal String userId) {
@@ -30,7 +30,7 @@ public class MyPageController {
 
     @PostMapping("/mypage")
     public ResponseEntity<UsersDto> updateUser(@AuthenticationPrincipal String userId, @RequestBody UsersDto usersDto, Errors errors) {
-        Users user = usersRepository.findById(Integer.parseInt(userId));
+        Users user = userService.getUser(Integer.parseInt(userId));
 
         if (user != null) {
             if (errors.hasErrors()) {
@@ -52,7 +52,7 @@ public class MyPageController {
                 user.setPhoneNumber(usersDto.getPhoneNumber());
             }
 
-            usersRepository.save(user);
+            userService.saveUser(user);
             myPageService.login(user);
 
             UsersDto updatedUsersDto = myPageService.convertToUsersDto(user);
@@ -64,7 +64,7 @@ public class MyPageController {
 
     @DeleteMapping("/mypage")
     public ResponseEntity<UsersDto> deleteUser(@AuthenticationPrincipal String userId) {
-        Users user = usersRepository.findById(Integer.parseInt(userId));
+        Users user = userService.getUser(Integer.parseInt(userId));
 
         if (user != null) {
             String email = user.getEmail();
@@ -75,4 +75,16 @@ public class MyPageController {
         return ResponseEntity.notFound().build();
     }
 
+    @PostMapping("/findPassword")
+    public ResponseEntity<?> modifyPassword(@RequestBody UsersDto userDto, @AuthenticationPrincipal String userId) {
+        Users user = userService.getUser(Integer.parseInt(userId));
+        if (user.getEmail().equals(userDto.getEmail())) {
+            if (userService.passwordCheck(userDto.getPassword(),userDto.getPasswordCheck())){
+                user.setPassword(userDto.getPassword());
+                userService.saveUser(user);
+                return ResponseEntity.ok(user);
+            }
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
