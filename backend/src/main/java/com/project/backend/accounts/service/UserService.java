@@ -17,12 +17,16 @@ public class UserService {
     public Users getUser(int userId){
         return usersRepository.findById(userId);
     }
+    public void saveUser(Users user){
+        usersRepository.save(user);
+    }
 
-    public void passwordCheck(String password, String passwordCheck){
+    public Boolean passwordCheck(String password, String passwordCheck){
         if (!password.equals(passwordCheck)){
             log.warn("Password is not same to passwordCheck");
             throw new RuntimeException("Incorrect password");
         }
+        return true;
     }
     public Users create(final Users user){
         if(user == null || user.getEmail() == null || user.getNickname() == null
