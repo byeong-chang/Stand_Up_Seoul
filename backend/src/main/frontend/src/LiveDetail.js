@@ -179,58 +179,84 @@ function LiveDetail() {
             {/* <!-- Page Content--> */}
             <div className="container px-4 px-lg-5">
                 {/* <!-- Heading Row--> */}
-                <div className="row gx-4 gx-lg-5 align-items-center my-5">
+                <div className="row gx-4 gx-lg-5 align-items-center my-5 mb-0">
                     {/* <div className="col-lg-5"></div> */}
-                    <h1 className="font-weight-light">현재 {message[0] && message[0].population.areaCongest.areaCongestMessage}</h1>
-                    <p>{message[0] && message[0].place.areaName}의 일주일 통계를 보여드립니다</p>
+                    <h2 className="font-weight-light">
+                        <strong>
+                            현재{' '}
+                            {message[0] &&
+                                message[0].population.areaCongest.areaCongestMessage
+                                    .split('. ')
+                                    .map((sentence, index) => (
+                                        <React.Fragment key={index}>
+                                            {sentence}
+                                            <br />
+                                        </React.Fragment>
+                                    ))}
+                        </strong>
+                    </h2>
+                    <p className="h4"><strong>{message[0] && message[0].place.areaName}</strong>의 일주일 통계를 보여드립니다</p>
                     {/* <a className="btn btn-primary" href="#!">Call to Action!</a> */}
                     {/*<div className="col-lg-7">*/}
                         <Dashboard></Dashboard>
                     {/*</div>*/}
                 </div>
-                <section className="py-6">
-                    <div className="container px-4 px-lg-1 mt-5">
-                        <h2 className="fw-bolder mb-4">{message[0] && message[0].place.areaName}의 주변맛집</h2>
-                        <div className="row gx-2 gx-lg-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                            {message[0] && message[0].restaurantList.map((restaurant) => (
-                                <div className="col mb-2" key={restaurant.id} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.05)' }}>
-                                <div className="card h-100">
-                                    <img className="card-img-top" src={restaurant.fileName} alt="..." style={{ objectFit: 'cover', height: '200px' }} />
-                                    <div className="card-body p-4">
-                                        <div className="text-center">
-                                            <h5 className="fw-bolder" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{restaurant.title}</h5>
-                                            {restaurant.restaurantCategory}
-                                        </div>
-                                    </div>
-                                    <div className="card-footer p-4 pt-0 border-top-0 bg-transparent mt-0">
-                                        <div className="text-center"> <span onClick={() => {
-                                            navigate(`/restaurant/${restaurant.id}`)
-                                        }} className="btn btn-outline-dark mt-auto">상세보기</span></div>
-                                    </div>
-                                </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-                <section className="py-6 mb-5">
-                    <div className="container px-4 px-lg-1 mt-5">
-                        <h2 className="fw-bolder mb-4">{message[0] && message[0].place.areaName}의 주변명소</h2>
-                        <div className="row gx-2 gx-lg-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                            {message[0] && message[0].hotplacesList.map((hotplaces) => (
-                                <div className="col mb-2" key={hotplaces.id} style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.05)' }}>
-                                    <div className="card h-100">
-                                        <img className="card-img-top" src={hotplaces.fileName} style={{ objectFit: 'cover', height: '200px' }} alt="..." />
-                                        <div className="card-body p-4">
-                                            <div className="text-center">
-                                                <h5 className="fw-bolder" style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{hotplaces.title}</h5>
-                                                {hotplaces.contentType}
+                    <section className="py-5">
+                        <div className="container px-2 my-0">
+                            <div className="text-center mb-5">
+                                <h1 className="fw-bolder">{message[0] && message[0].place.areaName}의 주변맛집</h1>
+                                {/*<p className="lead fw-normal text-muted mb-0">Company portfolio</p>*/}
+                            </div>
+                            <div className="row gx-5">
+                                {message[0] && message[0].restaurantList.map((restaurant) => (
+                                    <div className="col-lg-3" key={restaurant.id}>
+                                        <div className="position-relative">
+                                            <img className="img-fluid rounded-3 mb-3"
+                                                 src={restaurant.fileName} alt="..." style={{ objectFit: "cover", height: "190px", width: "100%" }}/>
+                                            <a className="h4 fw-bolder text-decoration-none link-dark stretched-link"
+                                               onClick={() => {
+                                                   navigate(`/restaurant/${restaurant.id}`);
+                                               }} style={{
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis'
+                                            }}>{restaurant.title}</a>
+                                            <div className="position-relative mt-2">
+                                                <a className="h5 text-decoration-none link-dark stretched-link"
+                                                   href="#!">
+                                                    {restaurant.restaurantCategory}</a>
                                             </div>
                                         </div>
-                                        <div className="card-footer p-3 pt-0 border-top-0 bg-transparent mt-0">
-                                            <div className="text-center"> <span onClick={() => {
-                                                navigate(`/hotplace/${hotplaces.id}`)
-                                            }} className="btn btn-outline-dark mt-auto">상세보기</span></div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                <section className="py-5">
+                    <div className="container px-2 my-0">
+                        <div className="text-center mb-5">
+                            <h1 className="fw-bolder">{message[0] && message[0].place.areaName}의 주변명소</h1>
+                            {/*<p className="lead fw-normal text-muted mb-0">Company portfolio</p>*/}
+                        </div>
+                        <div className="row gx-5">
+                            {message[0] && message[0].hotplacesList.map((hotplaces) => (
+                                <div className="col-lg-3" key={hotplaces.id}>
+                                    <div className="position-relative">
+                                        <img className="img-fluid rounded-3 mb-3"
+                                             src={hotplaces.fileName} alt="..." style={{ objectFit: "cover", height: "190px", width: "100%" }}/>
+                                        <a className="h4 fw-bolder text-decoration-none link-dark stretched-link"
+                                           onClick={() => {
+                                               navigate(`/restaurant/${hotplaces.id}`);
+                                           }} style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>{hotplaces.title}</a>
+                                        <div className="position-relative mt-2">
+                                            <a className="h5 text-decoration-none link-dark stretched-link"
+                                               href="#!">
+                                                {hotplaces.contentType}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -238,20 +264,6 @@ function LiveDetail() {
                         </div>
                     </div>
                 </section>
-                {/*<section className="py-6 bg-white">*/}
-                {/*    <div className="container px-4 px-lg-0 mt-5">*/}
-                {/*        <h2 className="fw-bolder mb-4">{message[0] && message[0].place.areaName}의 주변명소</h2>*/}
-                {/*        /!*<div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">*!/*/}
-
-                {/*        /!*</div>*!/*/}
-                {/*    </div>*/}
-                {/*    <SwiperLiveHotplace message={message}></SwiperLiveHotplace>*/}
-                {/*</section>*/}
-                {/* <!-- Bootstrap core JS--> */}
-                {/*<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>*/}
-                {/* <!-- Core theme JS--> */}
-                {/*<script src="js/scripts.js"></script>*/}
-                {/* <!-- Footer--> */}
             </div>
         </div>
     )

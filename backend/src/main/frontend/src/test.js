@@ -56,13 +56,14 @@ const Test = (props) => {
                     key={`${marker.position.lat}-${marker.position.lng}-${index}`}
                     position={marker.position}
                 >
-                    <div style={{color: "#000", display: "flex", alignItems: "center" }}>
+                    <div style={{display: "flex", alignItems: "center", whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis' }}>
                         해당지역으로 검색하시겠습니까?
                         <button
-                            className="btn-info"
+                            className="btn btn-secondary"
                             onClick={Click}
-                            style={{ color: "blue", marginLeft: "10px", whiteSpace: "nowrap" }}
-                            rel="noreferrer"
+                            // rel="noreferrer"
                         >
                             이동
                         </button>

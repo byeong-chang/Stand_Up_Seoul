@@ -75,11 +75,9 @@ function Face(){
             <div className="container px-4 px-lg-5">
                 <div className="row gx-4 gx-lg-5">
                     <div className="col-lg-6">
-                        <h1 className="mt-5 text-white">Stand Up Seoul</h1>
-                        <p className="mt-5 text-white-50">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt voluptates rerum eveniet
-                            sapiente repellat esse, doloremque quod recusandae deleniti nostrum assumenda vel beatae sed
-                            aut modi nesciunt porro quisquam voluptatem.</p>
-                        <button className="btn btn-secondary btn-lg" onClick={handleButtonClickStandUpSeoul}>시작하기</button>
+                        <h1 className="mt-5 text-white" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 5)' }}>Stand Up Seoul</h1>
+                        <p className="mt-5 text-white" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 5)' }}>지금까지 서울시에서 발생한 사고로 인한 혼잡도에 대한 관심이 크게 늘어났습니다. 이에 우리는 안전성과 여가·문화 생활을 결합한 종합 정보 제공 웹 서비스를 제공하고 있습니다. 주요 장소에서 발생하는 혼잡 데이터를 수집하고, 데이터 분석과 기계 학습(ML)을 활용하여 신뢰할 수 있는 예측 웹 서비스를 제공하니, 안전하고 편안한 시간을 보내고 싶으신 분들은 저희 서비스를 이용해보세요.</p>
+                        <button className="btn btn-outline-light btn-lg px-4" onClick={handleButtonClickStandUpSeoul}>시작하기</button>
                     </div>
                 </div>
             </div>

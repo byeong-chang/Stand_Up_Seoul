@@ -20,6 +20,8 @@ import PartnerSignUp from "./PartnerSignUp";
 import CulturePage from "./CulturePage";
 import image from "./static/제목을 입력해주세요_-001 (4).png";
 import MyPage from "./MyPage";
+import { Navbar, Nav, Dropdown } from 'react-bootstrap';
+import Main from "./Main";
 function App() {
     let [lat, setLet] = useState(0);
     let [lng, setLng] = useState(0);
@@ -86,65 +88,33 @@ function App() {
 
     return (
         <div className="App">
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container px-5">
-                    {/*<img src={image} alt="로고 이미지" />*/}
-                    <img
-                        src={image}
-                        alt="로고 이미지"
-                        onClick={handleButtonClickStandUpSeoul}
-                        className="navbar-brand"
-                        style={{ transform: 'scale(1.6)', width: '100px', marginTop: '-50px', marginBottom: '-80px' }}
-                    />
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                            {loggedInUser && (
-                                <li className="nav-item">
-                  <span className="nav-link" onClick={handleMypage}>
-                    {localStorage.getItem('nickname')}님
-                  </span>
-                                </li>
+            <Navbar bg="dark" expand="lg" variant="dark" className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <img
+                    src={image}
+                    alt="로고 이미지"
+                    onClick={handleButtonClickStandUpSeoul}
+                    className="navbar-brand"
+                    style={{ transform: 'scale(1.6)', width: '100px', marginTop: '-50px', marginBottom: '-80px', marginLeft: '50px' }}
+                />
+                <Navbar.Toggle aria-controls="navbarSupportedContent" style={{ marginRight: '30px' }}/>
+                <Navbar.Collapse id="navbarSupportedContent" style={{ marginRight: '30px' }}>
+                    <Nav className="ms-auto mb-2 mb-lg-0">
+                        {loggedInUser && (
+                        <Nav.Link onClick={handleMypage} style={{ marginLeft: '10px' }}>{localStorage.getItem('nickname')}님</Nav.Link>
                             )}
-                            {loggedInUser ? (
-                                // 로그인된 사용자인 경우
-                                <React.Fragment>
-                                    <li className="nav-item">
-                    <span className="nav-link" onClick={handleLogout}>
-                      로그아웃
-                    </span>
-                                    </li>
-                                </React.Fragment>
-                            ) : (
-                                // 로그인되지 않은 사용자인 경우
-                                <li className="nav-item">
-                  <span className="nav-link" onClick={handleLogin}>
-                    로그인
-                  </span>
-                                </li>
-                            )}
-                            <li className="nav-item">
-                <span className="nav-link" onClick={handleSignin}>
-                  회원가입
-                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+                        {loggedInUser ? (
+                        <Nav.Link onClick={handleLogout} style={{ marginLeft: '10px' }}>로그아웃</Nav.Link>
+                        ) : (
+                        <Nav.Link onClick={handleLogin} style={{ marginLeft: '10px' }}>로그인</Nav.Link>
+                        )}
+                        <Nav.Link onClick={handleSignin} style={{ marginLeft: '10px' }}>회원가입</Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
 
             <Routes>
                 <Route path="/" element={<Face/>}></Route>
+                <Route path="/main/*" element={<Main/>}></Route>
                 <Route path="/predict/*" element={<Predict/>}></Route>
                 <Route path="/live/*" element={<Live/>}></Route>
                 <Route path="/live/detail/:id" element={<LiveDetail/>}></Route>
@@ -163,10 +133,20 @@ function App() {
                 <Route path="/mypage/*" element={<MyPage/>}></Route>
                 {/* 상단에 위치하는 라우트들의 규칙을 모두 확인, 일치하는 라우트가 없는경우 처리 */}
             </Routes>
-
-            <footer className="py-3 bg-dark">
-                <div className="container"><p className="m-0 text-center text-white">Copyright &copy; Your Website
-                    2023</p>
+            <footer className="bg-dark py-3 mt-auto">
+                <div className="container px-5">
+                    <div className="row align-items-center justify-content-between flex-column flex-sm-row">
+                        <div className="col-auto">
+                            <div className="small m-0 text-white">Copyright &copy; Your Website 2023</div>
+                        </div>
+                        <div className="col-auto">
+                            <a className="link-light small" href="#!">Privacy</a>
+                            <span className="text-white mx-1">&middot;</span>
+                            <a className="link-light small" href="#!">Terms</a>
+                            <span className="text-white mx-1">&middot;</span>
+                            <a className="link-light small" href="#!">Contact</a>
+                        </div>
+                    </div>
                 </div>
             </footer>
         </div>

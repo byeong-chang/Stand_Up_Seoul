@@ -74,7 +74,7 @@ const SignUp = () => {
                 // 회원가입 실패 시 처리
                 console.log(error);
                 setError(true);
-                setErrorMessage('회원가입에 실패했습니다1');
+                setErrorMessage('회원가입에 실패했습니다');
             });
     };
 

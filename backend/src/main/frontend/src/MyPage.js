@@ -1,16 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function MyPage() {
-
     const [data, setData] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [showPhoneModal, setShowPhoneModal] = useState(false);
+    const [showAddressModal, setShowAddressModal] = useState(false);
+    const [newNickname, setNewNickname] = useState("");
+    const [newPhoneNumber, setNewPhoneNumber] = useState("");
+    const [newAddress, setNewAddress] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function getData() {
             try {
                 const result = await axios.get(`/user/mypage`, {
-                    headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 });
                 setData(result.data);
                 console.log(result.data);
@@ -21,59 +27,25 @@ function MyPage() {
         getData();
     }, []);
 
-    const [newNickname, setNewNickname] = useState(data.Nickname);
-    const [newPhoneNumber, setNewPhoneNumber] = useState(data.PhoneNumber);
-    const [newAddress, setNewAddress] = useState(data.Address);
-
-    const navigate = useNavigate();
-
     const handlePasswordReset = () => {
-        // 비밀번호 재설정 기능 구현
-        // 비밀번호 재설정 후 필요한 처리를 진행하고, 마이페이지로 돌아올 수 있도록 리다이렉트
         navigate("/mypage");
     };
 
     const handleNicknameChange = () => {
-        // 닉네임 변경 기능 구현
-        // 새로운 닉네임을 서버에 전달하고, 변경된 정보를 반영하여 마이페이지를 다시 렌더링
         setNewNickname("");
-        handleChange();
-    };
-
-    const handlePhoneNumberChange = () => {
-        // 전화번호 변경 기능 구현
-        // 새로운 전화번호를 서버에 전달하고, 변경된 정보를 반영하여 마이페이지를 다시 렌더링
-        setNewPhoneNumber("");
-        handleChange();
-    };
-
-    const handleAddressChange = () => {
-        // 주소 변경 기능 구현
-        // 새로운 주소를 서버에 전달하고, 변경된 정보를 반영하여 마이페이지를 다시 렌더링
-        setNewAddress("");
-        handleChange();
-    };
-
-    const handleWithdrawal = () => {
-        // 회원 탈퇴 기능 구현
-        // 회원 탈퇴 처리를 진행하고, 로그인 페이지로 리다이렉트
-        navigate("/login");
-    };
-
-    const handleChange = (event) => {
-        event.preventDefault();
-
+        setShowModal(false);
         axios
-            .post(`/user/mypage`, {
+            .post(
+                `/user/mypage`,
+                {
                     nickname: newNickname,
-                    phonenumber: newPhoneNumber,
-                    address: newAddress
                 },
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
-                })
+                }
+            )
             .then((response) => {
                 // 원하는 페이지로 리다이렉트
                 navigate(`/mypage`);
@@ -84,10 +56,90 @@ function MyPage() {
             });
     };
 
+    const handlePhoneNumberChange = () => {
+        setNewPhoneNumber("");
+        setShowPhoneModal(false);
+        axios
+            .post(
+                `/user/mypage`,
+                {
+                    phoneNumber: newPhoneNumber,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                }
+            )
+            .then((response) => {
+                // 원하는 페이지로 리다이렉트
+                navigate(`/mypage`);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
+    const handleAddressChange = () => {
+        setNewAddress("");
+        setShowAddressModal(false);
+        axios
+            .post(
+                `/user/mypage`,
+                {
+                    userAddress: newAddress,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                }
+            )
+            .then((response) => {
+                // 원하는 페이지로 리다이렉트
+                navigate(`/mypage`);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const handleWithdrawal = () => {
+        navigate("/login");
+    };
+
+    const handleChange = () => {
+        axios
+            .post(
+                `/user/mypage`,
+                {
+                    nickname: newNickname,
+                    // // phoneNumber: newPhoneNumber,
+                    // phoneNumber: data.phoneNumber,
+                    // userAddress: data.userAddress,
+                    // // userAddress: newAddress,
+                    // password: data.password
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                }
+            )
+            .then((response) => {
+                // 원하는 페이지로 리다이렉트
+                navigate(`/mypage`);
+                window.location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     return (
-        <div className='sign_box' style={{ textAlign: 'center' }}>
+        <div className="sign_box" style={{ textAlign: "center" }}>
             <h1>마이페이지</h1>
             <div className="card">
                 <div className="card-body">
@@ -101,56 +153,188 @@ function MyPage() {
                 <div className="card-body">
                     <h5 className="card-title">닉네임 변경</h5>
                     <div className="input-group mb-3">
-                        <input
+                        <div
                             type="text"
-                            className="form-control"
-                            placeholder="새로운 닉네임"
-                            value={newNickname}
-                            onChange={(e) => setNewNickname(e.target.value)}
-                        />
-                        <button className="btn btn-primary" onClick={handleNicknameChange}>
-                            변경
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div className="card">
-                <div className="card-body">
-                    <h5 className="card-title">전화번호 변경</h5>
-                    <div className="input-group mb-3">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="새로운 전화번호"
-                            value={newPhoneNumber}
-                            onChange={(e) => setNewPhoneNumber(e.target.value)}
-                        />
+                            className="form-control">
+                            {localStorage.getItem('nickname')}
+                        </div>
                         <button
                             className="btn btn-primary"
-                            onClick={handlePhoneNumberChange}
+                            onClick={() => setShowModal(true)}
                         >
                             변경
                         </button>
                     </div>
                 </div>
             </div>
+            {/* 모달 창 */}
+            {showModal && (
+                <div className="modal" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">닉네임 변경</h5>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={() => setShowModal(false)}
+                                ></button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="input-group mb-3">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="새로운 닉네임"
+                                        value={newNickname}
+                                        onChange={(e) => setNewNickname(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={handleNicknameChange}
+                                >
+                                    변경하기
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => setShowModal(false)}
+                                >
+                                    취소
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className="card">
                 <div className="card-body">
-                    <h5 className="card-title">주소 변경</h5>
+                    <h5 className="card-title">전화번호 변경</h5>
                     <div className="input-group mb-3">
-                        <input
+                        <div
                             type="text"
-                            className="form-control"
-                            placeholder="새로운 주소"
-                            value={newAddress}
-                            onChange={(e) => setNewAddress(e.target.value)}
-                        />
-                        <button className="btn btn-primary" onClick={handleAddressChange}>
+                            className="form-control">
+                            {data.phoneNumber}
+                        </div>
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => setShowPhoneModal(true)}
+                        >
                             변경
                         </button>
                     </div>
                 </div>
             </div>
+            {/* 모달 창 */}
+            {showPhoneModal && (
+                <div className="modal" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">전화번호 변경</h5>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={() => setShowPhoneModal(false)}
+                                ></button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="input-group mb-3">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="새로운 전화번호"
+                                        value={newPhoneNumber}
+                                        onChange={(e) => setNewPhoneNumber(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={handlePhoneNumberChange}
+                                >
+                                    변경하기
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => setShowPhoneModal(false)}
+                                >
+                                    취소
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            <div className="card">
+                <div className="card-body">
+                    <h5 className="card-title">주소 변경</h5>
+                    <div className="input-group mb-3">
+                        <div
+                            type="text"
+                            className="form-control">
+                            {data.userAddress}
+                        </div>
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => setShowAddressModal(true)}
+                        >
+                            변경
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {/* 모달 창 */}
+            {showAddressModal && (
+                <div className="modal" style={{ display: "block" }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">주소 변경</h5>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={() => setShowAddressModal(false)}
+                                ></button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="input-group mb-3">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="새로운 주소"
+                                        value={newAddress}
+                                        onChange={(e) => setNewAddress(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={handleAddressChange}
+                                >
+                                    변경하기
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => setShowAddressModal(false)}
+                                >
+                                    취소
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className="card">
                 <div className="card-body">
                     <h5 className="card-title">회원 탈퇴</h5>

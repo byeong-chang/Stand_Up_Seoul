@@ -192,7 +192,7 @@ function Comment(props) {
                                 ) : (
                                     <>
                                         <div className="ms-3">
-                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnUQ8ceiWfL7jF5wOXfmztiVHNvNh49Gie7eT1P8Z2&s" alt="Comment Image" />
+                                            {/*<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnUQ8ceiWfL7jF5wOXfmztiVHNvNh49Gie7eT1P8Z2&s" alt="Comment Image" />*/}
                                             {item.review}
                                             {(item.user === localStorage.getItem('nickname'))&& (
                                                 <>
