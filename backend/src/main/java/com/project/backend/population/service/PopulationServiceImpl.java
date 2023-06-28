@@ -140,7 +140,7 @@ public class PopulationServiceImpl implements PopulationService{
         for(int i = 0 ; i <48; i ++){
             Population temp = populations.get(i);
             if (temp.getAreaCongest().getId() == 1) {
-                Double distance = distance(Logitude, Latitude, temp.getPlace().getMapx(), temp.getPlace().getMapy());
+                Double distance = distance(Logitude*1000, Latitude*1000, temp.getPlace().getMapx()*1000, temp.getPlace().getMapy()*1000);
                 cosDistance.put(i, distance);
             }
         }
