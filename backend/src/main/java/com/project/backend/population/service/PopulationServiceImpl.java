@@ -139,7 +139,7 @@ public class PopulationServiceImpl implements PopulationService{
         // congest_id = 1 인 경우 여유로운 혼잡도이므로 lowerCongest에 담아줍니다.
         for(int i = 0 ; i <48; i ++){
             Population temp = populations.get(i);
-            if (temp.getAreaCongest().getId() == 1) {
+            if (temp.getAreaCongest().getId() == 1 || temp.getAreaCongest().getId() == 2) {
                 Double distance = distance(Logitude*1000, Latitude*1000, temp.getPlace().getMapx()*1000, temp.getPlace().getMapy()*1000);
                 cosDistance.put(i, distance);
             }
