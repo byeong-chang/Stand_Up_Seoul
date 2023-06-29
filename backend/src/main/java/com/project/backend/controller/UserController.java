@@ -59,7 +59,7 @@ public class UserController {
                     .sex(registerUser.getSex())
                     .build();
             return ResponseEntity.ok().body(responseUserDTO);
-        }catch (Exception e){
+        }catch(Exception e){
             //사용자 정보는 항상 하나이므로 리스트로 만들어야 하는 ResponseDTO를 사용하지 않고 그냥 UserDTO 리턴
             ResponseDto responseDTO = ResponseDto.builder().error(e.getMessage()).build();
             return ResponseEntity.badRequest().body(responseDTO);
