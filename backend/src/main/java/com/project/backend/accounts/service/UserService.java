@@ -25,8 +25,8 @@ public class UserService {
 
     public Boolean passwordCheck(String password, String passwordCheck){
         if (!password.equals(passwordCheck)){
-            log.warn("Password is not same to passwordCheck");
-            throw new RuntimeException("Incorrect password");
+            log.warn("비밀번호가 일치하지 않습니다.");
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
         }
         return true;
     }
