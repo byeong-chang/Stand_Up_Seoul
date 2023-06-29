@@ -28,7 +28,7 @@ function CommentHotplace(props) {
         event.preventDefault();
         if (comment.trim() !== '') {
             axios
-                .post(`/board/restaurant/insert/${props.id}`, {
+                .post(`/board/hotplace/insert/${props.id}`, {
                     review: comment,
                     reviewImg: selectedImage,
                 }, {
@@ -38,7 +38,7 @@ function CommentHotplace(props) {
                     const nickname = response.data.nickname;
                     // localStorage.setItem('nickname', nickname);
                     // 원하는 페이지로 리다이렉트
-                    navigate(`/restaurant/${props.id}`);
+                    navigate(`/hotplace/${props.id}`);
                     window.location.reload();
                     console.log(response.data)
                 })
@@ -60,14 +60,14 @@ function CommentHotplace(props) {
             // 로그인된 사용자와 댓글 작성자가 같을 때만 삭제 가능
             // 삭제 로직 추가
             axios
-                .get(`/board/restaurant/delete/${commentId}`, {
+                .get(`/board/hotplace/delete/${commentId}`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
                 .then((response) => {
                     // 삭제 성공 시 댓글 목록 갱신
                     // setComments(comments.filter((comment) => comment.id !== commentId));
                     console.log(response.data);
-                    navigate(`/restaurant/${props.id}`);
+                    navigate(`/hotplace/${props.id}`);
                     window.location.reload();
                 })
                 .catch((error) => {
@@ -96,7 +96,7 @@ function CommentHotplace(props) {
         event.preventDefault();
 
         axios
-            .post(`/board/restaurant/modify/${commentId}`, {
+            .post(`/board/hotplace/modify/${commentId}`, {
                     review: editedComment,
                 },
                 {
@@ -106,7 +106,7 @@ function CommentHotplace(props) {
                 })
             .then((response) => {
                 // 원하는 페이지로 리다이렉트
-                navigate(`/restaurant/${props.id}`);
+                navigate(`/hotplace/${props.id}`);
                 window.location.reload();
             })
             .catch((error) => {
@@ -134,7 +134,7 @@ function CommentHotplace(props) {
     };
 
     return (
-        <section className="mb-5">
+        <section>
             <div className="card bg-light">
                 <div className="card-body">
                     {/* Comment form */}
@@ -142,24 +142,24 @@ function CommentHotplace(props) {
                         <div className="row">
                             <div className="col-lg-6">
                 <textarea
-                    className="form-control"
-                    rows="3"
+                    className="form-control" rows="3"
                     placeholder="Join the discussion and leave a comment!"
                     value={comment}
                     onChange={handleCommentChange}
                 />
                             </div>
-                            <div className="col-lg-6 d-flex align-items-end">
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleImageChange}
-                                />
-                                <button type="submit" className="btn btn-primary">
-                                    Add Comment
-                                </button>
-                            </div>
+                            {/*<div className="col-lg-6 d-flex align-items-end">*/}
+                            {/*    <input*/}
+                            {/*        type="file"*/}
+                            {/*        accept="image/*"*/}
+                            {/*        onChange={handleImageChange}*/}
+                            {/*    />*/}
+                            {/*</div>*/}
+
                         </div>
+                        <button type="submit" className="btn btn-info text-light mt-2">
+                            Add Comment
+                        </button>
                     </form>
                     {/* Comment with nested comments */}
                     {visibleComments.map((item) => (
@@ -192,7 +192,7 @@ function CommentHotplace(props) {
                                 ) : (
                                     <>
                                         <div className="ms-3">
-                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnUQ8ceiWfL7jF5wOXfmztiVHNvNh49Gie7eT1P8Z2&s" alt="Comment Image" />
+                                            {/*<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnUQ8ceiWfL7jF5wOXfmztiVHNvNh49Gie7eT1P8Z2&s" alt="Comment Image" />*/}
                                             {item.review}
                                             {(item.user === localStorage.getItem('nickname'))&& (
                                                 <>

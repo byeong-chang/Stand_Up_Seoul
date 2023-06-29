@@ -134,7 +134,7 @@ function Comment(props) {
     };
 
     return (
-        <section className="mb-5">
+        <section>
             <div className="card bg-light">
                 <div className="card-body">
                     {/* Comment form */}
@@ -142,24 +142,24 @@ function Comment(props) {
                         <div className="row">
                             <div className="col-lg-6">
                 <textarea
-                    className="form-control"
-                    rows="3"
+                    className="form-control" rows="3"
                     placeholder="Join the discussion and leave a comment!"
                     value={comment}
                     onChange={handleCommentChange}
                 />
                             </div>
-                            <div className="col-lg-6 d-flex align-items-end">
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleImageChange}
-                                />
-                                <button type="submit" className="btn btn-primary">
-                                    Add Comment
-                                </button>
-                            </div>
+                            {/*<div className="col-lg-6 d-flex align-items-end">*/}
+                            {/*    <input*/}
+                            {/*        type="file"*/}
+                            {/*        accept="image/*"*/}
+                            {/*        onChange={handleImageChange}*/}
+                            {/*    />*/}
+                            {/*</div>*/}
+
                         </div>
+                        <button type="submit" className="btn btn-info text-light mt-2">
+                            Add Comment
+                        </button>
                     </form>
                     {/* Comment with nested comments */}
                     {visibleComments.map((item) => (
