@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.*;
 
 @Service
@@ -124,8 +123,10 @@ public class PopulationServiceImpl implements PopulationService{
         return liveTypeMap;
     }
 
-    public Double Distance(Double Logitude, Double Latitude, Double x, Double y){
-        return (Logitude - x)*(Logitude - x) + (Latitude - y)*(Latitude - y);
+    public Double distance(Double Logitude, Double Latitude, Double x, Double y){
+        Double ym = Math.abs(Logitude-x)*60*1852;
+        Double xm = Math.abs(Latitude-y)*Math.cos(Latitude)*60*1852;
+        return Math.sqrt(ym*ym + xm*xm);
     }
     @Override
     public Map<Integer, LiveType> getLocationLive(Double Logitude, Double Latitude) {
@@ -140,8 +141,8 @@ public class PopulationServiceImpl implements PopulationService{
         // congest_id = 1 인 경우 여유로운 혼잡도이므로 lowerCongest에 담아줍니다.
         for(int i = 0 ; i <48; i ++){
             Population temp = populations.get(i);
-            if (temp.getAreaCongest().getId() == 1) {
-                Double distance = Distance(Logitude, Latitude, temp.getPlace().getMapx(), temp.getPlace().getMapy());
+            if (temp.getAreaCongest().getId() == 1 || temp.getAreaCongest().getId() == 2) {
+                Double distance = distance(Logitude, Latitude, temp.getPlace().getMapx(), temp.getPlace().getMapy());
                 cosDistance.put(i, distance);
             }
         }
@@ -162,11 +163,13 @@ public class PopulationServiceImpl implements PopulationService{
     public Map<String, List<PopulationDto>> getDetail() {
         //웹에 전달할 json 객체 liveTypeMap입니다.
         Map<String, List<PopulationDto>> listTypeMap = new HashMap<>();
+
         //JPQL를 사용하여 데이터베이스에서 Population 엔티티를 이용해 Place 엔티티를 함께 조회
-        String jpql = "SELECT p FROM Population p JOIN FETCH p.place ORDER BY p.createdDate DESC";
-        TypedQuery<Population> query = entityManager.createQuery(jpql, Population.class);
-        query.setMaxResults(48);
-        List<Population> populations = query.getResultList();
+//        String jpql = "SELECT p FROM Population p JOIN FETCH p.place ORDER BY p.createdDate DESC";
+//        TypedQuery<Population> query = entityManager.createQuery(jpql, Population.class);
+//        query.setMaxResults(48);
+//        List<Population> populations = query.getResultList();
+        List<Population> populations= this.populationRepository.findTop48ByOrderByIdDesc();
         //여유, 보통, 약간 붐빔, 붐빔으로 나눠 받을 리스트 만들기
         List<PopulationDto> lowerCongest = new ArrayList<>();
         List<PopulationDto> normalCongest = new ArrayList<>();
@@ -194,10 +197,9 @@ public class PopulationServiceImpl implements PopulationService{
 
         return listTypeMap;
     }
-
     //실시간 Place 상세 페이지
     @Override
-    public Map<Integer, LiveType> getPlaceDetail(int place_id) {
+    public Map<Integer, LiveType> getPlaceDetail(int placeId) {
         //웹에 전달할 json 객체 liveTypeMap을 선언
         Map<Integer, LiveType> liveTypeMap = new HashMap<>();
         //가장 최근 Population 데이터들 긁어오기
@@ -206,12 +208,74 @@ public class PopulationServiceImpl implements PopulationService{
         List<Population> populationList = new ArrayList<>();
         //해당 place_id으로 받아온 데이터를 populations에 담기
         for (Population population : populations) {
-            if (population.getPlace().getId() == place_id) {
+            if (population.getPlace().getId() == placeId) {
                 populationList.add(population);
             }
         }
         //makePopulationApi 함수를 통해서 각 Place에 대한 hotplaces, restaurants ,cultural_event 데이터를 가져와 liveTypeMap에 담기
         liveTypeMap = makePopulationApi(1, populationList);
+        return liveTypeMap;
+    }
+
+    // Population에서 추출한 Place 데이터와 연결된 모든 정보를 긁어올 수 있는 함수입니다.
+    public Map<Integer,LiveType> makePopulationCategoryApi(int count, List<Population> populations, List<Integer> restaurantCategories, List<Integer> contentTypes){
+        // count 개수만큼 population 데이터를 뽑는다.
+        Map<Integer,LiveType> liveTypeMap = new HashMap<Integer, LiveType>();
+        for(int i=0;i<count;i++){ //혼잡도 여유가 4개 없으면 에러날듯 예외처리 필요
+            //저장할 객체 liveType 입니다.
+            LiveType liveType = new LiveType();
+            // population 테이블을 기준으로 place 테이블에 접근합니다.
+            Place currentPlace = populations.get(i).getPlace();
+
+            // place 테이블을 기준으로 place_district -> district -> cultural_event에 접근합니다.
+            List<CulturalEventDto> currentCulturalEvent = new ArrayList<>();
+            currentPlace.getPlaceDistricts().forEach(placeDistrict -> {
+                (placeDistrictService.entityToDto(placeDistrict)).getDistrict().getCulturalEventList()
+                        .forEach(culturalEvent -> currentCulturalEvent.add((CulturalEventDto) culturalEventService.transfer(culturalEvent)));
+            });
+            //place 테이블을 기준으로 subway 테이블에 접근한다.
+            List<Subway> subwayList = new ArrayList<>();
+            currentPlace.getPlaceSubways().forEach(placeSubway -> subwayList.add(((PlaceSubwayDto) placeSubwayService.transfer(placeSubway)).getSubway()));
+            // subway 테이블을 기준으로 subway -> hotpalces에 접근합니다.
+            List<HotplacesDto> currentHotplaces= new ArrayList<>();
+            subwayList.forEach(subway -> subway.getHotplacesList()
+                    .forEach(hotplaces -> {
+                        currentHotplaces.add((HotplacesDto) hotPlacesService.transfer(hotplaces));
+                    }));
+            // subway 테이블을 기준으로 subway -> restaurant에 접근합니다.
+            List<RestaurantDto> currentRestaurant = new ArrayList<>();
+            subwayList.forEach(subway -> {
+                subway.getRestaurantList()
+                        .forEach(restaurant -> currentRestaurant.add((RestaurantDto) restaurantService.transfer(restaurant)));
+            });
+
+            //liveType에 각 데이터를 넣어줍니다.
+            liveType.setPopulation((PopulationDto) transfer(populations.get(i)));
+            liveType.setPlace((PlaceDto) placeService.transfer(currentPlace));
+            liveType.setCulturalEventList((List<CulturalEventDto>) randomSelection(4, Collections.singletonList(currentCulturalEvent)));
+            liveType.setHotplacesList((List<HotplacesDto>) randomSelection(4, Collections.singletonList(currentHotplaces)));
+            liveType.setRestaurantList((List<RestaurantDto>) randomSelection(4, Collections.singletonList(currentRestaurant)));
+            liveTypeMap.put(i,liveType);
+        }
+        return  liveTypeMap;
+    }
+
+    @Override
+    public Map<Integer, LiveType> getPlaceCategoryDetail(int placeId, List<Integer> restaurantCategories, List<Integer> contentTypes) {
+        //웹에 전달할 json 객체 liveTypeMap을 선언
+        Map<Integer, LiveType> liveTypeMap = new HashMap<>();
+        //가장 최근 Population 데이터들 긁어오기
+        List<Population> populations = this.populationRepository.findTop48ByOrderByIdDesc();
+        //48개 혼잡도 공간 중 여유인 데이터를 담을 리스트
+        List<Population> populationList = new ArrayList<>();
+        //해당 place_id으로 받아온 데이터를 populations에 담기
+        for (Population population : populations) {
+            if (population.getPlace().getId() == placeId) {
+                populationList.add(population);
+            }
+        }
+        //makePopulationApi 함수를 통해서 각 Place에 대한 hotplaces, restaurants ,cultural_event 데이터를 가져와 liveTypeMap에 담기
+        liveTypeMap = makePopulationCategoryApi(1, populationList,restaurantCategories,contentTypes);
         return liveTypeMap;
     }
 }

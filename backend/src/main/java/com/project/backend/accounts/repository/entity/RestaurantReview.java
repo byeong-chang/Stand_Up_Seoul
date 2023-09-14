@@ -1,11 +1,14 @@
 package com.project.backend.accounts.repository.entity;
 
 import com.project.backend.restaurants.repository.entity.Restaurant;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Builder
@@ -36,6 +39,6 @@ public class RestaurantReview {
 
     @UpdateTimestamp
     @Column(name = "created_date", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", insertable= false)
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
 }

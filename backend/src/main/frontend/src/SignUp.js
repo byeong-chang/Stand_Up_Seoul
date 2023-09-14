@@ -1,33 +1,35 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
+import Header from "./Header";
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
-    const [password1, setPassword1] = useState('');
-    const [password2, setPassword2] = useState('');
-    const [birthdate, setBirthdate] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState('');
+    const [birth, setBirth] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [userAddress, setUserAddress] = useState('');
     const [nickname, setNickname] = useState('');
-    const [address, setAddress] = useState('');
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [sex, setSex] = useState('');
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
 
     const handlePassword1Change = (e) => {
-        setPassword1(e.target.value);
+        setPassword(e.target.value);
     };
 
     const handlePassword2Change = (e) => {
-        setPassword2(e.target.value);
+        setPasswordCheck(e.target.value);
     };
 
     const handleBirthdayChange = (e) => {
-        setBirthdate(e.target.value);
+        setBirth(e.target.value);
     };
 
     const handlePhoneNumberChange = (e) => {
@@ -39,40 +41,48 @@ const SignUp = () => {
     };
 
     const handleAddressChange = (e) => {
-        setAddress(e.target.value);
+        setUserAddress(e.target.value);
     };
+
+    const handleSexChange = (e) => {
+        setSex(e.target.value);
+    };
+
 
     const handleSignUp = (e) => {
         e.preventDefault();
         // 회원가입 처리 로직 작성
-        // ...
-
         // 예시로 axios를 사용하여 회원가입 요청을 보내는 코드를 작성했습니다.
         axios
-            .post('/api/user/signup', {
-                email,
-                password1,
-                password2,
-                birthdate,
-                phoneNumber,
-                nickname,
-                address,
+            .post('/auth/signup', {
+                email : email,
+                password: password,
+                passwordCheck: passwordCheck,
+                birth: birth,
+                phoneNumber: phoneNumber,
+                userAddress: userAddress,
+                nickname : nickname,
+                sex: sex,
             })
             .then((response) => {
                 // 회원가입 성공 시 처리
                 console.log(response.data);
                 // 원하는 동작 수행
+                navigate('/');
             })
             .catch((error) => {
                 // 회원가입 실패 시 처리
                 console.log(error);
                 setError(true);
-                setErrorMessage('회원가입에 실패했습니다1');
+                setErrorMessage('회원가입에 실패했습니다');
             });
     };
 
+    const navigate = useNavigate();
+
     return (
-        <div className='login_box' style={{ textAlign: 'center' }}>
+        <div>
+        <div className='sign_box' style={{ textAlign: 'center' }}>
             <h1 style={{ marginBottom: '50px' }}>회원가입</h1>
             <form onSubmit={handleSignUp}>
                 <div>
@@ -93,7 +103,7 @@ const SignUp = () => {
                         id='password1'
                         placeholder='비밀번호를 입력해주세요'
                         className='login_input idpw_pw'
-                        value={password1}
+                        value={password}
                         onChange={handlePassword1Change}
                     />
                 </div>
@@ -104,7 +114,7 @@ const SignUp = () => {
                         id='password2'
                         placeholder='비밀번호 확인'
                         className='login_input idpw_pw'
-                        value={password2}
+                        value={passwordCheck}
                         onChange={handlePassword2Change}
                     />
                 </div>
@@ -115,7 +125,7 @@ const SignUp = () => {
                         type='date'
                         id='birthdate'
                         className='login_input idpw_pw'
-                        value={birthdate}
+                        value={birth}
                         onChange={handleBirthdayChange}
                     />
                 </div>
@@ -148,16 +158,39 @@ const SignUp = () => {
                         id='address'
                         placeholder='주소를 입력해주세요'
                         className='login_input idpw_pw'
-                        value={address}
+                        value={userAddress}
                         onChange={handleAddressChange}
                     />
                 </div>
+                <div>
+                    <p>성별을 선택하세요</p>
+                    <label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="male"
+                            checked={sex === "male"}
+                            onChange={handleSexChange}
+                        />
+                        남성
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="female"
+                            checked={sex === "female"}
+                            onChange={handleSexChange}
+                        />
+                        여성
+                    </label>
+                </div>
                 {error && <p style={{ color: 'orange' }}>{errorMessage}</p>}
-                <Button type='submit' className='login_btn'>
+                <Button type='submit' className='sign_btn btn-secondary'>
                     가입하기
                 </Button>
             </form>
-            <div style={{ width: '60%', margin: 'auto' }}>
+            <div className="mb-5">
                 <Link to='/find-id' style={{ color: 'gray', borderRight: '1px solid gray', padding: '0 10px' }}>
                     아이디 찾기
                 </Link>
@@ -165,6 +198,7 @@ const SignUp = () => {
                     비밀번호 찾기
                 </Link>
             </div>
+        </div>
         </div>
     );
 };

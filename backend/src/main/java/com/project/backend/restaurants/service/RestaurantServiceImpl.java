@@ -1,6 +1,8 @@
 package com.project.backend.restaurants.service;
 
+import com.project.backend.accounts.service.RestaurantLikeService;
 import com.project.backend.accounts.service.RestaurantReviewService;
+import com.project.backend.accounts.service.UserService;
 import com.project.backend.general.returnType.RestaurantType;
 import com.project.backend.restaurants.dto.RestaurantDto;
 import com.project.backend.restaurants.dto.RestaurantRuntimeDto;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -22,6 +23,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRuntimeService restaurantRuntimeService;
     private final RestaurantBreaktimeService restaurantBreaktimeService;
     private final RestaurantReviewService restaurantReviewService;
+    private final UserService userService;
+    private final RestaurantLikeService restaurantLikeService;
 
     @Override
     public Object transfer(Object entity) {
@@ -30,19 +33,38 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public RestaurantType getBoard(int restaurant_id){
+    public RestaurantType getBoard(int restaurantId, int userId){
+
+
         RestaurantType restaurantTypes = new RestaurantType();
-        Optional<Restaurant> entity = restaurantRepository.findById(restaurant_id);
-        Restaurant restaurant = entity.get();
+        Restaurant entity = restaurantRepository.findById(restaurantId);
+        Restaurant restaurant = entity;
 
         List<RestaurantRuntimeDto> restaurantRuntimeDtos = new ArrayList<>();
         restaurant.getRuntimeList().forEach(restaurantRuntime -> restaurantRuntimeDtos.add((RestaurantRuntimeDto) restaurantRuntimeService.transfer(restaurantRuntime)));
 
         restaurantTypes.setRestaurantDto((RestaurantDto) transfer(restaurant));
         restaurantTypes.setRestaurantRuntimeDtos(restaurantRuntimeDtos);
-        restaurantTypes.setRestaurantBreaktimeDtos(restaurantBreaktimeService.getAllBreaktime(restaurant_id));
-        restaurantTypes.setRestaurantReviewDtos(restaurantReviewService.getRestaurantReview(restaurant_id));
+        restaurantTypes.setRestaurantBreaktimeDtos(restaurantBreaktimeService.getAllBreaktime(restaurantId));
+        restaurantTypes.setRestaurantLikeDto(restaurantLikeService.getByUserIdAndRestaurantId(restaurantId,userId));
+        restaurantTypes.setRestaurantReviewDtos(restaurantReviewService.getRestaurantReviews(restaurantId));
 
         return restaurantTypes;
     }
+
+    @Override
+    public Restaurant getRestaurant(int restaurantId) {
+        return restaurantRepository.findById(restaurantId);
+    }
+
+    @Override
+    public void saveRestaurant(Restaurant restaurant) {
+        restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public List<Restaurant> searchAll(String search) {
+        return restaurantRepository.findByTitleContaining(search);
+    }
+
 }

@@ -72,6 +72,36 @@
   object-fit: cover; /* 이미지가 비율을 유지하면서 컨테이너에 가득 차도록 설정 */
 }
 
+.sign_box {
+  width: 500px;
+  height: auto;
+  background-color: #F6F6f6;
+  padding-top: 50px;
+  margin: 150px auto;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+}
+
+.sign_input {
+  width: 80%;
+  height: 50px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.sign_btn {
+  background-color: #0052A4;
+  width: 80%;
+  height: 50px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+
 
 @keyframes App-logo-spin {
   from {

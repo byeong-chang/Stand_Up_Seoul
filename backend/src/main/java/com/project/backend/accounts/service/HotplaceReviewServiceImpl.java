@@ -20,7 +20,7 @@ public class HotplaceReviewServiceImpl implements HotplaceReviewService{
     }
 
     @Override
-    public List<HotplaceReviewDto> getHotplaceReview(int hotplaceId) {
+    public List<HotplaceReviewDto> getHotplaceReviews(int hotplaceId) {
         List<HotplaceReviewDto> hotplaceReviewDtoList = new ArrayList<>();
         for (HotplaceReview hotplaceReview : hotplaceReviewRepository.findHotplaces(hotplaceId)) {
             hotplaceReviewDtoList.add((HotplaceReviewDto) transfer(hotplaceReview));
@@ -29,8 +29,22 @@ public class HotplaceReviewServiceImpl implements HotplaceReviewService{
     }
 
     @Override
-    public Object transfer(Object entity) {
+    public HotplaceReview getHotplaceReview(int hotplaceReviewId) {
+        return hotplaceReviewRepository.findById(hotplaceReviewId);
+    }
 
+    @Override
+    public void deleteReview(HotplaceReview hotplaceReview) {
+        hotplaceReviewRepository.delete(hotplaceReview);
+    }
+
+    @Override
+    public void saveReview(HotplaceReview hotplaceReview) {
+        hotplaceReviewRepository.save(hotplaceReview);
+    }
+
+    @Override
+    public Object transfer(Object entity) {
         HotplaceReviewDto dto = entityToDto((HotplaceReview) entity);
         return dto;
     }

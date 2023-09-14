@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -16,6 +16,6 @@ public class HotplaceReviewDto {
     private String user;
     private String hotPlaces;
     private String review;
-    private String reviewImage;
-    private LocalDateTime createdDate;
+    private String reviewImg;
+    private LocalDate createdDate;
 }

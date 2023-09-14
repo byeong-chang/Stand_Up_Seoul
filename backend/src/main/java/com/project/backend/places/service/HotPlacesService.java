@@ -5,6 +5,8 @@ import com.project.backend.general.returnType.HotplaceType;
 import com.project.backend.places.dto.HotplacesDto;
 import com.project.backend.places.repository.entity.Hotplaces;
 
+import java.util.List;
+
 public interface HotPlacesService extends Transfer {
 
     default HotplacesDto entityToDto(Hotplaces hotplaces){
@@ -27,5 +29,11 @@ public interface HotPlacesService extends Transfer {
         return dto;
     }
 
-    HotplaceType getBoard(int id);
+    HotplaceType getBoard(int hotpalceId,int userId);
+
+    Hotplaces getHotplace(int hotplaceId);
+
+    void saveHotplace(Hotplaces hotplace);
+
+    List<Hotplaces> searchAll(String search);
 }

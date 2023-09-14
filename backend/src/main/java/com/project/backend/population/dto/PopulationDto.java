@@ -1,7 +1,10 @@
 package com.project.backend.population.dto;
 
 import com.project.backend.population.repository.entity.PopulationCongestMsg;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class PopulationDto {
-    private int id;
     private String place;
     private PopulationCongestMsg areaCongest;
     private int areaPopulationMin;
@@ -32,4 +34,5 @@ public class PopulationDto {
 
     // 쿼리문으로 받은 Place 테이블에 place_image 컬럼 추가
     private String placeImage;
+    private int placeId;
 }

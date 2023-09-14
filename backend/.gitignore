@@ -1,5 +1,6 @@
 #설정파일 제외
 application.yml
+AWSConfig.java
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,intellij+all,visualstudiocode,java,python,react,gradle
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,intellij+all,visualstudiocode,java,python,react,gradle
@@ -14,6 +15,9 @@ application.yml
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+
+# react-appkey
+src/main/frontend/.env
 
 # AWS User-specific
 .idea/**/aws.xml
@@ -273,7 +277,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+src/main/frontend/.env
 .venv
 env/
 venv/

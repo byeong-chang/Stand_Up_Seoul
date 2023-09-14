@@ -5,9 +5,10 @@ import com.project.backend.general.returnType.RestaurantType;
 import com.project.backend.restaurants.dto.RestaurantDto;
 import com.project.backend.restaurants.repository.entity.Restaurant;
 
+import java.util.List;
+
 public interface RestaurantService extends Transfer {
 
-    RestaurantType getBoard(int restaurant_id);
     default RestaurantDto entityToDto(Restaurant restaurant){
         RestaurantDto dto = RestaurantDto.builder()
                 .id(restaurant.getId())
@@ -31,5 +32,11 @@ public interface RestaurantService extends Transfer {
                 .build();
         return dto;
     }
+    RestaurantType getBoard(int restaurantId, int userId);
 
+    Restaurant getRestaurant(int restaurantId);
+
+    void saveRestaurant(Restaurant restaurant);
+
+    List<Restaurant> searchAll(String search);
 }

@@ -12,7 +12,6 @@ public interface PopulationService extends Transfer {
 
     default PopulationDto entityToDto(Population population){
         PopulationDto dto = PopulationDto.builder()
-                .id(population.getId())
                 .place(population.getPlace().getAreaName())
                 .placeImage(population.getPlace().getPlaceImage())
                 .areaCongest(population.getAreaCongest())
@@ -31,12 +30,15 @@ public interface PopulationService extends Transfer {
                 .residentPopulationRate(population.getResidentPopulationRate())
                 .nonResidentPopulationRate(population.getNonResidentPopulationRate())
                 .populationTime(population.getPopulationTime())
-                .createdDate(population.getCreatedDate()).build();
+                .createdDate(population.getCreatedDate())
+                .placeId(population.getPlace().getId()).build();
+
         return dto;
     }
     Map<Integer,LiveType> getLive();
     Map<Integer,LiveType> getLocationLive(Double Logitude, Double Latitude);
     Map<String, List<PopulationDto>> getDetail();
-    Map<Integer, LiveType> getPlaceDetail(int place_Id);
+    Map<Integer, LiveType> getPlaceDetail(int placeId);
+    Map<Integer, LiveType> getPlaceCategoryDetail(int placeId, List<Integer> restaurantCategories, List<Integer> contentTypes);
 
 }
